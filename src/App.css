@@ -1,0 +1,190 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+html {
+     scroll-behavior: smooth;
+}
+
+body {
+   background-image: url('../public/images/background.jpg'); /* 배경 이미지 설정 */
+   background-repeat: no-repeat; /* 이미지 반복 방지 */
+   background-size: cover; /* 화면을 덮도록 이미지 크기 조정 */
+   background-position: center center; /* 이미지 위치를 중앙으로 설정 */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   body{
+      font-size : 0.5rem;
+   }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+   body{
+      font-size : 0.5rem;
+   }
+}
+
+/* 태블릿 (가로 모드) 및 작은 노트북 */
+@media (min-width: 769px) and (max-width: 1024px) {
+   body{
+      font-size : 1.8rem;
+   }
+}
+
+/* 데스크톱 & 대형 화면 */
+@media (min-width: 1025px) {
+  body {
+     font-size: 1.8rem;
+  }
+}
+
+.main-logo {
+   display: block;
+   margin: 0 auto;
+   width: 200px; /* 원하는 크기로 조정 */
+   height: 200px; /* 정사각형으로 설정 */
+   border-radius: 50%; /* 원형으로 자르기 */
+   border: 5px solid turquoise; /* 청록색 테두리 */
+   object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+}
+
+.botton-logo-div {
+    display: block;
+    margin: 0 auto;
+    width: 200px; /* 원하는 크기로 조정 */
+    height: 200px; /* 정사각형으로 설정 */
+    border-radius: 30%; /* 원형으로 자르기 */
+    border: 10px solid purple; /* 청록색 테두리 */
+    object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+    justify-content: center; /* 수평 중앙 */
+    align-items: center;     /* 수직 중앙 */
+}
+
+.name-custom-font {
+    font-size: 4rem;
+    color : black;
+    font-family: 'MaplestoryOTFBold';
+}
+
+@font-face {
+    font-family: 'MaplestoryOTFBold';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.left-fiexd-div {
+    position: fixed;
+    top: 4rem;
+    width: 20%;
+    height: 85%;
+    margin-left:2rem;
+    padding-left: 2rem;
+    border: 0.5rem solid turquoise; /* 청록색 테두리 */
+}
+
+.right-fiexd-div {
+    position: fixed;
+    right: 0;
+    top: 4rem;
+    width: 20%;
+    height: 85%;
+    margin-right:2rem;
+    padding-right: 5rem;
+    border: 0.5rem solid turquoise; /* 청록색 테두리 */
+}
+
+.left-fiexd-input {
+    position: fixed;
+    top: 3rem;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.right-fiexd-input {
+    position: fixed;
+    top: 3rem;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.content {
+    margin-left: 15rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
+    margin-right: 15rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
+    padding: 1.5rem;
+}
+
+.footer {
+    font-family: 'MaplestoryOTFBold';
+    position: fixed;
+    bottom: 0;  /* 화면 하단에 고정 */
+    left: 0;
+    width: 100%;  /* 화면의 전체 너비를 차지 */
+    background-color: rgb(192, 192, 192);  /* 배경 색 */
+    color: rgb(0, 255, 255);  /* 텍스트 색 */
+    text-align: center;
+    padding: 10px 0;  /* 위아래 패딩 */
+    z-index: 1000;  /* 다른 요소 위에 위치하도록 */
+}
+
+.ticker {
+    width: 100%;         /* 전체 너비 */
+    overflow: hidden;    /* 텍스트가 범위를 벗어날 때 숨기기 */
+    background-color: #f0f0f0; /* 배경색 */
+}
+
+.ticker-text {
+    margin-top: 0.5rem;
+    font-size: 1.3rem;
+    font-family: 'MaplestoryOTFBold';
+    display: inline-block;
+    white-space: nowrap; /* 텍스트 줄 바꿈 방지 */
+    animation: tickerAnimation 20s linear infinite; /* 애니메이션 설정 */
+}
+
+@keyframes tickerAnimation {
+  0% {
+    transform: translateX(500%); /* 오른쪽에서 시작 */
+  }
+  100% {
+    transform: translateX(-100%); /* 왼쪽으로 끝 */
+  }
+}
+
