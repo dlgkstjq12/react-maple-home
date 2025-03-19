@@ -145,6 +145,18 @@ body {
     justify-content: center; /* 수평 중앙 정렬 */
 }
 
+.left-fiexd-info {
+    position: fixed;
+    top: 5rem;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.right-fiexd-info {
+    position: fixed;
+    top: 5rem;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
 .content {
     margin-left: 15rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
     margin-right: 15rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
@@ -186,5 +198,12 @@ body {
   100% {
     transform: translateX(-100%); /* 왼쪽으로 끝 */
   }
+}
+
+.char-div {
+    color: rgb(0, 0, 0);  /* 텍스트 색 */
+    margin-left: 3rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
+    margin-right: 3rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
+    font-family: 'MaplestoryOTFBold';
 }
 
