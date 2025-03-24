@@ -7,14 +7,22 @@ const API_KEY = "test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6
 
 function Home () {
     
+    //Hook ------------ 역할  언제 사용?
+    //useState -------- 상태 값을 관리하고 변경 시 렌더링 UI에 영향을 주는 값 관리 (예: 버튼 클릭 시 카운트 증가)
+    //useEffect ------- 컴포넌트의 생명주기 이벤트 처리   API 호출, 이벤트 리스너 등록/해제, 데이터 변경 감지
+    //useRef ---------- DOM 요소 접근 or 렌더링 영향 없는 값 저장 특정 요소에 포커스, 이전 값 저장, 렌더링 횟수 확인
+    
     
     //메이플 API 관련 호출 함수
     //1. 캐릭터 식별자(ocid)를 조회합니다.
     //2. 조회한 ocid를 사용해서, 캐릭터 추가 정보 조회
     //x-nxopen-api-key :: API KEY
     //character_name :: 캐릭터 이름 
-    const [characterName, setCharacterName, compareCharacterName, compareSetCharacterName] = useState("");
-    const [characterData, setCharacterData, compareCharacterData, compareSetCharacterData] = useState(null);
+    const [characterName, setCharacterName] = useState("");
+    const [compareCharacterName, compareSetCharacterName] = useState("");
+    const [characterData, setCharacterData] = useState(null);
+    const [compareCharacterData, compareSetCharacterData] = useState(null);
+
     const [error, setError] = useState(null);
     const left = 'left';
     const right = 'right';
@@ -27,15 +35,37 @@ function Home () {
       fetchCharacterInfo(right);
     }
     
+    //날짜 변환함수
+    //2020-03-27T00:00+09:00 ==> 2020년 03월 27일
+    function dataCustom(paramDate){
+        let dateSet = paramDate;
+        const date = new Date(dateSet);
+
+        const formattedDate = `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
+        return formattedDate;
+    }
+    
+    //캐릭터 정보 API에서 받아온 데이터 변환하는 함수
+    function customSetting (returnData){
+        let customData = returnData;
+        
+        //캐릭터 생성날짜 관련 데이터 변환
+        customData.character_date_create = dataCustom(customData.character_date_create);
+        
+        return customData;
+    }
+    
     const fetchCharacterInfo = async (param) => {
         
-        if (!characterName) return;
+        if (!param) return;
         
         let useCharName;
         
-        if(param == left){
+        if(param === left){
+            if (!characterName) return;
             useCharName = characterName;
         }else{
+            if (!compareCharacterName) return;
             useCharName = compareCharacterName;
         }
 
@@ -65,19 +95,32 @@ function Home () {
               throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
             }
     
-            const infoData = await infoResponse.json();
-            
+            const returnData = await infoResponse.json();
+            const infoData = customSetting(returnData);
+
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            setCharacterData(infoData);
+            if(param === left){
+                setCharacterData(infoData);
+            }else if(param === right){
+                compareSetCharacterData(infoData);
+            }
             setError(null);
           } catch (err) {
             setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-            setCharacterData(null);
+            if(param === left){
+                setCharacterData(null);
+            }else if(param === right){
+                compareSetCharacterData(null);
+            }
           }
           
       } catch (err) {
         setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-        setCharacterData(null);
+        if(param === left){
+             setCharacterData(null);
+         }else if(param === right){
+             compareSetCharacterData(null);
+         }
       }
     };
     
@@ -133,8 +176,11 @@ function Home () {
                   <h2>{characterData.character_name}</h2>
                   <img className="main-logo" src={characterData.character_image} alt="이미지" />
                   <p>월드: {characterData.world_name}</p>
+                  <p>길드: {characterData.character_guild_name}</p>
                   <p>직업: {characterData.character_class}</p>
                   <p>레벨: {characterData.character_level}</p>
+                  <p>경험치량: {characterData.character_exp_rate} %</p>
+                  <p>캐릭터 생성일: {characterData.character_date_create}</p>
                 </div>
               )}
           </div>
@@ -162,7 +208,7 @@ function Home () {
                 id="charSearch"
                 ref={inputRef}
                 className="form-control bg-light border-0 small"
-                placeholder="내 캐릭터 검색하기"
+                placeholder="캐릭터 검색하기"
                 aria-label="Search"
                 aria-describedby="basic-addon2"
                 value={compareCharacterName}
@@ -176,13 +222,16 @@ function Home () {
             </div>
             <div className="input-group char-div right-fiexd-info">
                 {error && <p style={{ color: "red" }}>{error}</p>}
-                {characterData && (
+                {compareCharacterData && (
                   <div>
-                    <h2>{characterData.character_name}</h2>
-                    <img className="main-logo" src={characterData.character_image} alt="이미지" />
-                    <p>월드: {characterData.world_name}</p>
-                    <p>직업: {characterData.character_class}</p>
-                    <p>레벨: {characterData.character_level}</p>
+                    <h2>{compareCharacterData.character_name}</h2>
+                    <img className="main-logo" src={compareCharacterData.character_image} alt="이미지" />
+                    <p>월드: {compareCharacterData.world_name}</p>
+                    <p>길드: {compareCharacterData.character_guild_name}</p>
+                    <p>직업: {compareCharacterData.character_class}</p>
+                    <p>레벨: {compareCharacterData.character_level}</p>
+                    <p>경험치량: {compareCharacterData.character_exp_rate} %</p>
+                    <p>캐릭터 생성일: {compareCharacterData.character_date_create}</p>
                   </div>
                 )}
             </div>
