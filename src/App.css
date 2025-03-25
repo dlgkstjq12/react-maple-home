@@ -77,30 +77,22 @@ body {
   }
 }
 
-.main-logo {
-   display: block;
-   margin: 0 auto;
-   width: 200px; /* 원하는 크기로 조정 */
-   height: 200px; /* 정사각형으로 설정 */
-   border-radius: 50%; /* 원형으로 자르기 */
-   border: 5px solid turquoise; /* 청록색 테두리 */
-   object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
-}
-
-.botton-logo-div {
+.logo-div {
     display: block;
     margin: 0 auto;
-    width: 200px; /* 원하는 크기로 조정 */
-    height: 200px; /* 정사각형으로 설정 */
+    width: 7rem; /* 원하는 크기로 조정 */
+    height: 7rem; /* 정사각형으로 설정 */
     border-radius: 30%; /* 원형으로 자르기 */
     border: 10px solid purple; /* 청록색 테두리 */
     object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
-    justify-content: center; /* 수평 중앙 */
-    align-items: center;     /* 수직 중앙 */
+/*    justify-content: center;  수평 중앙 
+    align-items: center;      수직 중앙 */
 }
 
 .name-custom-font {
-    font-size: 4rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
     color : black;
     font-family: 'MaplestoryOTFBold';
 }
@@ -112,7 +104,7 @@ body {
     font-style: normal;
 }
 
-.left-fiexd-div {
+.fiexd-div {
     position: fixed;
     top: 4rem;
     width: 23%;
@@ -125,57 +117,29 @@ body {
     box-shadow: 0.3rem 0.4rem 0.8rem rgba(0, 0, 0, 0.1);  /*부드러운 그림자 */
 }
 
-.left-fixed-div:hover {
+.fixed-div:hover {
     transform: translateY(-5px);  /*마우스 호버 시 살짝 위로 이동 */
     box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.15);
 }
 
-.right-fiexd-div {
-    position: fixed;
-    right: 0rem;
-    top: 4rem;
-    width: 23%;
-    height: 80%;
-    margin-right:2rem;
-    padding-right: 5rem;
-    border: 0.5rem solid turquoise; /* 청록색 테두리 */
-    border-left: 0.5rem solid turquoise;  /*왼쪽에 강조된 테두리 */
-    border-radius: 0.8rem;  /*둥근 모서리 */
-    box-shadow: 0.3rem 0.4rem 0.8rem rgba(0, 0, 0, 0.1);  /*부드러운 그림자 */
-}
-
-.right-fiexd-div:hover {
-    transform: translateY(-5px);  /*마우스 호버 시 살짝 위로 이동 */
-    box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.left-fiexd-input {
-    position: fixed;
-    top: 3rem;
+.fiexd-input {
+    top: 1rem;
+    align-items: center; /* 세로 중앙 정렬 */
     justify-content: center; /* 수평 중앙 정렬 */
 }
 
-.right-fiexd-input {
-    position: fixed;
-    top: 3rem;
-    justify-content: center; /* 수평 중앙 정렬 */
-}
-
-.left-fiexd-info {
-    position: fixed;
-    top: 5rem;
-    justify-content: center; /* 수평 중앙 정렬 */
-}
-
-.right-fiexd-info {
-    position: fixed;
-    top: 5rem;
+.fiexd-info {
+    top: 2rem;
+    align-items: center; /* 세로 중앙 정렬 */
     justify-content: center; /* 수평 중앙 정렬 */
 }
 
 .content {
-    margin-left: 15rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
-    margin-right: 15rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
+    display: grid;
+    grid-template-columns: 2px auto 2px; /* 좌측 로고, 중앙 텍스트, 우측 로고 */
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    width: 100%;
     padding: 1.5rem;
 }
 
@@ -185,8 +149,8 @@ body {
     bottom: 0;  /* 화면 하단에 고정 */
     left: 0;
     width: 100%;  /* 화면의 전체 너비를 차지 */
-    background-color: rgb(192, 192, 192);  /* 배경 색 */
-    color: rgb(0, 255, 255);  /* 텍스트 색 */
+    background-color: rgb(128, 255, 255);  /* 배경 색 */
+    color: rgb(0, 0, 0);  /* 텍스트 색 */
     text-align: center;
     padding: 10px 0;  /* 위아래 패딩 */
     z-index: 1000;  /* 다른 요소 위에 위치하도록 */
@@ -222,5 +186,24 @@ body {
     margin-left: 2.5rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
     margin-right: 2.5rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
     font-family: 'MaplestoryOTFBold';
+}
+
+.info-container {
+  display: grid;
+  margin-top:1rem;
+  height: 100%;
+  grid-template-columns: repeat(4, 1fr); /* 4등분 */
+  gap: 0.5rem; /* 간격 설정 (선택 사항) */
+}
+
+.info-box {
+  background-color: rgb(168, 168, 168);
+  height: 100%;
+  text-align: center;
+  padding: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 0.5rem solid rgb(221, 221, 221);
+  border-radius: 1.5rem; /* 모서리를 둥글게 */
 }
 

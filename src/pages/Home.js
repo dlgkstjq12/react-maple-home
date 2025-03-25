@@ -18,21 +18,40 @@ function Home () {
     //2. 조회한 ocid를 사용해서, 캐릭터 추가 정보 조회
     //x-nxopen-api-key :: API KEY
     //character_name :: 캐릭터 이름 
-    const [characterName, setCharacterName] = useState("");
-    const [compareCharacterName, compareSetCharacterName] = useState("");
-    const [characterData, setCharacterData] = useState(null);
-    const [compareCharacterData, compareSetCharacterData] = useState(null);
+    //항목들 정리
+    const [firstCharacterName, setFirstCharacterName] = useState("");
+    const [firstCharacterData, setFirstCharacterData] = useState(null);
+    
+    const [secondCharacterName, setSecondCharacterName] = useState("");
+    const [secondCharacterData, setSecondCharacterData] = useState(null);
+    
+    const [thirdCharacterName, setThirdCharacterName] = useState("");
+    const [thirdCharacterData, setThirdCharacterData] = useState(null);
+    
+    const [fourthCharacterName, setFourthCharacterName] = useState("");
+    const [fourthCharacterData, setFourthCharacterData] = useState(null);
 
     const [error, setError] = useState(null);
-    const left = 'left';
-    const right = 'right';
     
-    const leftInfo = function (){
-      fetchCharacterInfo(left);
+    const first = 'first';
+    const second = 'second';
+    const third = 'third';
+    const fourth = 'fourth';
+    
+    const firstInfo = function (){
+      fetchCharacterInfo(first);
     }
     
-    const rightInfo = function (){
-      fetchCharacterInfo(right);
+    const secondInfo = function (){
+      fetchCharacterInfo(second);
+    }
+    
+    const thirdInfo = function (){
+      fetchCharacterInfo(third);
+    }
+    
+    const fourthInfo = function (){
+      fetchCharacterInfo(fourth);
     }
     
     //날짜 변환함수
@@ -40,7 +59,6 @@ function Home () {
     function dataCustom(paramDate){
         let dateSet = paramDate;
         const date = new Date(dateSet);
-
         const formattedDate = `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
         return formattedDate;
     }
@@ -51,8 +69,27 @@ function Home () {
         
         //캐릭터 생성날짜 관련 데이터 변환
         customData.character_date_create = dataCustom(customData.character_date_create);
-        
         return customData;
+    }
+    
+    //캐릭터 정보 셋팅해주는 함수
+    function setCharacterInfo(delimiter, infoData) {
+        switch (delimiter) {
+          case first:
+            setFirstCharacterData(infoData);
+            break;
+          case second:
+            setSecondCharacterData(infoData)
+            break;
+          case third:
+            setThirdCharacterData(infoData);
+            break;
+          case fourth:
+            setFourthCharacterData(infoData);
+            break;
+          default:
+            alert("캐릭터 정보 셋팅 실패");
+        }
     }
     
     const fetchCharacterInfo = async (param) => {
@@ -61,12 +98,25 @@ function Home () {
         
         let useCharName;
         
-        if(param === left){
-            if (!characterName) return;
-            useCharName = characterName;
-        }else{
-            if (!compareCharacterName) return;
-            useCharName = compareCharacterName;
+        switch (param) {
+          case first:
+            if (!firstCharacterName) return;
+            useCharName = firstCharacterName;
+            break;
+          case second:
+            if (!secondCharacterName) return;
+            useCharName = secondCharacterName;
+            break;
+          case third:
+            if (!thirdCharacterName) return;
+            useCharName = thirdCharacterName;
+            break;
+          case fourth:
+            if (!fourthCharacterName) return;
+            useCharName = fourthCharacterName;
+            break;
+          default:
+            alert("검색 실패");
         }
 
       //ocid 조회후, 조회한 ocid를 가지고 캐릭터 정보 조회함
@@ -99,28 +149,16 @@ function Home () {
             const infoData = customSetting(returnData);
 
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            if(param === left){
-                setCharacterData(infoData);
-            }else if(param === right){
-                compareSetCharacterData(infoData);
-            }
+            setCharacterInfo(param, infoData);
             setError(null);
           } catch (err) {
             setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-            if(param === left){
-                setCharacterData(null);
-            }else if(param === right){
-                compareSetCharacterData(null);
-            }
+            setCharacterInfo(param, null);
           }
           
       } catch (err) {
         setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-        if(param === left){
-             setCharacterData(null);
-         }else if(param === right){
-             compareSetCharacterData(null);
-         }
+        setCharacterInfo(param, null);
       }
     };
     
@@ -148,96 +186,160 @@ function Home () {
     
   return (
     <div>
-      {/* Left Section */}
-      <div className="left-fiexd-div">
-        <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-          <div className="input-group left-fiexd-input">
-            <input
-              type="text"
-              id="charSearch"
-              ref={inputRef}
-              className="form-control bg-light border-0 small"
-              placeholder="내 캐릭터 검색하기"
-              aria-label="Search"
-              aria-describedby="basic-addon2"
-              value={characterName}
-              onChange={(e) => setCharacterName(e.target.value)}
-            />
-            <div className="input-group input-group-append">
-              <button className="btn btn-primary" type="button" onClick={leftInfo}>
-                <i className="fas fa-search fa-sm">확인</i>
-              </button>
-            </div>
-          </div>
-          <div className="input-group char-div left-fiexd-info">
-              {error && <p style={{ color: "red" }}>{error}</p>}
-              {characterData && (
-                <div>
-                  <h2>{characterData.character_name}</h2>
-                  <img className="main-logo" src={characterData.character_image} alt="이미지" />
-                  <p>월드: {characterData.world_name}</p>
-                  <p>길드: {characterData.character_guild_name}</p>
-                  <p>직업: {characterData.character_class}</p>
-                  <p>레벨: {characterData.character_level}</p>
-                  <p>경험치량: {characterData.character_exp_rate} %</p>
-                  <p>캐릭터 생성일: {characterData.character_date_create}</p>
-                </div>
-              )}
-          </div>
-        </form>
-      </div>
-
-      {/* Center Section */}
-      <div className="content" style={{ textAlign: "center" }}>
-        <h1 className="name-custom-font">ㄴMaple Fighterㄱ</h1>
-        <div className="logo-div" style={{ textAlign: "center" }}>
-          <img className="main-logo" src="images/MapleFighter.jpg" alt="이미지" />
-        </div>
-
-        <div className="logo-div" style={{ textAlign: "bottom" }}>
-          <img className="botton-logo-div" src="images/vsLogo.jpg" alt="이미지" />
-        </div>
-      </div>
-
-      {/* Right Section */}
-      <div className="right-fiexd-div">
-          <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div className="input-group right-fiexd-input">
-              <input
-                type="text"
-                id="charSearch"
-                ref={inputRef}
-                className="form-control bg-light border-0 small"
-                placeholder="캐릭터 검색하기"
-                aria-label="Search"
-                aria-describedby="basic-addon2"
-                value={compareCharacterName}
-                onChange={(e) => compareSetCharacterName(e.target.value)}
-              />
-              <div className="input-group input-group-append">
-                <button className="btn btn-primary" type="button" onClick={rightInfo}>
-                  <i className="fas fa-search fa-sm">확인</i>
-                </button>
-              </div>
-            </div>
-            <div className="input-group char-div right-fiexd-info">
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                {compareCharacterData && (
-                  <div>
-                    <h2>{compareCharacterData.character_name}</h2>
-                    <img className="main-logo" src={compareCharacterData.character_image} alt="이미지" />
-                    <p>월드: {compareCharacterData.world_name}</p>
-                    <p>길드: {compareCharacterData.character_guild_name}</p>
-                    <p>직업: {compareCharacterData.character_class}</p>
-                    <p>레벨: {compareCharacterData.character_level}</p>
-                    <p>경험치량: {compareCharacterData.character_exp_rate} %</p>
-                    <p>캐릭터 생성일: {compareCharacterData.character_date_create}</p>
+        <div className="info-container">
+            <div className="info-box">
+                {/* First Section */}
+                <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                  <div className="input-group fiexd-input">
+                    <input
+                      type="text"
+                      id="charSearch"
+                      ref={inputRef}
+                      className="form-control bg-light border-0 small"
+                      placeholder="1번 캐릭터 검색하기"
+                      aria-label="Search"
+                      aria-describedby="basic-addon2"
+                      value={firstCharacterName}
+                      onChange={(e) => setFirstCharacterName(e.target.value)}
+                    />
+                    <div className="input-group input-group-append">
+                      <button className="btn btn-primary" type="button" onClick={firstInfo}>
+                        <i className="fas fa-search fa-sm">확인</i>
+                      </button>
+                    </div>
                   </div>
-                )}
+                  <div className="input-group char-div fiexd-info">
+                      {error && <p style={{ color: "red" }}>{error}</p>}
+                      {firstCharacterData && (
+                        <div>
+                          <h2>{firstCharacterData.character_name}</h2>
+                          <img className="main-logo" src={firstCharacterData.character_image} alt="이미지" />
+                          <p>월드: {firstCharacterData.world_name}</p>
+                          <p>길드: {firstCharacterData.character_guild_name}</p>
+                          <p>직업: {firstCharacterData.character_class}</p>
+                          <p>레벨: {firstCharacterData.character_level}</p>
+                          <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
+                          <p>캐릭터 생성일: {firstCharacterData.character_date_create}</p>
+                        </div>
+                      )}
+                  </div>
+                </form>
             </div>
-          </form>
-      </div>
-
+            <div className="info-box">
+              {/* Second Section */}
+              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div className="input-group fiexd-input">
+                  <input
+                    type="text"
+                    id="charSearch"
+                    ref={inputRef}
+                    className="form-control bg-light border-0 small"
+                    placeholder="2번 캐릭터 검색하기"
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    value={secondCharacterName}
+                    onChange={(e) => setSecondCharacterName(e.target.value)}
+                  />
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary" type="button" onClick={secondInfo}>
+                      <i className="fas fa-search fa-sm">확인</i>
+                    </button>
+                  </div>
+                </div>
+                <div className="input-group char-div fiexd-info">
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {secondCharacterData && (
+                      <div>
+                        <h2>{secondCharacterData.character_name}</h2>
+                        <img className="main-logo" src={secondCharacterData.character_image} alt="이미지" />
+                        <p>월드: {secondCharacterData.world_name}</p>
+                        <p>길드: {secondCharacterData.character_guild_name}</p>
+                        <p>직업: {secondCharacterData.character_class}</p>
+                        <p>레벨: {secondCharacterData.character_level}</p>
+                        <p>경험치량: {secondCharacterData.character_exp_rate} %</p>
+                        <p>캐릭터 생성일: {secondCharacterData.character_date_create}</p>
+                      </div>
+                    )}
+                </div>
+              </form>
+          </div>
+          <div className="info-box">
+              {/* Third Section */}
+              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div className="input-group fiexd-input">
+                  <input
+                    type="text"
+                    id="charSearch"
+                    ref={inputRef}
+                    className="form-control bg-light border-0 small"
+                    placeholder="3번 캐릭터 검색하기"
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    value={thirdCharacterName}
+                    onChange={(e) => setThirdCharacterName(e.target.value)}
+                  />
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary" type="button" onClick={thirdInfo}>
+                      <i className="fas fa-search fa-sm">확인</i>
+                    </button>
+                  </div>
+                </div>
+                <div className="input-group char-div fiexd-info">
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {thirdCharacterData && (
+                      <div>
+                        <h2>{thirdCharacterData.character_name}</h2>
+                        <img className="main-logo" src={thirdCharacterData.character_image} alt="이미지" />
+                        <p>월드: {thirdCharacterData.world_name}</p>
+                        <p>길드: {thirdCharacterData.character_guild_name}</p>
+                        <p>직업: {thirdCharacterData.character_class}</p>
+                        <p>레벨: {thirdCharacterData.character_level}</p>
+                        <p>경험치량: {thirdCharacterData.character_exp_rate} %</p>
+                        <p>캐릭터 생성일: {thirdCharacterData.character_date_create}</p>
+                      </div>
+                    )}
+                </div>
+              </form>
+          </div>
+          <div className="info-box">
+              {/* Fourth Section */}
+              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <div className="input-group fiexd-input">
+                  <input
+                    type="text"
+                    id="charSearch"
+                    ref={inputRef}
+                    className="form-control bg-light border-0 small"
+                    placeholder="4번 캐릭터 검색하기"
+                    aria-label="Search"
+                    aria-describedby="basic-addon2"
+                    value={fourthCharacterName}
+                    onChange={(e) => setFourthCharacterName(e.target.value)}
+                  />
+                  <div className="input-group input-group-append">
+                    <button className="btn btn-primary" type="button" onClick={fourthInfo}>
+                      <i className="fas fa-search fa-sm">확인</i>
+                    </button>
+                  </div>
+                </div>
+                <div className="input-group char-div fiexd-info">
+                    {error && <p style={{ color: "red" }}>{error}</p>}
+                    {fourthCharacterData && (
+                      <div>
+                        <h2>{fourthCharacterData.character_name}</h2>
+                        <img className="main-logo" src={fourthCharacterData.character_image} alt="이미지" />
+                        <p>월드: {fourthCharacterData.world_name}</p>
+                        <p>길드: {fourthCharacterData.character_guild_name}</p>
+                        <p>직업: {fourthCharacterData.character_class}</p>
+                        <p>레벨: {fourthCharacterData.character_level}</p>
+                        <p>경험치량: {fourthCharacterData.character_exp_rate} %</p>
+                        <p>캐릭터 생성일: {fourthCharacterData.character_date_create}</p>
+                      </div>
+                    )}
+                </div>
+              </form>
+          </div>
+        </div>
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )
