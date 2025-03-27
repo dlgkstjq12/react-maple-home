@@ -83,17 +83,19 @@ body {
     width: 7rem; /* 원하는 크기로 조정 */
     height: 7rem; /* 정사각형으로 설정 */
     border-radius: 30%; /* 원형으로 자르기 */
-    border: 10px solid purple; /* 청록색 테두리 */
+    border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
     object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
-/*    justify-content: center;  수평 중앙 
-    align-items: center;      수직 중앙 */
+    justify-content: center;  /*수평 중앙 */
+    /*align-items: center;*/      /*수직 중앙 */
 }
 
 .name-custom-font {
     text-align: center;
+    justify-content: center;  /*수평 중앙*/
     font-weight: bold;
-    font-size: 3rem;
+    font-size: 2rem;
     color : black;
+    width: 15rem; /* 너비 설정 필수 */
     font-family: 'MaplestoryOTFBold';
 }
 
@@ -134,9 +136,16 @@ body {
     justify-content: center; /* 수평 중앙 정렬 */
 }
 
+.divide-info{
+    display: grid;
+    grid-template-columns: 6rem 7rem; /* 두 개의 동일한 너비 영역 */
+}
+
+
+
 .content {
     display: grid;
-    grid-template-columns: 2px auto 2px; /* 좌측 로고, 중앙 텍스트, 우측 로고 */
+    grid-template-columns: 10rem auto 10rem; /* 좌측 로고, 중앙 텍스트, 우측 로고 */
     align-items: center;
     justify-content: center; /* 수평 중앙 정렬 */
     width: 100%;
@@ -181,29 +190,57 @@ body {
 }
 
 .char-div {
-    font-size: 0.65rem;
+    font-size: 0.8rem;
     color: rgb(0, 0, 0);  /* 텍스트 색 */
-    margin-left: 2.5rem; /* 왼쪽 영역의 너비보다 약간 크게 설정 */
-    margin-right: 2.5rem; /* 오른쪽 영역의 너비보다 약간 크게 설정 */
+    margin-bottom: 9rem;
     font-family: 'MaplestoryOTFBold';
 }
 
 .info-container {
-  display: grid;
-  margin-top:1rem;
-  height: 100%;
-  grid-template-columns: repeat(4, 1fr); /* 4등분 */
-  gap: 0.5rem; /* 간격 설정 (선택 사항) */
+    display: grid;
+    margin-top:1rem;
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr); /* 4등분 */
+    gap: 0.5rem; /* 간격 설정 (선택 사항) */
 }
 
 .info-box {
-  background-color: rgb(168, 168, 168);
-  height: 100%;
-  text-align: center;
-  padding: 2rem;
-  margin-left: auto;
-  margin-right: auto;
-  border: 0.5rem solid rgb(221, 221, 221);
-  border-radius: 1.5rem; /* 모서리를 둥글게 */
+    background-color: rgb(168, 168, 168);
+    height: 72%;
+    text-align: center;
+    padding: 1rem;
+    width: 95%;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1.5rem;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
 }
 
+.char-logo {
+    float: left;
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+}
+
+.left-char-info {
+    float: left;
+    display: flex;
+    align-items: center;
+    padding: 0.1rem;
+}
+
+.right-char-info {
+    float: right;
+    padding: 0.1rem;
+}
+
+.right-char-info h1 {
+    text-align: left;
+    font-size: 1rem;
+}
+
+.right-char-info p {
+    font-size: 0.6rem;
+    text-align: left;
+}

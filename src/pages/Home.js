@@ -211,15 +211,19 @@ function Home () {
                   <div className="input-group char-div fiexd-info">
                       {error && <p style={{ color: "red" }}>{error}</p>}
                       {firstCharacterData && (
-                        <div>
-                          <h2>{firstCharacterData.character_name}</h2>
-                          <img className="main-logo" src={firstCharacterData.character_image} alt="이미지" />
-                          <p>월드: {firstCharacterData.world_name}</p>
-                          <p>길드: {firstCharacterData.character_guild_name}</p>
-                          <p>직업: {firstCharacterData.character_class}</p>
-                          <p>레벨: {firstCharacterData.character_level}</p>
-                          <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
-                          <p>캐릭터 생성일: {firstCharacterData.character_date_create}</p>
+                        <div className="divide-info">
+                          <div className="left-char-info">
+                              <img className="char-logo" src={firstCharacterData.character_image} alt="이미지" />
+                          </div>
+                          <div className="right-char-info">
+                              <h1>{firstCharacterData.character_name}</h1>
+                              <p>월드: {firstCharacterData.world_name}</p>
+                              <p>길드: {firstCharacterData.character_guild_name}</p>
+                              <p>직업: {firstCharacterData.character_class}</p>
+                              <p>레벨: {firstCharacterData.character_level}</p>
+                              <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
+                              <p>생성일: {firstCharacterData.character_date_create}</p>
+                          </div>
                         </div>
                       )}
                   </div>
@@ -249,15 +253,19 @@ function Home () {
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {secondCharacterData && (
-                      <div>
-                        <h2>{secondCharacterData.character_name}</h2>
-                        <img className="main-logo" src={secondCharacterData.character_image} alt="이미지" />
-                        <p>월드: {secondCharacterData.world_name}</p>
-                        <p>길드: {secondCharacterData.character_guild_name}</p>
-                        <p>직업: {secondCharacterData.character_class}</p>
-                        <p>레벨: {secondCharacterData.character_level}</p>
-                        <p>경험치량: {secondCharacterData.character_exp_rate} %</p>
-                        <p>캐릭터 생성일: {secondCharacterData.character_date_create}</p>
+                      <div className="divide-info">
+                        <div className="left-char-info">
+                            <img className="char-logo" src={secondCharacterData.character_image} alt="이미지" />
+                        </div>
+                        <div className="right-char-info">
+                            <h1>{secondCharacterData.character_name}</h1>
+                            <p>월드: {secondCharacterData.world_name}</p>
+                            <p>길드: {secondCharacterData.character_guild_name}</p>
+                            <p>직업: {secondCharacterData.character_class}</p>
+                            <p>레벨: {secondCharacterData.character_level}</p>
+                            <p>경험치량: {secondCharacterData.character_exp_rate} %</p>
+                            <p>생성일: {secondCharacterData.character_date_create}</p>
+                        </div>
                       </div>
                     )}
                 </div>
@@ -287,15 +295,19 @@ function Home () {
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {thirdCharacterData && (
-                      <div>
-                        <h2>{thirdCharacterData.character_name}</h2>
-                        <img className="main-logo" src={thirdCharacterData.character_image} alt="이미지" />
-                        <p>월드: {thirdCharacterData.world_name}</p>
-                        <p>길드: {thirdCharacterData.character_guild_name}</p>
-                        <p>직업: {thirdCharacterData.character_class}</p>
-                        <p>레벨: {thirdCharacterData.character_level}</p>
-                        <p>경험치량: {thirdCharacterData.character_exp_rate} %</p>
-                        <p>캐릭터 생성일: {thirdCharacterData.character_date_create}</p>
+                      <div className="divide-info">
+                        <div className="left-char-info">
+                            <img className="char-logo" src={thirdCharacterData.character_image} alt="이미지" />
+                        </div>
+                        <div className="right-char-info">
+                            <h1>{thirdCharacterData.character_name}</h1>
+                            <p>월드: {thirdCharacterData.world_name}</p>
+                            <p>길드: {thirdCharacterData.character_guild_name}</p>
+                            <p>직업: {thirdCharacterData.character_class}</p>
+                            <p>레벨: {thirdCharacterData.character_level}</p>
+                            <p>경험치량: {thirdCharacterData.character_exp_rate} %</p>
+                            <p>생성일: {thirdCharacterData.character_date_create}</p>
+                        </div>
                       </div>
                     )}
                 </div>
@@ -325,15 +337,19 @@ function Home () {
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {fourthCharacterData && (
-                      <div>
-                        <h2>{fourthCharacterData.character_name}</h2>
-                        <img className="main-logo" src={fourthCharacterData.character_image} alt="이미지" />
-                        <p>월드: {fourthCharacterData.world_name}</p>
-                        <p>길드: {fourthCharacterData.character_guild_name}</p>
-                        <p>직업: {fourthCharacterData.character_class}</p>
-                        <p>레벨: {fourthCharacterData.character_level}</p>
-                        <p>경험치량: {fourthCharacterData.character_exp_rate} %</p>
-                        <p>캐릭터 생성일: {fourthCharacterData.character_date_create}</p>
+                      <div className="divide-info">
+                        <div className="left-char-info">
+                            <img className="char-logo" src={fourthCharacterData.character_image} alt="이미지" />
+                        </div>
+                        <div className="right-char-info">
+                            <h1>{fourthCharacterData.character_name}</h1>
+                            <p>월드: {fourthCharacterData.world_name}</p>
+                            <p>길드: {fourthCharacterData.character_guild_name}</p>
+                            <p>직업: {fourthCharacterData.character_class}</p>
+                            <p>레벨: {fourthCharacterData.character_level}</p>
+                            <p>경험치량: {fourthCharacterData.character_exp_rate} %</p>
+                            <p>생성일: {fourthCharacterData.character_date_create}</p>
+                        </div>
                       </div>
                     )}
                 </div>
