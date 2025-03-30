@@ -138,10 +138,8 @@ body {
 
 .divide-info{
     display: grid;
-    grid-template-columns: 6rem 7rem; /* 두 개의 동일한 너비 영역 */
+    grid-template-columns: 7rem 7rem; /* 두 개의 동일한 너비 영역 */
 }
-
-
 
 .content {
     display: grid;
@@ -206,7 +204,7 @@ body {
 
 .info-box {
     background-color: rgb(168, 168, 168);
-    height: 72%;
+    height: 85%;
     text-align: center;
     padding: 1rem;
     width: 95%;
@@ -225,9 +223,12 @@ body {
 
 .left-char-info {
     float: left;
-    display: flex;
-    align-items: center;
     padding: 0.1rem;
+}
+
+.left-char-info p {
+    font-size: 0.6rem;
+    text-align: left;
 }
 
 .right-char-info {

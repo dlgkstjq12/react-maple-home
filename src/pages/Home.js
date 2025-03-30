@@ -21,6 +21,7 @@ function Home () {
     //항목들 정리
     const [firstCharacterName, setFirstCharacterName] = useState("");
     const [firstCharacterData, setFirstCharacterData] = useState(null);
+    const [firstCharacterDetailData, setfirstCharacterDetailData] = useState(null);
     
     const [secondCharacterName, setSecondCharacterName] = useState("");
     const [secondCharacterData, setSecondCharacterData] = useState(null);
@@ -32,6 +33,78 @@ function Home () {
     const [fourthCharacterData, setFourthCharacterData] = useState(null);
 
     const [error, setError] = useState(null);
+    
+    //화면에 출력할 캐릭터 정보들
+    const useStatArray = [
+        [
+            {
+                "left_stat_name": "전투력"
+            },
+            {
+                "left_stat_name": "최소 스탯공격력"
+            },
+            {
+                "left_stat_name": "최대 스탯공격력"
+            },
+            {
+                "left_stat_name": "데미지"
+            },
+            {
+                "left_stat_name": "보스 몬스터 데미지"
+            },
+            {
+                "left_stat_name": "최종 데미지"
+            },
+            {
+                "left_stat_name": "방어율 무시"
+            },
+            {
+                "left_stat_name": "크리티컬 확률"
+            },
+            {
+                "left_stat_name": "크리티컬 데미지"
+            },
+            {
+                "left_stat_name": "버프 지속시간"
+            },
+            {
+                "right_stat_name": "상태이상 내성"
+            },
+            {
+                "right_stat_name": "아케인포스"
+            },
+            {
+                "right_stat_name": "어센틱포스"
+            },
+            {
+                "right_stat_name": "아이템 드롭률"
+            },
+            {
+                "right_stat_name": "메소 획득량"
+            },
+            {
+                "right_stat_name": "공격 속도"
+            },
+            {
+                "right_stat_name": "일반 몬스터 데미지"
+            },
+            {
+                "right_stat_name": "재사용 대기시간 감소 (초)"
+            },
+            {
+                "right_stat_name": "재사용 대기시간 감소 (%)"
+            },
+            {
+                "right_stat_name": "재사용 대기시간 미적용"
+            },
+            {
+                "right_stat_name": "속성 내성 무시"
+            },
+            {
+                "right_stat_name": "상태이상 추가 데미지"
+            }
+        ]
+    ];
     
     const first = 'first';
     const second = 'second';
@@ -92,7 +165,30 @@ function Home () {
         }
     }
     
+    //캐릭터 상세 정보 셋팅해주는 함수
+    function setCharacterDetailInfo(delimiter, infoData) {
+        switch (delimiter) {
+          case first:
+            setfirstCharacterDetailData(infoData);
+            break;
+          case second:
+            //setSecondCharacterDetailData(infoData)
+            break;
+          case third:
+            //setThirdCharacterDetailData(infoData);
+            break;
+          case fourth:
+            //setFourthCharacterDetailData(infoData);
+            break;
+          default:
+            alert("캐릭터 상세 정보 셋팅 실패");
+        }
+    }
+    
+    
     const fetchCharacterInfo = async (param) => {
+        
+        debugger;
         
         if (!param) return;
         
@@ -119,7 +215,7 @@ function Home () {
             alert("검색 실패");
         }
 
-      //ocid 조회후, 조회한 ocid를 가지고 캐릭터 정보 조회함
+      //1. ocid 조회후, 조회한 ocid를 가지고 캐릭터 기본 정보 조회함
       const ocidUrl = `https://open.api.nexon.com/maplestory/v1/id?character_name=${encodeURIComponent(useCharName)}`;
       try {
         const response = await fetch(ocidUrl, {
@@ -145,11 +241,11 @@ function Home () {
               throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
             }
     
-            const returnData = await infoResponse.json();
-            const infoData = customSetting(returnData);
+            const returnCharData = await infoResponse.json();
+            const detailInfoData = customSetting(returnCharData);
 
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            setCharacterInfo(param, infoData);
+            setCharacterInfo(param, detailInfoData);
             setError(null);
           } catch (err) {
             setError("캐릭터 정보를 불러오는 데 실패했습니다.");
@@ -159,6 +255,50 @@ function Home () {
       } catch (err) {
         setError("캐릭터 정보를 불러오는 데 실패했습니다.");
         setCharacterInfo(param, null);
+      }
+
+      //2. ocid 조회후, 조회한 ocid를 가지고 캐릭터 상세정보 정보 조회함
+      const detailUrl = `https://open.api.nexon.com/maplestory/v1/id?character_name=${encodeURIComponent(useCharName)}`;
+      try {
+        const response = await fetch(detailUrl, {
+          method: "GET",
+          headers: { "x-nxopen-api-key": API_KEY },
+        });
+
+        if (!response.ok) {
+          throw new Error(`API 요청 실패! 상태 코드: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const charDetailInfoUrl = `https://open.api.nexon.com/maplestory/v1/character/stat?ocid=`+data.ocid;
+          
+          //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
+          try {
+            const infoResponse = await fetch(charDetailInfoUrl, {
+              method: "GET",
+              headers: { "x-nxopen-api-key": API_KEY },
+            });
+
+            if (!infoResponse.ok) {
+              throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
+            }
+
+            const returnData = await infoResponse.json();
+            //const infoData = customSetting(returnData);
+            
+            console.log("infoData",returnData);
+
+            //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
+            setCharacterDetailInfo(param, returnData.final_stat);
+            setError(null);
+          } catch (err) {
+            setError("캐릭터 정보를 불러오는 데 실패했습니다.");
+            setCharacterDetailInfo(param, null);
+          }
+          
+      } catch (err) {
+        setError("캐릭터 정보를 불러오는 데 실패했습니다.");
+        setCharacterDetailInfo(param, null);
       }
     };
     
@@ -226,6 +366,34 @@ function Home () {
                           </div>
                         </div>
                       )}
+                      <div className="divide-info">
+                        <div className="left-char-info">
+                            {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
+                              firstCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                        <div className="right-char-info">
+                            {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
+                              firstCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                    </div>
                   </div>
                 </form>
             </div>
