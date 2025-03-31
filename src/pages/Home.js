@@ -25,82 +25,65 @@ function Home () {
     
     const [secondCharacterName, setSecondCharacterName] = useState("");
     const [secondCharacterData, setSecondCharacterData] = useState(null);
-    
+    const [secondCharacterDetailData, setSecondCharacterDetailData] = useState(null);
+
     const [thirdCharacterName, setThirdCharacterName] = useState("");
     const [thirdCharacterData, setThirdCharacterData] = useState(null);
-    
+    const [thirdCharacterDetailData, setThirdCharacterDetailData] = useState(null);
+
     const [fourthCharacterName, setFourthCharacterName] = useState("");
     const [fourthCharacterData, setFourthCharacterData] = useState(null);
+    const [fourthCharacterDetailData, setFourthCharacterDetailData] = useState(null);
+
 
     const [error, setError] = useState(null);
     
     //화면에 출력할 캐릭터 정보들
+    //type :: p (퍼센트) / s (초) / c (콤마)
     const useStatArray = [
         [
             {
+                "type":"c",
+                "left_stat_name": "최소스탯공격력"
+            },
+            {
+                "type":"c",
                 "left_stat_name": "전투력"
             },
             {
-                "left_stat_name": "최소 스탯공격력"
-            },
-            {
-                "left_stat_name": "최대 스탯공격력"
-            },
-            {
+                "type":"p",
                 "left_stat_name": "데미지"
             },
             {
+                "type":"p",
                 "left_stat_name": "보스 몬스터 데미지"
             },
             {
+                "type":"p",
                 "left_stat_name": "최종 데미지"
             },
             {
+                "type":"p",
                 "left_stat_name": "방어율 무시"
             },
             {
-                "left_stat_name": "크리티컬 확률"
+                "type":"p",
+                "right_stat_name": "크리티컬 데미지"
             },
             {
-                "left_stat_name": "크리티컬 데미지"
+                "type":"s",
+                "right_stat_name": "버프 지속시간"
             },
             {
-                "left_stat_name": "버프 지속시간"
-            },
-            {
-                "right_stat_name": "상태이상 내성"
-            },
-            {
-                "right_stat_name": "아케인포스"
-            },
-            {
-                "right_stat_name": "어센틱포스"
-            },
-            {
+                "type":"p",
                 "right_stat_name": "아이템 드롭률"
             },
             {
+                "type":"p",
                 "right_stat_name": "메소 획득량"
             },
             {
-                "right_stat_name": "공격 속도"
-            },
-            {
-                "right_stat_name": "일반 몬스터 데미지"
-            },
-            {
-                "right_stat_name": "재사용 대기시간 감소 (초)"
-            },
-            {
-                "right_stat_name": "재사용 대기시간 감소 (%)"
-            },
-            {
-                "right_stat_name": "재사용 대기시간 미적용"
-            },
-            {
-                "right_stat_name": "속성 내성 무시"
-            },
-            {
+                "type":"p",
                 "right_stat_name": "상태이상 추가 데미지"
             }
         ]
@@ -139,9 +122,55 @@ function Home () {
     //캐릭터 정보 API에서 받아온 데이터 변환하는 함수
     function customSetting (returnData){
         let customData = returnData;
+        customData.character_date_create = dataCustom(customData.character_date_create);            //캐릭터 생성날짜 관련 데이터 변환
+        return customData;
+    }
+    
+    //콤마찍는 공통함수
+    function formatNumberString(str) {
+        const num = Number(str.replace(/[^0-9.-]/g, '')); // 숫자만 추출
+        if (isNaN(num)) return str; // 변환할 수 없는 경우 원래 문자열 반환
+        return num.toLocaleString();
+    }
+    
+    //캐릭터 상세정보 API에서 받아온 데이터 변환하는 함수
+    function customDetailSetting (returnData){
+        let customData = returnData.final_stat;
+        for(var i = 0; i < customData.length; i++){
+            if (Array.isArray(useStatArray[0]) && 
+                useStatArray[0].some(innerItem => innerItem.left_stat_name == customData[i].stat_name)) {
+                switch (useStatArray[0].find(statItem => statItem.left_stat_name === customData[i].stat_name).type) {
+                  case "c":
+                    customData[i].stat_value = formatNumberString(customData[i].stat_value);
+                    break;
+                  case "p":
+                    customData[i].stat_value = customData[i].stat_value+"%";
+                    break;
+                  case "s":
+                    customData[i].stat_value = customData[i].stat_value+"초";
+                    break;
+                  default:
+                    alert("캐릭터 정보 셋팅 실패");
+                }
+            }
+            if (Array.isArray(useStatArray[0]) && 
+                useStatArray[0].some(innerItem => innerItem.right_stat_name == customData[i].stat_name)) {
+                switch (useStatArray[0].find(statItem => statItem.right_stat_name === customData[i].stat_name).type) {
+                    case "c":
+                      customData[i].stat_value = formatNumberString(customData[i].stat_value);
+                      break;
+                    case "p":
+                      customData[i].stat_value = customData[i].stat_value+"%";
+                      break;
+                    case "s":
+                      customData[i].stat_value = customData[i].stat_value+"초";
+                      break;
+                  default:
+                    alert("캐릭터 정보 셋팅 실패");
+                }
+            }
+        }
         
-        //캐릭터 생성날짜 관련 데이터 변환
-        customData.character_date_create = dataCustom(customData.character_date_create);
         return customData;
     }
     
@@ -172,13 +201,13 @@ function Home () {
             setfirstCharacterDetailData(infoData);
             break;
           case second:
-            //setSecondCharacterDetailData(infoData)
+            setSecondCharacterDetailData(infoData)
             break;
           case third:
-            //setThirdCharacterDetailData(infoData);
+            setThirdCharacterDetailData(infoData);
             break;
           case fourth:
-            //setFourthCharacterDetailData(infoData);
+            setFourthCharacterDetailData(infoData);
             break;
           default:
             alert("캐릭터 상세 정보 셋팅 실패");
@@ -187,9 +216,6 @@ function Home () {
     
     
     const fetchCharacterInfo = async (param) => {
-        
-        debugger;
-        
         if (!param) return;
         
         let useCharName;
@@ -282,14 +308,11 @@ function Home () {
             if (!infoResponse.ok) {
               throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
             }
-
             const returnData = await infoResponse.json();
-            //const infoData = customSetting(returnData);
-            
-            console.log("infoData",returnData);
+            const detailInfoData = customDetailSetting(returnData);
 
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            setCharacterDetailInfo(param, returnData.final_stat);
+            setCharacterDetailInfo(param, detailInfoData);
             setError(null);
           } catch (err) {
             setError("캐릭터 정보를 불러오는 데 실패했습니다.");
@@ -352,7 +375,7 @@ function Home () {
                       {error && <p style={{ color: "red" }}>{error}</p>}
                       {firstCharacterData && (
                         <div className="divide-info">
-                          <div className="left-char-info">
+                          <div className="left-img-info">
                               <img className="char-logo" src={firstCharacterData.character_image} alt="이미지" />
                           </div>
                           <div className="right-char-info">
@@ -436,6 +459,34 @@ function Home () {
                         </div>
                       </div>
                     )}
+                    <div className="divide-info">
+                        <div className="left-char-info">
+                            {Array.isArray(secondCharacterDetailData) && secondCharacterDetailData.length > 0 ? (
+                              secondCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                        <div className="right-char-info">
+                            {Array.isArray(secondCharacterDetailData) && secondCharacterDetailData.length > 0 ? (
+                              secondCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                    </div>
                 </div>
               </form>
           </div>
@@ -478,6 +529,34 @@ function Home () {
                         </div>
                       </div>
                     )}
+                    <div className="divide-info">
+                        <div className="left-char-info">
+                            {Array.isArray(thirdCharacterDetailData) && thirdCharacterDetailData.length > 0 ? (
+                              thirdCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                        <div className="right-char-info">
+                            {Array.isArray(thirdCharacterDetailData) && thirdCharacterDetailData.length > 0 ? (
+                              thirdCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                    </div>
                 </div>
               </form>
           </div>
@@ -520,6 +599,34 @@ function Home () {
                         </div>
                       </div>
                     )}
+                    <div className="divide-info">
+                        <div className="left-char-info">
+                            {Array.isArray(fourthCharacterDetailData) && fourthCharacterDetailData.length > 0 ? (
+                              fourthCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                        <div className="right-char-info">
+                            {Array.isArray(fourthCharacterDetailData) && fourthCharacterDetailData.length > 0 ? (
+                              fourthCharacterDetailData
+                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                .map((item, index) => (
+                                  <p key={index} className="item">
+                                    {item.stat_name} : {item.stat_value}
+                                  </p>
+                                ))
+                            ) : (
+                              <p></p>
+                            )}
+                        </div>
+                    </div>
                 </div>
               </form>
           </div>
