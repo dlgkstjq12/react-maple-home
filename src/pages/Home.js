@@ -3,8 +3,18 @@ import '../App.css';                 // CSS 파일을 따로 만들어서 가져
 import '../css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import '../css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+} from "chart.js";
 
+// 🔹 필수 스케일과 요소 등록
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const API_KEY = "test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d"; // 여기에 API 키 입력
 
@@ -37,10 +47,14 @@ function Home () {
     const [fourthCharacterName, setFourthCharacterName] = useState("");
     const [fourthCharacterData, setFourthCharacterData] = useState(null);
     const [fourthCharacterDetailData, setFourthCharacterDetailData] = useState(null);
-    
-    const [showChart, setShowChart] = useState(false);
 
     const [error, setError] = useState(null);
+    
+    //차트보여주기위해 사용할 객체들
+    const [showChart, setShowChart] = useState(false);
+    const [chartData, setChartData] = useState(null);
+    const [chartOptions, setChartOptions] = useState(null);
+    const [chartKey, setChartKey] = useState(0); // 차트 리렌더링을 위한 키
     
     //화면에 출력할 캐릭터 정보들
     //type :: p (퍼센트) / s (초) / c (콤마)
@@ -93,6 +107,7 @@ function Home () {
         ]
     ];
 
+    //캐릭터별 구분 상수
     const first = 'first';
     const second = 'second';
     const third = 'third';
@@ -218,53 +233,72 @@ function Home () {
         }
     }
     
-    //차트관련 샘플 데이터들
-/*    const data = {
-      labels: ["도끼질의참맛", "검은깨의참맛", "인생캐꿀띠", "검객의참맛"],
-      datasets: [
-        {
-          label: "전투력",
-          data: [7000, 1900, 2000, 1500],
-          backgroundColor: "rgb(70, 168, 168)",
-        },
-      ],
-    };
 
-    const options = {
-      responsive: true,
-      plugins: {
-        legend: { position: "top", textStyle: {fontSize: 100} // 범례 글씨 크기
-        },
-        title: { display: true, text: "캐릭터별 비교", style:"black"},
-      },
-      xAxis: {
-          axisLabel: {
-              textStyle: {
-                  fontSize: 15 // X축 글씨 크기
-              }
-          }
-      },
-      yAxis: {
-          axisLabel: {
-              textStyle: {
-                  fontSize: 15 // Y축 글씨 크기
-              }
-          }
-      }
-    };*/
 
-    const someUniqueId = Math.random();
-
-    //이미지를 누르면 차트를보여주는 함수
-    function chartShow(){
-
+    
+    // 이미지를 클릭하면 차트를 표시하는 함수
+    const handleLogoClick = () => {
         
-/*        return (
-            <div className="chart-div">
-                <Bar key={someUniqueId} data={data} options={options} />
-            </div>
-        )*/
+        debugger;
+        
+        const newData = {
+            labels: ["도끼질의참맛", "검은깨의참맛", "인생캐꿀띠", "검객의참맛"],
+            datasets: [
+                {
+                    label: "전투력",
+                    data: Array.from({ length: 5 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
+                    backgroundColor: "RGB(137, 207, 240)",
+                },
+                {
+                    label: "보스 공격력 데미지",
+                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
+                    backgroundColor: "RGB(255, 161, 161)",
+                },
+                {
+                    label: "방어력 무시",
+                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
+                    backgroundColor: "RGB(185, 225, 134)",
+                },
+                {
+                    label: "최종데미지",
+                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
+                    backgroundColor: "RGB(200, 180, 255)",
+                },
+            ],
+        };
+
+        const newOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top",
+                    labels: { font: { size: 30 } }, // 범례 글씨 크기
+                },
+                title: { display: true, text: "캐릭터별 비교", font: { size: 45 } },
+                tooltip: {
+                  titleFont: {
+                    size: 30  // 제목 글씨 크기
+                  },
+                  bodyFont: {
+                    size: 25  // 본문 글씨 크기
+                  },
+                  footerFont: {
+                    size: 20  // 푸터 글씨 크기 (있을 경우)
+                  }
+                },
+            },
+            scales: {
+                x: { ticks: { font: { size: 23 } } },
+                y: { ticks: { font: { size: 23 } } },
+            },
+        };
+
+        setChartData(newData);
+        setChartOptions(newOptions);
+        setShowChart(true);
+        setChartKey(prevKey => prevKey + 1); // 차트 리렌더링을 위해 키 변경
     };
+
 
     const fetchCharacterInfo = async (param) => {
         if (!param) return;
@@ -396,14 +430,21 @@ function Home () {
          inputElement.removeEventListener("keydown", handleKeyDown);
        };
      }, []);
+     
 
-    
   return (
     <div>
         <div className="content">
-          <img className="logo-div" src="images/vsLogo.jpg" onClick={chartShow} alt="이미지" />
-          <h1 className="name-custom-font">ㄴMaple Fighterㄱ</h1>
+          <img className="logo-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
+          <h1 className="name-custom-font">Maple Fighter</h1>
           <img className="logo-div" src="images/MapleFighter.jpg" alt="이미지" />
+        </div>
+        <div className="text-container">
+            <div className="text-box">
+                <h1 className="name-custom-font">사용방법</h1>
+                <p> 1. 각 캐릭터별 정보를 가져오기위해서, 입력창에 캐릭터명 입력후 "확인" 버튼 클릭</p>
+                <p> 2. 통계를 확인할 캐릭터의 정보를 가져온 후에, "VS" 로고 클릭</p>
+            </div>
         </div>
         <div className="info-container">
             <div className="info-box">
@@ -427,7 +468,7 @@ function Home () {
                       </button>
                     </div>
                   </div>
-                  <div className="input-group char-div fiexd-info">
+                  <div className="input-group char-div fiexd-info" value={firstCharacterData}>
                       {error && <p style={{ color: "red" }}>{error}</p>}
                       {firstCharacterData && (
                         <div className="divide-info">
@@ -445,7 +486,7 @@ function Home () {
                           </div>
                         </div>
                       )}
-                      <div className="divide-info">
+                      <div className="divide-info" value={firstCharacterDetailData}>
                         <div className="left-char-info">
                             {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
                               firstCharacterDetailData
@@ -687,15 +728,14 @@ function Home () {
               </form>
           </div>
         </div>
-
+        {showChart && chartData && chartOptions && (
+            <div className="chart-div">
+                <Bar key={chartKey} data={chartData} options={chartOptions} />
+            </div>
+        )}
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )
 }
 
 export default Home;
-
-
-/*        <div className="chart-div">
-            <Bar key={someUniqueId} data={data} options={options} />
-        </div>*/
