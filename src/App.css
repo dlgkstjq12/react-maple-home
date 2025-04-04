@@ -86,7 +86,13 @@ body {
     border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
     object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
     justify-content: center;  /*수평 중앙 */
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
     /*align-items: center;*/      /*수직 중앙 */
+}
+
+.logo-div:hover {
+    opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
 }
 
 .name-custom-font {
@@ -252,3 +258,17 @@ body {
     font-size: 0.8rem;
     text-align: left;
 }
+
+.chart-div {
+    width: 95%;
+    height: 25%;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 8rem;
+    text-align: center;
+    background-color: rgb(168, 168, 168);
+    border: 0.3rem solid rgb(221, 221, 221);
+    border-radius: 1rem; /* 모서리를 둥글게 */
+}
+

@@ -2,6 +2,9 @@ import React,{ useEffect, useRef, useState} from "react";
 import '../App.css';                 // CSS 파일을 따로 만들어서 가져옵니다.
 import '../css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import '../css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
+import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+
 
 const API_KEY = "test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d"; // 여기에 API 키 입력
 
@@ -34,7 +37,8 @@ function Home () {
     const [fourthCharacterName, setFourthCharacterName] = useState("");
     const [fourthCharacterData, setFourthCharacterData] = useState(null);
     const [fourthCharacterDetailData, setFourthCharacterDetailData] = useState(null);
-
+    
+    const [showChart, setShowChart] = useState(false);
 
     const [error, setError] = useState(null);
     
@@ -88,7 +92,7 @@ function Home () {
             }
         ]
     ];
-    
+
     const first = 'first';
     const second = 'second';
     const third = 'third';
@@ -214,7 +218,54 @@ function Home () {
         }
     }
     
-    
+    //차트관련 샘플 데이터들
+/*    const data = {
+      labels: ["도끼질의참맛", "검은깨의참맛", "인생캐꿀띠", "검객의참맛"],
+      datasets: [
+        {
+          label: "전투력",
+          data: [7000, 1900, 2000, 1500],
+          backgroundColor: "rgb(70, 168, 168)",
+        },
+      ],
+    };
+
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: { position: "top", textStyle: {fontSize: 100} // 범례 글씨 크기
+        },
+        title: { display: true, text: "캐릭터별 비교", style:"black"},
+      },
+      xAxis: {
+          axisLabel: {
+              textStyle: {
+                  fontSize: 15 // X축 글씨 크기
+              }
+          }
+      },
+      yAxis: {
+          axisLabel: {
+              textStyle: {
+                  fontSize: 15 // Y축 글씨 크기
+              }
+          }
+      }
+    };*/
+
+    const someUniqueId = Math.random();
+
+    //이미지를 누르면 차트를보여주는 함수
+    function chartShow(){
+
+        
+/*        return (
+            <div className="chart-div">
+                <Bar key={someUniqueId} data={data} options={options} />
+            </div>
+        )*/
+    };
+
     const fetchCharacterInfo = async (param) => {
         if (!param) return;
         
@@ -349,6 +400,11 @@ function Home () {
     
   return (
     <div>
+        <div className="content">
+          <img className="logo-div" src="images/vsLogo.jpg" onClick={chartShow} alt="이미지" />
+          <h1 className="name-custom-font">ㄴMaple Fighterㄱ</h1>
+          <img className="logo-div" src="images/MapleFighter.jpg" alt="이미지" />
+        </div>
         <div className="info-container">
             <div className="info-box">
                 {/* First Section */}
@@ -631,9 +687,15 @@ function Home () {
               </form>
           </div>
         </div>
+
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )
 }
 
 export default Home;
+
+
+/*        <div className="chart-div">
+            <Bar key={someUniqueId} data={data} options={options} />
+        </div>*/
