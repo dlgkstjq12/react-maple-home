@@ -52,8 +52,14 @@ function Home () {
     
     //차트보여주기위해 사용할 객체들
     const [showChart, setShowChart] = useState(false);
-    const [chartData, setChartData] = useState(null);
-    const [chartOptions, setChartOptions] = useState(null);
+    const [firstChartData, setFirstChartData] = useState(null);
+    const [secondChartData, setSecondChartData] = useState(null);
+    const [thirdChartData, setThirdChartData] = useState(null);
+    const [fourthChartData, setFourthChartData] = useState(null);
+    
+    const [thousChartOptions, setThousChartOptions] = useState(null);
+    const [perChartOptions, setPerChartOptions] = useState(null);
+    
     const [chartKey, setChartKey] = useState(0); // 차트 리렌더링을 위한 키
     
     //화면에 출력할 캐릭터 정보들
@@ -99,13 +105,15 @@ function Home () {
             {
                 "type":"p",
                 "right_stat_name": "메소 획득량"
-            },
-            {
-                "type":"p",
-                "right_stat_name": "상태이상 추가 데미지"
             }
         ]
     ];
+    
+    //api에서 가져오는 데이터중 핵심데이터 순번
+    const CP = 42;          //전투력
+    const BOSS_DMG = 3;     //보스공격력데미지
+    const PIERCE_DMG = 5;   //방어력무시데미지
+    const FINAL_DMG = 4;    //최종데미지
 
     //캐릭터별 구분 상수
     const first = 'first';
@@ -239,35 +247,112 @@ function Home () {
     // 이미지를 클릭하면 차트를 표시하는 함수
     const handleLogoClick = () => {
         
-        debugger;
+        let labelArray = [];
+        let firstDataArray = [];    //전투력
+        let secondDataArray = [];   //보공
+        let thirdDataArray = [];    //방무
+        let fourthDataArray = [];   //최종데미지
         
-        const newData = {
-            labels: ["도끼질의참맛", "검은깨의참맛", "인생캐꿀띠", "검객의참맛"],
-            datasets: [
-                {
-                    label: "전투력",
-                    data: Array.from({ length: 5 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
-                    backgroundColor: "RGB(137, 207, 240)",
-                },
-                {
-                    label: "보스 공격력 데미지",
-                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
-                    backgroundColor: "RGB(255, 161, 161)",
-                },
-                {
-                    label: "방어력 무시",
-                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
-                    backgroundColor: "RGB(185, 225, 134)",
-                },
-                {
-                    label: "최종데미지",
-                    data: Array.from({ length: 4 }, () => Math.floor(Math.random() * 8000)), // 랜덤 데이터 생성
-                    backgroundColor: "RGB(200, 180, 255)",
-                },
-            ],
-        };
+        debugger;
 
-        const newOptions = {
+        //api에서 가져오는 데이터중 핵심데이터 순번
+/*        const CP = 42;          //전투력
+        const BOSS_DMG = 3;     //보스공격력데미지
+        const PIERCE_DMG = 5;   //방어력무시데미지
+        const FINAL_DMG = 4;    //최종데미지*/
+        
+        //캐릭터별로 전투력, 보공, 방무, 최종데미지 셋팅
+        if(firstCharacterName != null){
+            labelArray.push(firstCharacterName);
+            firstDataArray.push(formatNumberString(firstCharacterDetailData[CP].stat_value));
+            secondDataArray.push(formatNumberString(firstCharacterDetailData[BOSS_DMG].stat_value));
+            thirdDataArray.push(formatNumberString(firstCharacterDetailData[PIERCE_DMG].stat_value));
+            fourthDataArray.push(formatNumberString(firstCharacterDetailData[FINAL_DMG].stat_value));
+        }
+        if(secondCharacterName != null){
+            labelArray.push(secondCharacterName);
+            firstDataArray.push(formatNumberString(secondCharacterDetailData[CP].stat_value));
+            secondDataArray.push(formatNumberString(secondCharacterDetailData[BOSS_DMG].stat_value));
+            thirdDataArray.push(formatNumberString(secondCharacterDetailData[PIERCE_DMG].stat_value));
+            fourthDataArray.push(formatNumberString(secondCharacterDetailData[FINAL_DMG].stat_value));
+        }
+        if(thirdCharacterName != null){
+            labelArray.push(thirdCharacterName);
+            firstDataArray.push(formatNumberString(thirdCharacterDetailData[CP].stat_value));
+            secondDataArray.push(formatNumberString(thirdCharacterDetailData[BOSS_DMG].stat_value));
+            thirdDataArray.push(formatNumberString(thirdCharacterDetailData[PIERCE_DMG].stat_value));
+            fourthDataArray.push(formatNumberString(thirdCharacterDetailData[FINAL_DMG].stat_value));
+        }
+        if(fourthCharacterName != null){
+            labelArray.push(fourthCharacterName);
+            firstDataArray.push(formatNumberString(fourthCharacterDetailData[CP].stat_value));
+            secondDataArray.push(formatNumberString(fourthCharacterDetailData[BOSS_DMG].stat_value));
+            thirdDataArray.push(formatNumberString(fourthCharacterDetailData[PIERCE_DMG].stat_value));
+            fourthDataArray.push(formatNumberString(fourthCharacterDetailData[FINAL_DMG].stat_value));
+        }
+
+        //전투력
+        function firstChartDataSet() {
+            const newData1 = {
+                labels: labelArray,
+                datasets: [
+                    {
+                        label: "전투력",
+                        data: firstDataArray, 
+                        backgroundColor: "RGB(137, 207, 240)",
+                    },
+                ],
+            };
+            setFirstChartData(newData1);
+        }
+        
+        //보스 공격력 데미지
+        function secondChartDataSet() {
+            const newData2 = {
+                labels: labelArray,
+                datasets: [
+                    {
+                        label: "보스 공격력 데미지",
+                        data: secondDataArray, 
+                        backgroundColor: "RGB(255, 161, 161)",
+                    },
+                ],
+            };
+            setSecondChartData(newData2);
+        }
+        
+        //방어력 무시
+        function thirdChartDataSet() {
+            const newData3 = {
+                labels: labelArray,
+                datasets: [
+                    {
+                        label: "방어력 무시",
+                        data: thirdDataArray, 
+                        backgroundColor: "RGB(185, 225, 134)",
+                    },
+                ],
+            };
+            setThirdChartData(newData3);
+        }
+        
+        //최종데미지
+        function fourthChartDataSet() {
+            const newData4 = {
+                labels: labelArray,
+                datasets: [
+                    {
+                        label: "최종데미지",
+                        data: fourthDataArray,
+                        backgroundColor: "RGB(200, 180, 255)",
+                    },
+                ],
+            };
+            setFourthChartData(newData4);
+        }
+        
+        //천단위 표시 옵션
+        const newThousOptions = {
             responsive: true,
             plugins: {
                 legend: {
@@ -292,9 +377,52 @@ function Home () {
                 y: { ticks: { font: { size: 23 } } },
             },
         };
+        
+        debugger;
+        
+        //퍼센트 표시 옵션
+        const newPerOptions = {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: "top",
+                    labels: { font: { size: 30 } }, // 범례 글씨 크기
+                },
+                title: { display: true, text: "캐릭터별 비교", font: { size: 45 } },
+                tooltip: {
+                  titleFont: {
+                    size: 30  // 제목 글씨 크기
+                  },
+                  bodyFont: {
+                    size: 25  // 본문 글씨 크기
+                  },
+                  footerFont: {
+                    size: 20  // 푸터 글씨 크기 (있을 경우)
+                  },
+                  callbacks: {
+                    label: function(context) {
+                      const value = typeof context.parsed === 'number'
+                        ? context.parsed
+                        : context.parsed.y || context.parsed.value || 0;
+                      return value + '%';
+                    }
+                  }
+                },
+            },
+            scales: {
+                x: { ticks: { font: { size: 23 } } },
+                y: { ticks: { font: { size: 23 } } },
+            },
+        };
 
-        setChartData(newData);
-        setChartOptions(newOptions);
+        firstChartDataSet();
+        secondChartDataSet();
+        thirdChartDataSet();
+        fourthChartDataSet();
+        
+        setThousChartOptions(newThousOptions);
+        setPerChartOptions(newPerOptions);
+        
         setShowChart(true);
         setChartKey(prevKey => prevKey + 1); // 차트 리렌더링을 위해 키 변경
     };
@@ -728,11 +856,27 @@ function Home () {
               </form>
           </div>
         </div>
-        {showChart && chartData && chartOptions && (
+        {showChart && firstChartData && thousChartOptions && (
             <div className="chart-div">
-                <Bar key={chartKey} data={chartData} options={chartOptions} />
+                <Bar key={chartKey} data={firstChartData} options={thousChartOptions} />
             </div>
         )}
+        {showChart && secondChartData && perChartOptions && (
+            <div className="chart-div">
+                <Bar key={chartKey} data={secondChartData} options={perChartOptions} />
+            </div>
+        )}
+        {showChart && thirdChartData && perChartOptions && (
+            <div className="chart-div">
+                <Bar key={chartKey} data={thirdChartData} options={perChartOptions} />
+            </div>
+        )}
+        {showChart && fourthChartData && perChartOptions && (
+            <div className="chart-div">
+                <Bar key={chartKey} data={fourthChartData} options={perChartOptions} />
+            </div>
+        )}
+
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )

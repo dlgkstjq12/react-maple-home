@@ -47,6 +47,7 @@ body {
    background-repeat: no-repeat; /* 이미지 반복 방지 */
    background-size: cover; /* 화면을 덮도록 이미지 크기 조정 */
    background-position: center center; /* 이미지 위치를 중앙으로 설정 */
+   background-attachment: fixed; /* optional */
 }
 
 /* 모바일 전용 스마트폰 */
@@ -144,7 +145,7 @@ body {
 
 .divide-info{
     display: grid;
-    grid-template-columns: 11rem 11rem; /* 두 개의 동일한 너비 영역 */
+    grid-template-columns: 10rem 10rem; /* 두 개의 동일한 너비 영역 */
 }
 
 .content {
@@ -159,7 +160,7 @@ body {
 .footer {
     font-family: 'MaplestoryOTFBold';
     position: fixed;
-    bottom: 0;  /* 화면 하단에 고정 */
+    bottom: 0;   /*화면 하단에 고정 */
     left: 0;
     width: 100%;  /* 화면의 전체 너비를 차지 */
     background-color: rgb(128, 255, 255);  /* 배경 색 */
@@ -261,8 +262,8 @@ body {
 }
 
 .chart-div {
-    width: 95%;
-    height: 25%;
+    width: 90%;
+    height: 20%;
     margin-top: 2rem;
     margin-left: 2rem;
     margin-right: 2rem;
@@ -290,7 +291,7 @@ body {
     padding-left: 1rem;
     margin-left: 1rem;
     color:rgb(255, 0, 0);
-    width: 30%;
+    width: 37%;
     border: 0.5rem solid rgb(221, 221, 221);
     border-radius: 1.5rem; /* 모서리를 둥글게 */
     font-family: 'MaplestoryOTFBold';
