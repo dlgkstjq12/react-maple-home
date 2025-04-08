@@ -241,8 +241,14 @@ function Home () {
         }
     }
     
-
-
+    //콤마붙은 문자형 숫자데이터를 숫자로 변경하는 함수
+    //'42,333,222' => 42333222 
+    function removeCommasAndParseNumber(str) {
+      if (typeof str !== 'string') return NaN;
+      const cleaned = str.replace(/,/g, '');
+      const number = Number(cleaned);
+      return isNaN(number) ? NaN : number;
+    }
     
     // 이미지를 클릭하면 차트를 표시하는 함수
     const handleLogoClick = () => {
@@ -253,7 +259,8 @@ function Home () {
         let thirdDataArray = [];    //방무
         let fourthDataArray = [];   //최종데미지
         
-        debugger;
+        //모든 데이터 넣을 배열
+        let totalDataMap = [];
 
         //api에서 가져오는 데이터중 핵심데이터 순번
 /*        const CP = 42;          //전투력
@@ -264,32 +271,103 @@ function Home () {
         //캐릭터별로 전투력, 보공, 방무, 최종데미지 셋팅
         if(firstCharacterName != null){
             labelArray.push(firstCharacterName);
-            firstDataArray.push(formatNumberString(firstCharacterDetailData[CP].stat_value));
+            firstDataArray.push(removeCommasAndParseNumber(firstCharacterDetailData[CP].stat_value));
             secondDataArray.push(formatNumberString(firstCharacterDetailData[BOSS_DMG].stat_value));
             thirdDataArray.push(formatNumberString(firstCharacterDetailData[PIERCE_DMG].stat_value));
             fourthDataArray.push(formatNumberString(firstCharacterDetailData[FINAL_DMG].stat_value));
+            totalDataMap.push({name : firstCharacterName, cp : firstDataArray[0], boss_dmg : secondDataArray[0], pierce_dmg : thirdDataArray[0], final_dmg : fourthDataArray[0]});
         }
         if(secondCharacterName != null){
             labelArray.push(secondCharacterName);
-            firstDataArray.push(formatNumberString(secondCharacterDetailData[CP].stat_value));
+            firstDataArray.push(removeCommasAndParseNumber(secondCharacterDetailData[CP].stat_value));
             secondDataArray.push(formatNumberString(secondCharacterDetailData[BOSS_DMG].stat_value));
             thirdDataArray.push(formatNumberString(secondCharacterDetailData[PIERCE_DMG].stat_value));
             fourthDataArray.push(formatNumberString(secondCharacterDetailData[FINAL_DMG].stat_value));
+            totalDataMap.push({name : secondCharacterName, cp : firstDataArray[1], boss_dmg : secondDataArray[1], pierce_dmg : thirdDataArray[1], final_dmg : fourthDataArray[1]});
         }
         if(thirdCharacterName != null){
             labelArray.push(thirdCharacterName);
-            firstDataArray.push(formatNumberString(thirdCharacterDetailData[CP].stat_value));
+            firstDataArray.push(removeCommasAndParseNumber(thirdCharacterDetailData[CP].stat_value));
             secondDataArray.push(formatNumberString(thirdCharacterDetailData[BOSS_DMG].stat_value));
             thirdDataArray.push(formatNumberString(thirdCharacterDetailData[PIERCE_DMG].stat_value));
             fourthDataArray.push(formatNumberString(thirdCharacterDetailData[FINAL_DMG].stat_value));
+            totalDataMap.push({name : thirdCharacterName, cp : firstDataArray[2], boss_dmg : secondDataArray[2], pierce_dmg : thirdDataArray[2], final_dmg : fourthDataArray[2]});
         }
         if(fourthCharacterName != null){
             labelArray.push(fourthCharacterName);
-            firstDataArray.push(formatNumberString(fourthCharacterDetailData[CP].stat_value));
+            firstDataArray.push(removeCommasAndParseNumber(fourthCharacterDetailData[CP].stat_value));
             secondDataArray.push(formatNumberString(fourthCharacterDetailData[BOSS_DMG].stat_value));
             thirdDataArray.push(formatNumberString(fourthCharacterDetailData[PIERCE_DMG].stat_value));
             fourthDataArray.push(formatNumberString(fourthCharacterDetailData[FINAL_DMG].stat_value));
+            totalDataMap.push({name : fourthCharacterName, cp : firstDataArray[3], boss_dmg : secondDataArray[3], pierce_dmg : thirdDataArray[3], final_dmg : fourthDataArray[3]});
         }
+        
+debugger;
+        //전투력, 보스공격력데미지, 방어력무시데미지, 최종데미지 높은 순서대로 넣은 배열
+        const cpRanks = totalDataMap
+            .sort((a, b) => b.cp - a.cp)
+            .slice(0, 4);
+            
+        const bossDmgRanks = totalDataMap
+           .sort((a, b) => b.boss_dmg - a.boss_dmg)
+           .slice(0, 4);
+        
+        const pierceDmgRanks = totalDataMap
+         .sort((a, b) => b.pierce_dmg - a.pierce_dmg)
+         .slice(0, 4);
+        
+        const finalDmgRanks = totalDataMap
+         .sort((a, b) => b.final_dmg - a.final_dmg)
+         .slice(0, 4);
+         
+         // 순위 리스트 자동 렌더링
+/*         const rankCPListEl = document.getElementById('cp');
+         cpRanks.forEach((item, index) => {
+           const div = document.createElement('div');
+           div.className = 'rank-item';
+           div.innerHTML = `
+             <span class="rank-num">${index + 1}위</span>
+             <span>${item.name}</span>
+             <span>${item.score}점</span>
+           `;
+           rankCPListEl.appendChild(div);
+         });
+         
+         const rankBossDmgListEl = document.getElementById('bossDmg');
+         bossDmgRanks.forEach((item, index) => {
+           const div = document.createElement('div');
+           div.className = 'rank-item';
+           div.innerHTML = `
+             <span class="rank-num">${index + 1}위</span>
+             <span>${item.name}</span>
+             <span>${item.score}점</span>
+           `;
+           rankBossDmgListEl.appendChild(div);
+         });
+         
+         const rankPierceDmgListEl = document.getElementById('pierceDmg');
+         pierceDmgRanks.forEach((item, index) => {
+           const div = document.createElement('div');
+           div.className = 'rank-item';
+           div.innerHTML = `
+             <span class="rank-num">${index + 1}위</span>
+             <span>${item.name}</span>
+             <span>${item.score}점</span>
+           `;
+           rankPierceDmgListEl.appendChild(div);
+         });
+         
+         const rankFinalDmgListEl = document.getElementById('finalDmg');
+         finalDmgRanks.forEach((item, index) => {
+           const div = document.createElement('div');
+           div.className = 'rank-item';
+           div.innerHTML = `
+             <span class="rank-num">${index + 1}위</span>
+             <span>${item.name}</span>
+             <span>${item.score}점</span>
+           `;
+           rankFinalDmgListEl.appendChild(div);
+         });*/
 
         //전투력
         function firstChartDataSet() {
@@ -306,13 +384,15 @@ function Home () {
             setFirstChartData(newData1);
         }
         
+        console.log("firstChartData======",firstChartData)
+        
         //보스 공격력 데미지
         function secondChartDataSet() {
             const newData2 = {
                 labels: labelArray,
                 datasets: [
                     {
-                        label: "보스 공격력 데미지",
+                        label: "보스 공격력 데미지 (%)",
                         data: secondDataArray, 
                         backgroundColor: "RGB(255, 161, 161)",
                     },
@@ -327,7 +407,7 @@ function Home () {
                 labels: labelArray,
                 datasets: [
                     {
-                        label: "방어력 무시",
+                        label: "방어력 무시 (%)",
                         data: thirdDataArray, 
                         backgroundColor: "RGB(185, 225, 134)",
                     },
@@ -342,7 +422,7 @@ function Home () {
                 labels: labelArray,
                 datasets: [
                     {
-                        label: "최종데미지",
+                        label: "최종데미지 (%)",
                         data: fourthDataArray,
                         backgroundColor: "RGB(200, 180, 255)",
                     },
@@ -357,24 +437,24 @@ function Home () {
             plugins: {
                 legend: {
                     position: "top",
-                    labels: { font: { size: 30 } }, // 범례 글씨 크기
+                    labels: { font: { size: 25 } }, // 범례 글씨 크기
                 },
-                title: { display: true, text: "캐릭터별 비교", font: { size: 45 } },
+                title: { display: true, text: "캐릭터별 비교", font: { size: 35 } },
                 tooltip: {
                   titleFont: {
-                    size: 30  // 제목 글씨 크기
+                    size: 25  // 제목 글씨 크기
                   },
                   bodyFont: {
-                    size: 25  // 본문 글씨 크기
+                    size: 20  // 본문 글씨 크기
                   },
                   footerFont: {
-                    size: 20  // 푸터 글씨 크기 (있을 경우)
+                    size: 17  // 푸터 글씨 크기 (있을 경우)
                   }
                 },
             },
             scales: {
-                x: { ticks: { font: { size: 23 } } },
-                y: { ticks: { font: { size: 23 } } },
+                x: { ticks: { font: { size: 18 } } },
+                y: { ticks: { font: { size: 18 } } },
             },
         };
         
@@ -386,18 +466,18 @@ function Home () {
             plugins: {
                 legend: {
                     position: "top",
-                    labels: { font: { size: 30 } }, // 범례 글씨 크기
+                    labels: { font: { size: 25 } }, // 범례 글씨 크기
                 },
-                title: { display: true, text: "캐릭터별 비교", font: { size: 45 } },
+                title: { display: true, text: "캐릭터별 비교 (%)", font: { size: 35 } },
                 tooltip: {
                   titleFont: {
-                    size: 30  // 제목 글씨 크기
+                    size: 25  // 제목 글씨 크기
                   },
                   bodyFont: {
-                    size: 25  // 본문 글씨 크기
+                    size: 20  // 본문 글씨 크기
                   },
                   footerFont: {
-                    size: 20  // 푸터 글씨 크기 (있을 경우)
+                    size: 17  // 푸터 글씨 크기 (있을 경우)
                   },
                   callbacks: {
                     label: function(context) {
@@ -410,8 +490,8 @@ function Home () {
                 },
             },
             scales: {
-                x: { ticks: { font: { size: 23 } } },
-                y: { ticks: { font: { size: 23 } } },
+                x: { ticks: { font: { size: 18 } } },
+                y: { ticks: { font: { size: 18 } } },
             },
         };
 
@@ -857,26 +937,89 @@ function Home () {
           </div>
         </div>
         {showChart && firstChartData && thousChartOptions && (
-            <div className="chart-div">
-                <Bar key={chartKey} data={firstChartData} options={thousChartOptions} />
+            <div  className="chart-total">
+                <div className="chart-div">
+                    <Bar key={chartKey} data={firstChartData} options={thousChartOptions} />
+                </div>
+                <div className="chart-rank" id="cp">
+                    {firstChartData.labels
+                      .map((label, i) => ({ label, value: firstChartData.datasets[0].data[i] }))
+                      .sort((a, b) => b.value - a.value)
+                      .map(({ label, value }, i) => (
+                        <div
+                          key={i}
+                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
+                        >
+                          <span>{i+1}위 {label}</span>
+                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                        </div>
+                      ))}
+                </div>
             </div>
         )}
         {showChart && secondChartData && perChartOptions && (
-            <div className="chart-div">
-                <Bar key={chartKey} data={secondChartData} options={perChartOptions} />
+            <div  className="chart-total">
+                <div className="chart-div">
+                    <Bar key={chartKey} data={secondChartData} options={perChartOptions} />
+                </div>
+                <div className="chart-rank" id="bossDmg">
+                    {secondChartData.labels
+                      .map((label, i) => ({ label, value: secondChartData.datasets[0].data[i] }))
+                      .sort((a, b) => b.value - a.value)
+                      .map(({ label, value }, i) => (
+                        <div
+                          key={i}
+                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
+                        >
+                          <span>{i+1}위 {label}</span>
+                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                        </div>
+                      ))}
+                </div>
             </div>
         )}
         {showChart && thirdChartData && perChartOptions && (
-            <div className="chart-div">
-                <Bar key={chartKey} data={thirdChartData} options={perChartOptions} />
+            <div  className="chart-total">
+                <div className="chart-div">
+                    <Bar key={chartKey} data={thirdChartData} options={perChartOptions} />
+                </div>
+                <div className="chart-rank" id="pierceDmg">
+                    {thirdChartData.labels
+                      .map((label, i) => ({ label, value: thirdChartData.datasets[0].data[i] }))
+                      .sort((a, b) => b.value - a.value)
+                      .map(({ label, value }, i) => (
+                        <div
+                          key={i}
+                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
+                        >
+                          <span>{i+1}위 {label}</span>
+                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                        </div>
+                      ))}
+                </div>
             </div>
         )}
         {showChart && fourthChartData && perChartOptions && (
-            <div className="chart-div">
-                <Bar key={chartKey} data={fourthChartData} options={perChartOptions} />
+            <div  className="chart-total">
+                <div className="chart-div">
+                    <Bar key={chartKey} data={fourthChartData} options={perChartOptions} />
+                </div>
+                <div className="chart-rank" id="finalDmg">
+                    {fourthChartData.labels
+                      .map((label, i) => ({ label, value: fourthChartData.datasets[0].data[i] }))
+                      .sort((a, b) => b.value - a.value)
+                      .map(({ label, value }, i) => (
+                        <div
+                          key={i}
+                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
+                        >
+                          <span>{i+1}위 {label}</span>
+                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                        </div>
+                      ))}
+                </div>
             </div>
         )}
-
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )

@@ -145,7 +145,7 @@ body {
 
 .divide-info{
     display: grid;
-    grid-template-columns: 10rem 10rem; /* 두 개의 동일한 너비 영역 */
+    grid-template-columns: 10.3rem 10.3rem; /* 두 개의 동일한 너비 영역 */
 }
 
 .content {
@@ -261,12 +261,28 @@ body {
     text-align: left;
 }
 
+.chart-total {
+    display: flex;
+}
+
 .chart-div {
-    width: 90%;
-    height: 20%;
+    flex: 0.8;
+    height: 10%;
     margin-top: 2rem;
-    margin-left: 2rem;
-    margin-right: 2rem;
+    margin-left: 1rem;
+    margin-bottom: 8rem;
+    text-align: center;
+    background-color: rgb(168, 168, 168);
+    border: 0.3rem solid rgb(221, 221, 221);
+    border-radius: 1rem; /* 모서리를 둥글게 */
+}
+
+.chart-rank {
+    flex: 0.8;
+    height: 10%;
+    margin-top: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     margin-bottom: 8rem;
     text-align: center;
     background-color: rgb(168, 168, 168);
