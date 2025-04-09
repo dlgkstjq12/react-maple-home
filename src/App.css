@@ -106,6 +106,66 @@ body {
     font-family: 'MaplestoryOTFBold';
 }
 
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .name-custom-font {
+        text-align: center;
+        justify-content: center;  /*수평 중앙*/
+        font-weight: bold;
+        font-size: 1rem;
+        color : black;
+        width: 4rem; /* 너비 설정 필수 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .name-custom-font {
+        text-align: center;
+        justify-content: center;  /*수평 중앙*/
+        font-weight: bold;
+        font-size: 2rem;
+        color : black;
+        width: 10rem; /* 너비 설정 필수 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .logo-div {
+        display: block;
+        margin: 0 auto;
+        width: 4.5rem; /* 원하는 크기로 조정 */
+        height: 4.5rem; /* 정사각형으로 설정 */
+        border-radius: 30%; /* 원형으로 자르기 */
+        border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+        object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+        justify-content: center;  /*수평 중앙 */
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+        /*align-items: center;*/      /*수직 중앙 */
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .logo-div {
+        display: block;
+        margin: 0 auto;
+        width: 4.5rem; /* 원하는 크기로 조정 */
+        height: 4.5rem; /* 정사각형으로 설정 */
+        border-radius: 30%; /* 원형으로 자르기 */
+        border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+        object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+        justify-content: center;  /*수평 중앙 */
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+        /*align-items: center;*/      /*수직 중앙 */
+    }
+}
+
 @font-face {
     font-family: 'MaplestoryOTFBold';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/MaplestoryOTFBold.woff') format('woff');
@@ -210,17 +270,93 @@ body {
     gap: 0.5rem; /* 간격 설정 (선택 사항) */
 }
 
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .info-container {
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: flex-start; /* 필요시 왼쪽 정렬 */
+    }}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .info-container {
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: flex-start; /* 필요시 왼쪽 정렬 */
+    }
+}
+
 .info-box {
     background-color: rgb(168, 168, 168);
     height: 85%;
     text-align: center;
-/*     padding: 1rem; */
-    width: 95%;
-/*     margin-left: 0.5rem;
-    margin-right: 0.5rem; */
+    width: 100%;
     margin-bottom: 1.5rem;
     border: 0.5rem solid rgb(221, 221, 221);
     border-radius: 1.5rem; /* 모서리를 둥글게 */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .info-box {
+        background-color: rgb(168, 168, 168);
+        height: 85%;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .info-box {
+        background-color: rgb(168, 168, 168);
+        height: 85%;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+    }
+}
+
+.auto-input-group {
+    height: 100vh; /* 각 섹션이 전체 화면을 차지 */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .auto-input-group {
+        height: 100vh; /* 각 섹션이 전체 화면을 차지 */
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: auto;
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .auto-input-group {
+        height: 100vh; /* 각 섹션이 전체 화면을 차지 */
+
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        width: auto;
+    }
 }
 
 .char-logo {
@@ -261,12 +397,49 @@ body {
     text-align: left;
 }
 
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .left-char-info {
+        float: left;
+        padding: 0.1rem;
+    }
+
+    .left-char-info p {
+        font-size: 0.7rem;
+        text-align: left;
+    }
+
+    .right-char-info p {
+        font-size: 0.7rem;
+        text-align: left;
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .left-char-info {
+        float: left;
+        padding: 0.1rem;
+    }
+
+    .left-char-info p {
+        font-size: 1.3rem;
+        text-align: left;
+    }
+
+    .right-char-info p {
+        font-size: 1.3rem;
+        text-align: left;
+    }
+}
+
+
 .chart-total {
     display: flex;
 }
 
 .chart-div {
-    flex: 0.8;
+    flex: 1.3;
     height: 10%;
     margin-top: 2rem;
     margin-left: 1rem;
@@ -278,8 +451,8 @@ body {
 }
 
 .chart-rank {
-    flex: 0.8;
-    height: 10%;
+    flex: 0.5;
+    height: 20%;
     margin-top: 2rem;
     margin-left: 1rem;
     margin-right: 1rem;
@@ -311,5 +484,45 @@ body {
     border: 0.5rem solid rgb(221, 221, 221);
     border-radius: 1.5rem; /* 모서리를 둥글게 */
     font-family: 'MaplestoryOTFBold';
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.6rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        margin-left: 0.5rem;
+        color:rgb(255, 0, 0);
+        width: 90%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.6rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        margin-left: 1rem;
+        color:rgb(255, 0, 0);
+        width: 90%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
 }
 

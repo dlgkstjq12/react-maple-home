@@ -262,12 +262,6 @@ function Home () {
         //모든 데이터 넣을 배열
         let totalDataMap = [];
 
-        //api에서 가져오는 데이터중 핵심데이터 순번
-/*        const CP = 42;          //전투력
-        const BOSS_DMG = 3;     //보스공격력데미지
-        const PIERCE_DMG = 5;   //방어력무시데미지
-        const FINAL_DMG = 4;    //최종데미지*/
-        
         //캐릭터별로 전투력, 보공, 방무, 최종데미지 셋팅
         if(firstCharacterName != null){
             labelArray.push(firstCharacterName);
@@ -301,73 +295,6 @@ function Home () {
             fourthDataArray.push(formatNumberString(fourthCharacterDetailData[FINAL_DMG].stat_value));
             totalDataMap.push({name : fourthCharacterName, cp : firstDataArray[3], boss_dmg : secondDataArray[3], pierce_dmg : thirdDataArray[3], final_dmg : fourthDataArray[3]});
         }
-        
-debugger;
-        //전투력, 보스공격력데미지, 방어력무시데미지, 최종데미지 높은 순서대로 넣은 배열
-        const cpRanks = totalDataMap
-            .sort((a, b) => b.cp - a.cp)
-            .slice(0, 4);
-            
-        const bossDmgRanks = totalDataMap
-           .sort((a, b) => b.boss_dmg - a.boss_dmg)
-           .slice(0, 4);
-        
-        const pierceDmgRanks = totalDataMap
-         .sort((a, b) => b.pierce_dmg - a.pierce_dmg)
-         .slice(0, 4);
-        
-        const finalDmgRanks = totalDataMap
-         .sort((a, b) => b.final_dmg - a.final_dmg)
-         .slice(0, 4);
-         
-         // 순위 리스트 자동 렌더링
-/*         const rankCPListEl = document.getElementById('cp');
-         cpRanks.forEach((item, index) => {
-           const div = document.createElement('div');
-           div.className = 'rank-item';
-           div.innerHTML = `
-             <span class="rank-num">${index + 1}위</span>
-             <span>${item.name}</span>
-             <span>${item.score}점</span>
-           `;
-           rankCPListEl.appendChild(div);
-         });
-         
-         const rankBossDmgListEl = document.getElementById('bossDmg');
-         bossDmgRanks.forEach((item, index) => {
-           const div = document.createElement('div');
-           div.className = 'rank-item';
-           div.innerHTML = `
-             <span class="rank-num">${index + 1}위</span>
-             <span>${item.name}</span>
-             <span>${item.score}점</span>
-           `;
-           rankBossDmgListEl.appendChild(div);
-         });
-         
-         const rankPierceDmgListEl = document.getElementById('pierceDmg');
-         pierceDmgRanks.forEach((item, index) => {
-           const div = document.createElement('div');
-           div.className = 'rank-item';
-           div.innerHTML = `
-             <span class="rank-num">${index + 1}위</span>
-             <span>${item.name}</span>
-             <span>${item.score}점</span>
-           `;
-           rankPierceDmgListEl.appendChild(div);
-         });
-         
-         const rankFinalDmgListEl = document.getElementById('finalDmg');
-         finalDmgRanks.forEach((item, index) => {
-           const div = document.createElement('div');
-           div.className = 'rank-item';
-           div.innerHTML = `
-             <span class="rank-num">${index + 1}위</span>
-             <span>${item.name}</span>
-             <span>${item.score}점</span>
-           `;
-           rankFinalDmgListEl.appendChild(div);
-         });*/
 
         //전투력
         function firstChartDataSet() {
@@ -383,8 +310,6 @@ debugger;
             };
             setFirstChartData(newData1);
         }
-        
-        console.log("firstChartData======",firstChartData)
         
         //보스 공격력 데미지
         function secondChartDataSet() {
@@ -457,8 +382,6 @@ debugger;
                 y: { ticks: { font: { size: 18 } } },
             },
         };
-        
-        debugger;
         
         //퍼센트 표시 옵션
         const newPerOptions = {
@@ -555,14 +478,14 @@ debugger;
               method: "GET",
               headers: { "x-nxopen-api-key": API_KEY },
             });
-    
+            
             if (!infoResponse.ok) {
               throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
             }
     
             const returnCharData = await infoResponse.json();
             const detailInfoData = customSetting(returnCharData);
-
+            
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
             setCharacterInfo(param, detailInfoData);
             setError(null);
@@ -657,7 +580,7 @@ debugger;
         <div className="info-container">
             <div className="info-box">
                 {/* First Section */}
-                <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
                   <div className="input-group fiexd-input">
                     <input
                       type="text"
@@ -727,7 +650,7 @@ debugger;
             </div>
             <div className="info-box">
               {/* Second Section */}
-              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
                 <div className="input-group fiexd-input">
                   <input
                     type="text"
@@ -797,7 +720,7 @@ debugger;
           </div>
           <div className="info-box">
               {/* Third Section */}
-              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
                 <div className="input-group fiexd-input">
                   <input
                     type="text"
@@ -867,7 +790,7 @@ debugger;
           </div>
           <div className="info-box">
               {/* Fourth Section */}
-              <form className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
                 <div className="input-group fiexd-input">
                   <input
                     type="text"
@@ -945,15 +868,30 @@ debugger;
                     {firstChartData.labels
                       .map((label, i) => ({ label, value: firstChartData.datasets[0].data[i] }))
                       .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => (
-                        <div
-                          key={i}
-                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
-                        >
-                          <span>{i+1}위 {label}</span>
-                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                        </div>
-                      ))}
+                      .map(({ label, value }, i) => {
+                        if (i === 0) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
+                              <span className="font-extrabold">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        } else if (i === 1) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
+                              <span className="font-bold">({value.toLocaleString()})</span>
+                            </div>
+                          ); 
+                        } else {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
+                              <span>{i + 1}위 {label}</span>
+                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        }
+                      })}
                 </div>
             </div>
         )}
@@ -966,15 +904,30 @@ debugger;
                     {secondChartData.labels
                       .map((label, i) => ({ label, value: secondChartData.datasets[0].data[i] }))
                       .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => (
-                        <div
-                          key={i}
-                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
-                        >
-                          <span>{i+1}위 {label}</span>
-                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                        </div>
-                      ))}
+                      .map(({ label, value }, i) => {
+                        if (i === 0) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
+                              <span className="font-extrabold">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        } else if (i === 1) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
+                              <span className="font-bold">({value.toLocaleString()})</span>
+                            </div>
+                          ); 
+                        } else {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
+                              <span>{i + 1}위 {label}</span>
+                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        }
+                      })}
                 </div>
             </div>
         )}
@@ -987,15 +940,30 @@ debugger;
                     {thirdChartData.labels
                       .map((label, i) => ({ label, value: thirdChartData.datasets[0].data[i] }))
                       .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => (
-                        <div
-                          key={i}
-                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
-                        >
-                          <span>{i+1}위 {label}</span>
-                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                        </div>
-                      ))}
+                      .map(({ label, value }, i) => {
+                        if (i === 0) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
+                              <span className="font-extrabold">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        } else if (i === 1) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
+                              <span className="font-bold">({value.toLocaleString()})</span>
+                            </div>
+                          ); 
+                        } else {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
+                              <span>{i + 1}위 {label}</span>
+                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        }
+                      })}
                 </div>
             </div>
         )}
@@ -1008,15 +976,30 @@ debugger;
                     {fourthChartData.labels
                       .map((label, i) => ({ label, value: fourthChartData.datasets[0].data[i] }))
                       .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => (
-                        <div
-                          key={i}
-                          className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between"
-                        >
-                          <span>{i+1}위 {label}</span>
-                          <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                        </div>
-                      ))}
+                      .map(({ label, value }, i) => {
+                        if (i === 0) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
+                              <span className="font-extrabold">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        } else if (i === 1) {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
+                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
+                              <span className="font-bold">({value.toLocaleString()})</span>
+                            </div>
+                          ); 
+                        } else {
+                          return (
+                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
+                              <span>{i + 1}위 {label}</span>
+                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
+                            </div>
+                          );
+                        }
+                      })}
                 </div>
             </div>
         )}
