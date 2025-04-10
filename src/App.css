@@ -264,7 +264,6 @@ body {
 .info-container {
     display: grid;
     margin-top:1rem;
-    padding-left: 1rem;
     height: 100%;
     grid-template-columns: repeat(4, 1fr); /* 4등분 */
     gap: 0.5rem; /* 간격 설정 (선택 사항) */
@@ -273,17 +272,34 @@ body {
 /* 모바일 전용 스마트폰 */
 @media (max-width: 480px) {
     .info-container {
+        width: 90%;
+        margin:5%;
         display: flex;
         flex-direction: column; /* 세로 정렬 */
-        align-items: flex-start; /* 필요시 왼쪽 정렬 */
     }}
 
 /* 태블릿 세로모드 */
 @media (min-width: 481px) and (max-width: 768px) {
     .info-container {
+        width: 90%;
+        margin:5%;
         display: flex;
         flex-direction: column; /* 세로 정렬 */
         align-items: flex-start; /* 필요시 왼쪽 정렬 */
+    }
+}
+
+/* 태블릿 (가로 모드) 및 작은 노트북 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .info-container {
+        padding-left: 1rem;
+    }
+}
+
+/* 데스크톱 & 대형 화면 */
+@media (min-width: 1025px) {
+    .info-container {
+        padding-left: 1rem;
     }
 }
 
@@ -305,6 +321,8 @@ body {
         text-align: center;
         display: block;
         width: 100%;
+        padding-left:2rem;
+        padding-right:2rem;
         margin-bottom: 1.5rem;
         border: 0.5rem solid rgb(221, 221, 221);
         border-radius: 1.5rem; /* 모서리를 둥글게 */
@@ -400,16 +418,21 @@ body {
 /* 모바일 전용 스마트폰 */
 @media (max-width: 480px) {
     .left-char-info {
-        float: left;
+        float: center;
         padding: 0.1rem;
+        margin:0.1rem;
     }
 
     .left-char-info p {
+        padding: 0.1rem;
+        margin-left:0.1rem;
         font-size: 0.7rem;
         text-align: left;
     }
 
     .right-char-info p {
+        padding: 0.1rem;
+        margin-left:0.1rem;
         font-size: 0.7rem;
         text-align: left;
     }
@@ -497,7 +520,6 @@ body {
         text-align: left;
         padding-top: 1rem;
         padding-left: 0.5rem;
-        margin-left: 0.5rem;
         color:rgb(255, 0, 0);
         width: 90%;
         border: 0.5rem solid rgb(221, 221, 221);
@@ -517,7 +539,6 @@ body {
         text-align: left;
         padding-top: 1rem;
         padding-left: 1rem;
-        margin-left: 1rem;
         color:rgb(255, 0, 0);
         width: 90%;
         border: 0.5rem solid rgb(221, 221, 221);

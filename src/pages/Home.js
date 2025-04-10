@@ -593,7 +593,7 @@ function Home () {
                       value={firstCharacterName}
                       onChange={(e) => setFirstCharacterName(e.target.value)}
                     />
-                    <div className="input-group input-group-append">
+                    <div className="input-group-append">
                       <button className="btn btn-primary" type="button" onClick={firstInfo}>
                         <i className="fas fa-search fa-sm">확인</i>
                       </button>
@@ -663,7 +663,7 @@ function Home () {
                     value={secondCharacterName}
                     onChange={(e) => setSecondCharacterName(e.target.value)}
                   />
-                  <div className="input-group input-group-append">
+                  <div className="input-group-append">
                     <button className="btn btn-primary" type="button" onClick={secondInfo}>
                       <i className="fas fa-search fa-sm">확인</i>
                     </button>
@@ -733,7 +733,7 @@ function Home () {
                     value={thirdCharacterName}
                     onChange={(e) => setThirdCharacterName(e.target.value)}
                   />
-                  <div className="input-group input-group-append">
+                  <div className="input-group-append">
                     <button className="btn btn-primary" type="button" onClick={thirdInfo}>
                       <i className="fas fa-search fa-sm">확인</i>
                     </button>
@@ -803,7 +803,7 @@ function Home () {
                     value={fourthCharacterName}
                     onChange={(e) => setFourthCharacterName(e.target.value)}
                   />
-                  <div className="input-group input-group-append">
+                  <div className="input-group-append">
                     <button className="btn btn-primary" type="button" onClick={fourthInfo}>
                       <i className="fas fa-search fa-sm">확인</i>
                     </button>
