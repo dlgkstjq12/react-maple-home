@@ -1,70 +1,31 @@
-# Getting Started with Create React App
+# 📄 react-maple-home
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+> **메이플 스토리 관련 오픈 API를 활용한 데이터 활용**
 
-## Available Scripts
+## 📝 소개  
+이 프로젝트는 메이플 스토리 관련 오픈 API를 활용한 데이터들을 통계 및 보여주는 프로젝트입니다.
+React 기반으로 구성된 프로젝트이며, 오픈 API를 통해 가져온 메이플스토리 캐릭터 정보를 여러 컴포넌트에서 시각화하고 비교 분석할 수 있도록 
+구성되어 있습니다. components와 pages 폴더를 분리하여 UI 재사용성과 라우팅 효율성을 높였고, 
+scss를 병행해 스타일링의 확장성과 유연성을 확보했습니다.
 
-In the project directory, you can run:
+## 🚀 주요 기능  
+- 캐릭터 정보 검색
+- 최대 4명의 캐릭터까지의 데이터를 검색
+- 캐릭터들간의 데이터들을 서로 비교해서, 서로 순위 및 통계 확인 가능
 
-### `npm start`
+## 🛠️ 사용 기술  
+- **프론트엔드**: React
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 설명
+     ```
+   - **파일 구조 표시**  
+     ```
+     📦 react-maple-home
+      ┣ 📂 components          
+      ┣ 📂 css          
+      ┣ 📂 js          
+      ┣ 📂 pages          
+      ┣ 📂 scss          
+      ┣ 📜 index.js             
+      ┣ 📜 app.js             
+     ```
