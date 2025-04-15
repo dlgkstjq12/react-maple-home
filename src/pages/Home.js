@@ -360,6 +360,7 @@ function Home () {
         const viewportWidth = window.innerWidth;
         const smallSize = 480;// 모바일 해상도 기준
         const ratioSetting = (viewportWidth > smallSize) ? true : false;
+        const sizeSetting = (viewportWidth > smallSize) ? 25 : 15;
         
         //천단위 표시 옵션
         const newThousOptions = {
@@ -368,24 +369,24 @@ function Home () {
             plugins: {
                 legend: {
                     position: "top",
-                    labels: { font: { size: 25 } }, // 범례 글씨 크기
+                    labels: { font: { size: sizeSetting } }, // 범례 글씨 크기
                 },
-                title: { display: true, text: "캐릭터별 비교", font: { size: 35 } },
+                title: { display: true, text: "캐릭터별 비교", font: { size: sizeSetting } },
                 tooltip: {
                   titleFont: {
-                    size: 25  // 제목 글씨 크기
+                    size: sizeSetting  // 제목 글씨 크기
                   },
                   bodyFont: {
-                    size: 20  // 본문 글씨 크기
+                    size: sizeSetting  // 본문 글씨 크기
                   },
                   footerFont: {
-                    size: 17  // 푸터 글씨 크기 (있을 경우)
+                    size: sizeSetting  // 푸터 글씨 크기 (있을 경우)
                   }
                 },
             },
             scales: {
-                x: { ticks: { font: { size: 18 } } },
-                y: { ticks: { font: { size: 18 } } },
+                x: { ticks: { font: { size: sizeSetting } } },
+                y: { ticks: { font: { size: sizeSetting } } },
             },
         };
         
@@ -396,18 +397,18 @@ function Home () {
             plugins: {
                 legend: {
                     position: "top",
-                    labels: { font: { size: 25 } }, // 범례 글씨 크기
+                    labels: { font: { size: sizeSetting } }, // 범례 글씨 크기
                 },
-                title: { display: true, text: "캐릭터별 비교 (%)", font: { size: 35 } },
+                title: { display: true, text: "캐릭터별 비교 (%)", font: { size: sizeSetting } },
                 tooltip: {
                   titleFont: {
-                    size: 25  // 제목 글씨 크기
+                    size: sizeSetting  // 제목 글씨 크기
                   },
                   bodyFont: {
-                    size: 20  // 본문 글씨 크기
+                    size: sizeSetting  // 본문 글씨 크기
                   },
                   footerFont: {
-                    size: 17  // 푸터 글씨 크기 (있을 경우)
+                    size: sizeSetting  // 푸터 글씨 크기 (있을 경우)
                   },
                   callbacks: {
                     label: function(context) {
@@ -420,8 +421,8 @@ function Home () {
                 },
             },
             scales: {
-                x: { ticks: { font: { size: 18 } } },
-                y: { ticks: { font: { size: 18 } } },
+                x: { ticks: { font: { size: sizeSetting } } },
+                y: { ticks: { font: { size: sizeSetting } } },
             },
         };
 
