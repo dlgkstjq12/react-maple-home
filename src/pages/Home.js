@@ -356,8 +356,14 @@ function Home () {
             setFourthChartData(newData4);
         }
         
+        //해상도에 따라서 비율 고정, 변화 셋팅
+        const viewportWidth = window.innerWidth;
+        const smallSize = 480;// 모바일 해상도 기준
+        const ratioSetting = (viewportWidth > smallSize) ? true : false;
+        
         //천단위 표시 옵션
         const newThousOptions = {
+            maintainAspectRatio: ratioSetting, // ❗비율 고정 끄기
             responsive: true,
             plugins: {
                 legend: {
@@ -385,6 +391,7 @@ function Home () {
         
         //퍼센트 표시 옵션
         const newPerOptions = {
+            maintainAspectRatio: ratioSetting, // ❗비율 고정 끄기
             responsive: true,
             plugins: {
                 legend: {
