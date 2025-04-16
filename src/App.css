@@ -98,10 +98,10 @@ body {
 
 .logo-scollor-div {
     position: fixed;
-    bottom: 10vh;
+    bottom: 13vh;
     right: 10vw;
-    max-width: 10vw;       /* 뷰포트 너비의 20%를 넘지 않도록 */
-    max-height: 10vh;      /* 뷰포트 높이의 20%를 넘지 않도록 */
+    max-width: 20vw;       /* 뷰포트 너비의 20%를 넘지 않도록 */
+    max-height: 20vh;      /* 뷰포트 높이의 20%를 넘지 않도록 */
     width: auto;
     height: auto;
     z-index: 3000;
@@ -270,7 +270,6 @@ body {
 
 .footer {
     font-family: 'MaplestoryOTFBold';
-    position: fixed;
     bottom: 0;   /*화면 하단에 고정 */
     left: 0;
     width: 100%;  /* 화면의 전체 너비를 차지 */
