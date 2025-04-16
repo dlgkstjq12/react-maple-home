@@ -96,6 +96,57 @@ body {
     opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
 }
 
+.logo-scollor-div {
+    position: fixed;
+    bottom: 10vh;
+    right: 10vw;
+    max-width: 10vw;       /* 뷰포트 너비의 20%를 넘지 않도록 */
+    max-height: 10vh;      /* 뷰포트 높이의 20%를 넘지 않도록 */
+    width: auto;
+    height: auto;
+    z-index: 3000;
+    object-fit: contain;   /* 비율 유지하며 이미지 안잘리게 */
+    border-radius: 30%; /* 원형으로 자르기 */
+    border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+    object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+    justify-content: center;  /*수평 중앙 */
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.logo-scollor-div:hover {
+    opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .logo-scollor-div{
+       display: block;
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+   .logo-scollor-div{
+      display: none;
+   }
+}
+
+/* 태블릿 (가로 모드) 및 작은 노트북 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .logo-scollor-div{
+       display: none;
+    }
+}
+
+/* 데스크톱 & 대형 화면 */
+@media (min-width: 1025px) {
+    .logo-scollor-div{
+       display: none;
+    }
+}
+
+
 .name-custom-font {
     text-align: center;
     justify-content: center;  /*수평 중앙*/
@@ -595,3 +646,8 @@ body {
     }
 }
 
+.show-search-array-p {
+  margin:1rem;
+  border-bottom: 1px solid #ccc; /* 더 명확한 밑줄 스타일 */
+  padding-bottom: 4px;           /* 텍스트와 밑줄 사이 여백 */
+}

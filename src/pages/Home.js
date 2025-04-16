@@ -62,6 +62,9 @@ function Home () {
     
     const [chartKey, setChartKey] = useState(0); // 차트 리렌더링을 위한 키
     
+    //자주검색하는 검색어 셋팅
+    const [input, setInput] = useState(null);
+    
     //화면에 출력할 캐릭터 정보들
     //type :: p (퍼센트) / s (초) / c (콤마)
     const useStatArray = [
@@ -136,6 +139,27 @@ function Home () {
     const fourthInfo = function (){
       fetchCharacterInfo(fourth);
     }
+    
+    function saveSearchTerm(term){
+        const limit = 3;
+        const data = JSON.parse(localStorage.getItem('searchTerms') || '[]');
+        const freq = {};
+        data.push(term);
+        localStorage.setItem('searchTerms',JSON.stringify(data));
+                
+        data.forEach(term => {
+          freq[term] = (freq[term] || 0) + 1;
+        });
+        
+        //상위 5개만 추출
+        const showArray = Object.entries(freq)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, limit)
+            .map(([term]) => term);
+            
+        setInput(showArray);
+    }
+    
     
     //날짜 변환함수
     //2020-03-27T00:00+09:00 ==> 2020년 03월 27일
@@ -360,8 +384,8 @@ function Home () {
         const viewportWidth = window.innerWidth;
         const smallSize = 480;// 모바일 해상도 기준
         const ratioSetting = (viewportWidth > smallSize) ? true : false;
-        const sizeSetting = (viewportWidth > smallSize) ? 25 : 15;
-        
+        const sizeSetting = (viewportWidth > smallSize) ? 25 : 12;
+
         //천단위 표시 옵션
         const newThousOptions = {
             maintainAspectRatio: ratioSetting, // ❗비율 고정 끄기
@@ -448,18 +472,22 @@ function Home () {
           case first:
             if (!firstCharacterName) return;
             useCharName = firstCharacterName;
+            saveSearchTerm(useCharName);
             break;
           case second:
             if (!secondCharacterName) return;
             useCharName = secondCharacterName;
+            saveSearchTerm(useCharName);
             break;
           case third:
             if (!thirdCharacterName) return;
             useCharName = thirdCharacterName;
+            saveSearchTerm(useCharName);
             break;
           case fourth:
             if (!fourthCharacterName) return;
             useCharName = fourthCharacterName;
+            saveSearchTerm(useCharName);
             break;
           default:
             alert("검색 실패");
@@ -607,6 +635,17 @@ function Home () {
                       </button>
                     </div>
                   </div>
+                  <div className="input-group fiexd-input">
+                      {Array.isArray(input) && input.length > 0 ? (
+                        input.map((item) => (
+                          <p className="show-search-array-p" href="#" value={item}>
+                            -{item}
+                          </p>
+                        ))
+                      ) : (
+                        <p></p>
+                      )}
+                  </div>
                   <div className="input-group char-div fiexd-info" value={firstCharacterData}>
                       {error && <p style={{ color: "red" }}>{error}</p>}
                       {firstCharacterData && (
@@ -676,6 +715,17 @@ function Home () {
                       <i className="fas fa-search fa-sm">확인</i>
                     </button>
                   </div>
+                </div>
+                <div className="input-group fiexd-input">
+                    {Array.isArray(input) && input.length > 0 ? (
+                      input.map((item) => (
+                        <p className="show-search-array-p" href="#" value={item}>
+                          -{item}
+                        </p>
+                      ))
+                    ) : (
+                      <p></p>
+                    )}
                 </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -747,6 +797,17 @@ function Home () {
                     </button>
                   </div>
                 </div>
+                <div className="input-group fiexd-input">
+                    {Array.isArray(input) && input.length > 0 ? (
+                      input.map((item) => (
+                        <p className="show-search-array-p" href="#" value={item}>
+                          -{item}
+                        </p>
+                      ))
+                    ) : (
+                      <p></p>
+                    )}
+                </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {thirdCharacterData && (
@@ -817,6 +878,17 @@ function Home () {
                     </button>
                   </div>
                 </div>
+                <div className="input-group fiexd-input">
+                    {Array.isArray(input) && input.length > 0 ? (
+                      input.map((item) => (
+                        <p className="show-search-array-p" href="#" value={item}>
+                          -{item}
+                        </p>
+                      ))
+                    ) : (
+                      <p></p>
+                    )}
+                </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
                     {fourthCharacterData && (
@@ -867,6 +939,10 @@ function Home () {
               </form>
           </div>
         </div>
+        
+        
+        <img className="logo-scollor-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
+
         {showChart && firstChartData && thousChartOptions && (
             <div  className="chart-total">
                 <div className="chart-div">
