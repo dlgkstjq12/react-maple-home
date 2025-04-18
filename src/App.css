@@ -47,7 +47,7 @@ body {
    background-repeat: no-repeat; /* 이미지 반복 방지 */
    background-size: cover; /* 화면을 덮도록 이미지 크기 조정 */
    background-position: center center; /* 이미지 위치를 중앙으로 설정 */
-   background-attachment: fixed; /* optional */
+   background-attachment: scroll; /* optional */
 }
 
 /* 모바일 전용 스마트폰 */
@@ -645,8 +645,35 @@ body {
     }
 }
 
+.popularity-text-box {
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    font-size:0.8rem;
+    background-color: rgb(255, 255, 255);
+    height: 30%;
+    text-align: left;
+    margin-top:0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    color:rgb(0, 0, 0);
+    width: 100%;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
+    font-family: 'MaplestoryOTFBold';
+}
+
 .show-search-array-p {
-  margin:1rem;
-  border-bottom: 1px solid #ccc; /* 더 명확한 밑줄 스타일 */
-  padding-bottom: 4px;           /* 텍스트와 밑줄 사이 여백 */
+    cursor: pointer;                  /* 마우스를 손가락 아이콘으로 변경 */
+    color: #007bff;                   /* 링크처럼 파란색 */
+    transition: color 0.2s ease;     /* 색상 변화 부드럽게 */
+    margin:1rem;
+    border-bottom: 1px solid #ccc; /* 더 명확한 밑줄 스타일 */
+    padding-bottom: 4px;           /* 텍스트와 밑줄 사이 여백 */
+}
+
+.show-search-array-p:hover {
+    color: #0056b3;                   /* 호버 시 더 진한 파란색 */
+    text-decoration: none;           /* 호버 시 밑줄 제거 (선택 사항) */
 }

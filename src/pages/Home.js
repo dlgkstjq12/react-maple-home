@@ -151,7 +151,7 @@ function Home () {
           freq[term] = (freq[term] || 0) + 1;
         });
         
-        //상위 5개만 추출
+        //상위 3개만 추출
         const showArray = Object.entries(freq)
             .sort((a, b) => b[1] - a[1])
             .slice(0, limit)
@@ -577,6 +577,28 @@ function Home () {
       }
     };
     
+    
+    //자주찾는 검색어 클릭시 실행
+    const searchFirstCharacter = async (event) => {
+        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
+        setFirstCharacterName(clickedElement.getHTML());
+    }
+    
+    const searchSecondCharacter = async (event) => {
+        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
+        setSecondCharacterName(clickedElement.getHTML());
+    }
+    
+    const searchThirdCharacter = async (event) => {
+        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
+        setThirdCharacterName(clickedElement.getHTML());
+    }
+    
+    const searchFourthCharacter = async (event) => {
+        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
+        setFourthCharacterName(clickedElement.getHTML());
+    }
+    
     //엔터키 안눌려지게끔 처리
     const inputRef = useRef(null);
 
@@ -636,15 +658,18 @@ function Home () {
                     </div>
                   </div>
                   <div className="input-group fiexd-input">
-                      {Array.isArray(input) && input.length > 0 ? (
-                        input.map((item) => (
-                          <p className="show-search-array-p" href="#" value={item}>
-                            -{item}
-                          </p>
-                        ))
-                      ) : (
-                        <p></p>
-                      )}
+                      <div className="popularity-text-box">
+                          - 자주찾는 캐릭터명
+                          {Array.isArray(input) && input.length > 0 ? (
+                            input.map((item) => (
+                              <p className="show-search-array-p" href="#" value={item} onClick={searchFirstCharacter}>
+                                {item}
+                              </p>
+                            ))
+                          ) : (
+                            <p></p>
+                          )}
+                      </div>
                   </div>
                   <div className="input-group char-div fiexd-info" value={firstCharacterData}>
                       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -717,15 +742,18 @@ function Home () {
                   </div>
                 </div>
                 <div className="input-group fiexd-input">
-                    {Array.isArray(input) && input.length > 0 ? (
-                      input.map((item) => (
-                        <p className="show-search-array-p" href="#" value={item}>
-                          -{item}
-                        </p>
-                      ))
-                    ) : (
-                      <p></p>
-                    )}
+                    <div className="popularity-text-box">
+                        - 자주찾는 캐릭터명
+                        {Array.isArray(input) && input.length > 0 ? (
+                          input.map((item) => (
+                            <p className="show-search-array-p" href="#" value={item} onClick={searchSecondCharacter}>
+                              {item}
+                            </p>
+                          ))
+                        ) : (
+                          <p></p>
+                        )}
+                    </div>
                 </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -798,15 +826,18 @@ function Home () {
                   </div>
                 </div>
                 <div className="input-group fiexd-input">
-                    {Array.isArray(input) && input.length > 0 ? (
-                      input.map((item) => (
-                        <p className="show-search-array-p" href="#" value={item}>
-                          -{item}
-                        </p>
-                      ))
-                    ) : (
-                      <p></p>
-                    )}
+                    <div className="popularity-text-box">
+                        - 자주찾는 캐릭터명
+                        {Array.isArray(input) && input.length > 0 ? (
+                          input.map((item) => (
+                            <p className="show-search-array-p" href="#" value={item} onClick={searchThirdCharacter}>
+                              {item}
+                            </p>
+                          ))
+                        ) : (
+                          <p></p>
+                        )}
+                    </div>
                 </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
@@ -879,15 +910,18 @@ function Home () {
                   </div>
                 </div>
                 <div className="input-group fiexd-input">
-                    {Array.isArray(input) && input.length > 0 ? (
-                      input.map((item) => (
-                        <p className="show-search-array-p" href="#" value={item}>
-                          -{item}
-                        </p>
-                      ))
-                    ) : (
-                      <p></p>
-                    )}
+                    <div className="popularity-text-box">
+                        - 자주찾는 캐릭터명
+                        {Array.isArray(input) && input.length > 0 ? (
+                          input.map((item) => (
+                            <p className="show-search-array-p" href="#" value={item} onClick={searchFourthCharacter}>
+                              {item}
+                            </p>
+                          ))
+                        ) : (
+                          <p></p>
+                        )}
+                    </div>
                 </div>
                 <div className="input-group char-div fiexd-info">
                     {error && <p style={{ color: "red" }}>{error}</p>}
