@@ -44,8 +44,8 @@ html {
 
 body {
    background-image: url('../public/images/background.jpg'); /* 배경 이미지 설정 */
-   background-repeat: no-repeat; /* 이미지 반복 방지 */
-   background-size: cover; /* 화면을 덮도록 이미지 크기 조정 */
+   background-repeat: no-repeat;  /*이미지 반복 방지*/
+   background-size: cover;  /*화면을 덮도록 이미지 크기 조정 */
    background-position: center center; /* 이미지 위치를 중앙으로 설정 */
    background-attachment: scroll; /* optional */
 }
@@ -265,7 +265,7 @@ body {
     align-items: center;
     justify-content: center; /* 수평 중앙 정렬 */
     width: 100%;
-    padding: 1.5rem;
+    padding: 4rem;
 }
 
 .footer {
@@ -676,4 +676,177 @@ body {
 .show-search-array-p:hover {
     color: #0056b3;                   /* 호버 시 더 진한 파란색 */
     text-decoration: none;           /* 호버 시 밑줄 제거 (선택 사항) */
+}
+
+.header_section {
+    background-color: #ffffff;
+    position: fixed;
+    width: 100%;
+    float: left;
+    padding: 0.5rem 0.0000rem;
+    z-index:2000;
+}
+
+.costum_header{
+    width: 100%;
+    display: flex;
+}
+
+.small_menu {
+    display: block;
+    padding-left: 0.7rem;
+    width: 85%;
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   .small_menu{
+      display: none;
+   }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+   .small_menu{
+      display: none;
+   }
+}
+
+.small_menu ul{
+    list-style: none;
+    text-align: center;
+}
+
+/* 공통 */
+.small_menu li{
+    font-family: 'Ownglyph_ParkDaHyun';
+    font-weight: bold;
+    text-align: center;
+    color: #000080;
+    padding-right: 2%;
+    float: left;
+}
+
+.small_menu li:hover{
+    cursor:pointer;
+    color: #c0c0c0;
+}
+
+.menu-logo-div {
+    display: block;
+    margin: 0 auto;
+    width: 2rem;  /*원하는 크기로 조정*/ 
+    height: 2rem;  /*정사각형으로 설정*/ 
+    border-radius: 30%; /* 원형으로 자르기 */
+    border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+    object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+    justify-content: center;  /*수평 중앙 */
+    cursor: pointer;
+    transition: opacity 0.3s ease-in-out;
+    /*align-items: center;*/      /*수직 중앙 */
+}
+
+.menu-logo-div:hover {
+    opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
+}
+
+.main-menu-name {
+    cursor: pointer;
+    text-align: center;
+    justify-content: center;  /*수평 중앙*/
+    font-weight: bold;
+    color : black;
+    font-family: 'MaplestoryOTFBold';
+}
+
+.main-menu-name:hover {
+    opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
+}
+
+.toggle-div{
+    padding-left: 2rem; /* 테두리와 이미지 사이 간격 */
+    display: none;
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   .toggle-div{
+        display: block;
+   }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .toggle-div{
+        display: block;
+    }
+}
+
+.toggle-icon{
+    background: white; /* 이미지 주변 색상 */
+    padding: 0.5rem; /* 테두리와 이미지 사이 간격 */
+    border: 1px solid rgb(192, 192, 192); /* 검은색 테두리, 두께 5px */
+    display: none;
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   .toggle-icon{
+        display: block;
+   }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .toggle-icon{
+        display: block;
+    }
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   .Header_mobile-navigation-menus{
+       position: absolute;
+       padding-left:1.2rem;
+       bottom: 0; /* 부모 요소의 하단에 정렬 */
+       z-index: 3000rem;
+       display: none;
+       flex-direction: column;
+       align-items:flex-start;
+       gap: 3rem;
+   }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .Header_mobile-navigation-menus{
+        position: absolute;
+        bottom: 0; /* 부모 요소의 하단에 정렬 */
+        z-index: 3000rem;
+        display: none;
+        flex-direction: column;
+        align-items:flex-start;
+        gap: 3rem;
+    }
+}
+
+/* 태블릿 (가로 모드) 및 작은 노트북 */
+@media (min-width: 769px) and (max-width: 1024px) {
+   .Header_mobile-navigation-menus{
+      display: none;
+   }
+}
+
+/* 데스크톱 & 대형 화면 */
+@media (min-width: 1025px) {
+  .Header_mobile-navigation-menus {
+     display: none;
+  }
+}
+
+.mobile-navigation {
+    width: 100%;
+    font-size: 0.75rem;
+    font-weight: bold;
+    font-family: 'CookieRun-Regular';
 }

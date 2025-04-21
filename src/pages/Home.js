@@ -65,6 +65,7 @@ function Home () {
     //자주검색하는 검색어 셋팅
     const [input, setInput] = useState(null);
     
+    
     //화면에 출력할 캐릭터 정보들
     //type :: p (퍼센트) / s (초) / c (콤마)
     const useStatArray = [
@@ -144,7 +145,10 @@ function Home () {
         const limit = 3;
         const data = JSON.parse(localStorage.getItem('searchTerms') || '[]');
         const freq = {};
-        data.push(term);
+        if(term != null && term !== ''){
+            data.push(term);
+        }
+        
         localStorage.setItem('searchTerms',JSON.stringify(data));
                 
         data.forEach(term => {
@@ -603,6 +607,7 @@ function Home () {
     const inputRef = useRef(null);
 
      useEffect(() => {
+       saveSearchTerm(null);        //처음 로딩될때 그동안 검색했던 검색어 표시
        const inputElement = inputRef.current;
        if (!inputElement) return; // 요소가 없으면 실행 안 함
 
