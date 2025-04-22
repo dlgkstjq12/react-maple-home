@@ -28,6 +28,8 @@
   color: #61dafb;
 }
 
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -44,10 +46,10 @@ html {
 
 body {
    background-image: url('../public/images/background.jpg'); /* 배경 이미지 설정 */
-   background-repeat: no-repeat;  /*이미지 반복 방지*/
-   background-size: cover;  /*화면을 덮도록 이미지 크기 조정 */
-   background-position: center center; /* 이미지 위치를 중앙으로 설정 */
-   background-attachment: scroll; /* optional */
+   background-repeat: repeat;            /* 무늬 반복 */
+   background-size: auto;                /* 원래 크기로 유지 */
+   background-attachment: scroll;        /* 스크롤과 함께 이동 */
+   background-position: top left;
 }
 
 /* 모바일 전용 스마트폰 */
@@ -265,7 +267,10 @@ body {
     align-items: center;
     justify-content: center; /* 수평 중앙 정렬 */
     width: 100%;
-    padding: 4rem;
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+    padding-left:3rem;
+    padding-right:3rem;
 }
 
 .footer {
@@ -743,7 +748,38 @@ body {
     justify-content: center;  /*수평 중앙 */
     cursor: pointer;
     transition: opacity 0.3s ease-in-out;
-    /*align-items: center;*/      /*수직 중앙 */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+   .menu-logo-div {
+        display: block;
+        margin: 0.5rem;
+        width: 2.5rem;  /*원하는 크기로 조정*/ 
+        height: 2.5rem;  /*정사각형으로 설정*/ 
+        border-radius: 30%; /* 원형으로 자르기 */
+        border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+        object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+        justify-content: center;  /*수평 중앙 */
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+   .menu-logo-div {
+        display: block;
+        margin: 0.5rem;
+        width: 2.5rem;  /*원하는 크기로 조정*/ 
+        height: 2.5rem;  /*정사각형으로 설정*/ 
+        border-radius: 30%; /* 원형으로 자르기 */
+        border: 0.3rem solid rgb(0, 0, 0); /* 청록색 테두리 */
+        object-fit: cover; /* 이미지가 잘리지 않고 꽉 차게 */
+        justify-content: center;  /*수평 중앙 */
+        cursor: pointer;
+        transition: opacity 0.3s ease-in-out;
+    }
 }
 
 .menu-logo-div:hover {
@@ -759,6 +795,20 @@ body {
     font-family: 'MaplestoryOTFBold';
 }
 
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .main-menu-name {
+        margin:0.6rem;
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .main-menu-name {
+        margin:0.5rem;
+    }
+}
+
 .main-menu-name:hover {
     opacity: 0.4; /* 마우스를 올리면 약간 투명해짐 */
 }
@@ -771,6 +821,7 @@ body {
 /* 모바일 전용 스마트폰 */
 @media (max-width: 480px) {
    .toggle-div{
+        margin:0.5rem;
         display: block;
    }
 }
@@ -778,6 +829,7 @@ body {
 /* 태블릿 세로모드 */
 @media (min-width: 481px) and (max-width: 768px) {
     .toggle-div{
+        margin:0.5rem;
         display: block;
     }
 }
@@ -809,12 +861,19 @@ body {
        position: absolute;
        padding-left:1.2rem;
        bottom: 0; /* 부모 요소의 하단에 정렬 */
-       z-index: 3000rem;
-       display: none;
        flex-direction: column;
        align-items:flex-start;
        gap: 3rem;
+       max-height: 0;
+       opacity: 0;
+       overflow: hidden;
+       transition: all 0.4s ease;
    }
+}
+
+.Header_mobile-navigation-menus.show {
+  max-height: 200px; /* 충분히 큰 값 */
+  opacity: 1;
 }
 
 /* 태블릿 세로모드 */
@@ -846,7 +905,9 @@ body {
 
 .mobile-navigation {
     width: 100%;
+    color: black;
     font-size: 0.75rem;
     font-weight: bold;
-    font-family: 'CookieRun-Regular';
+    font-size: 1rem;
+    font-family: 'Pretendard Variable', sans-serif;
 }

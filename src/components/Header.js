@@ -4,46 +4,43 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
     
     const navigate = useNavigate();
-    const mainMove = () => {
-        navigate('/'); // 특정 파일로 이동
-    }
     
     //모바일에서 메뉴아이콘 클릭시 실행
     const toggleVisibility = () => {
-       const div = document.getElementById("toDiv");
-       const costumHeader = document.getElementsByClassName("costum_header");
-       const MAIN_MEUM_NUM = 0;
-       
-       // 현재 display 스타일 확인
-       if (window.getComputedStyle(div).display === "none") {
-           div.style.display = "block";
-           costumHeader[MAIN_MEUM_NUM].style.height = "10rem";
-       } else {
-           div.style.display = "none";
-           costumHeader[MAIN_MEUM_NUM].style.height = "3rem";
-       }
+      const div = document.getElementById("toDiv");
+      const costumHeader = document.getElementsByClassName("costum_header");
+      const MAIN_MEUM_NUM = 0;
+      const isShown = div.classList.contains("show");
+
+      if (isShown) {
+        div.classList.remove("show");
+        costumHeader[MAIN_MEUM_NUM].style.height = "3rem";
+      } else {
+        div.classList.add("show");
+        costumHeader[MAIN_MEUM_NUM].style.height = "10rem";
+      }
     }
 
     return (
         <div className="header_section">
           <div className="costum_header">
-            <img className="menu-logo-div" onClick={mainMove} src="images/MapleFighter.jpg" alt="이미지" />
-            <h4 className="main-menu-name" onClick={mainMove}>Maple-Fighter</h4>
+            <img className="menu-logo-div" onClick={() => navigate('/')} src="images/MapleFighter.jpg" alt="이미지" />
+            <h4 className="main-menu-name" onClick={() => navigate('/CharPotialComp')}>Maple-Fighter</h4>
             <div class="small_menu">
               <ul>
-                <li onclick="moveSections(0)"><a> 메인화면</a></li>
-                <li onclick="moveSections(1)"><a>잠재능력 설정 비교 분석</a></li>
+                <li onClick={() => navigate('/')}><a> 메인화면</a></li>
+                <li onClick={() => navigate('/CharPotialComp')}><a>잠재능력 시행횟수 비교 분석 (개발중)</a></li>
               </ul>
             </div>
             <div class="toggle-div">
-                <img className="toggle-icon" src="images/toggle-icon.png" onclick={toggleVisibility} />
+                <img className="toggle-icon" src="images/toggle-icon.png" onClick={toggleVisibility} />
             </div>
             <nav id="toDiv" class="Header_mobile-navigation-menus">
                <ul>
-                    <li onclick="mobileMoveSection(0)"><a class="mobile-navigation">【Top】</a></li>
+                    <li onClick={() => navigate('/')} className="mobile-navigation">메인화면</li>
                </ul>
                <ul>
-                    <li onclick="mobileMoveSection(1)"><a class="mobile-navigation">【Skill】</a></li>
+                    <li onClick={() => navigate('/CharPotialComp')} className="mobile-navigation">잠재능력 시행횟수 비교 분석 (개발중)</li>
                </ul>
             </nav>
          </div>

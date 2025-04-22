@@ -3,6 +3,7 @@ import './App.css';                 // CSS 파일을 따로 만들어서 가져�
 import './css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import './css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
 import Home from "./pages/Home";
+import CharPotialComp from "./pages/CharPotialComp";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -15,6 +16,7 @@ const App = () => {
             <Header />
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/CharPotialComp" element={<CharPotialComp />} />
             </Routes>
             <Footer />
         </Router>
