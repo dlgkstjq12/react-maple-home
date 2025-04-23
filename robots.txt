@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://react-maple-home.netlify.app/sitemap.xml
