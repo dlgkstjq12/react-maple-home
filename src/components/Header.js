@@ -14,7 +14,7 @@ const Header = () => {
 
       if (isShown) {
         div.classList.remove("show");
-        costumHeader[MAIN_MEUM_NUM].style.height = "3rem";
+        costumHeader[MAIN_MEUM_NUM].style.height = "3.5rem";
       } else {
         div.classList.add("show");
         costumHeader[MAIN_MEUM_NUM].style.height = "10rem";

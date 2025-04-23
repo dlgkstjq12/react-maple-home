@@ -2,6 +2,7 @@ import React,{ useEffect, useRef, useState} from "react";
 import '../App.css';                 // CSS 파일을 따로 만들어서 가져옵니다.
 import '../css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import '../css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
+import { Helmet } from 'react-helmet';
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -628,6 +629,11 @@ function Home () {
 
   return (
     <div>
+        <Helmet>
+          <title>메이플-파이터</title>
+          <meta name="description" content="캐릭터들간의 데이터들을 서로 비교해볼 수 있는 사이트" />
+          <meta property="og:title" content="메이플-파이터" />
+        </Helmet>
         <div className="content">
           <img className="logo-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
           <h1 className="name-custom-font">Maple Fighter</h1>
