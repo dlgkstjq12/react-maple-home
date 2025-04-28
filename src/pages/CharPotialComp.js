@@ -16,7 +16,7 @@ import {
 // 🔹 필수 스케일과 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const API_KEY = "test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d"; // 여기에 API 키 입력
+const API_KEY = process.env.REACT_APP_API_KEY; // 환경변수 API 키 입력
 
 function Home () {
     
