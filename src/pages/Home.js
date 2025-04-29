@@ -17,9 +17,9 @@ import {
 // 🔹 필수 스케일과 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const API_KEY = (process.env.REACT_APP_API_KEY == undefined) ? "test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d" : process.env.REACT_APP_API_KEY; // 환경변수 API 키 입력
-
 function Home () {
+    
+    const API_KEY = process.env.REACT_APP_API_KEY;
     
     //Hook ------------ 역할  언제 사용?
     //useState -------- 상태 값을 관리하고 변경 시 렌더링 UI에 영향을 주는 값 관리 (예: 버튼 클릭 시 카운트 증가)
