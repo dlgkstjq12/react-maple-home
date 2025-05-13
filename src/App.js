@@ -4,6 +4,8 @@ import './css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import './css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
 import Home from "./pages/Home";
 import CharPotialComp from "./pages/CharPotialComp";
+import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -18,6 +20,8 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/CharPotialComp" element={<CharPotialComp />} />
+                <Route path="/Contact" element={<Contact />} />
+                <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
             </Routes>
             <Footer />
         </Router>

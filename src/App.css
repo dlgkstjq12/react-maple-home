@@ -911,3 +911,66 @@ body {
     font-size: 1rem;
     font-family: 'Pretendard Variable', sans-serif;
 }
+
+.pri-text-container {
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    height: 70%;
+}
+
+.pri-text-box {
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    font-size:1rem;
+    background-color: rgb(168, 168, 168);
+    height: 50%;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    color: black;
+    width: 85%;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
+    font-family: 'MaplestoryOTFBold';
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .pri-text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.4rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        color: black;
+        width: 90%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .pri-text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.6rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        color: black;
+        width: 70%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
