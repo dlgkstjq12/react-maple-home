@@ -860,7 +860,7 @@ body {
    .Header_mobile-navigation-menus{
        position: absolute;
        padding-left:1.2rem;
-       bottom: 0; /* 부모 요소의 하단에 정렬 */
+       bottom: 0;  /*부모 요소의 하단에 정렬 */
        flex-direction: column;
        align-items:flex-start;
        gap: 3rem;
@@ -931,7 +931,7 @@ body {
     padding-left: 1rem;
     margin-left: 1rem;
     color: black;
-    width: 85%;
+    width: 90%;
     border: 0.5rem solid rgb(221, 221, 221);
     border-radius: 1.5rem; /* 모서리를 둥글게 */
     font-family: 'MaplestoryOTFBold';
@@ -972,5 +972,29 @@ body {
         border: 0.5rem solid rgb(221, 221, 221);
         border-radius: 1.5rem; /* 모서리를 둥글게 */
         font-family: 'MaplestoryOTFBold';
+    }
+}
+
+.large-custom-font {
+   font-size: 2rem;     /* font-size */
+   margin-top: 1.5rem;     /* mt-8 => 8 * 0.25rem = 2rem */
+   margin-bottom: 0.5rem; /* mb-2 => 2 * 0.25rem = 0.5rem */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .large-custom-font {
+        font-size: 1.3rem;     /* font-semibold */
+        margin-top: 1rem;     /* mt-8 => 8 * 0.25rem = 2rem */
+        margin-bottom: 0.5rem; /* mb-2 => 2 * 0.25rem = 0.5rem */
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .large-custom-font {
+        font-size: 1.3rem;     /* font-semibold */
+        margin-top: 1rem;     /* mt-8 => 8 * 0.25rem = 2rem */
+        margin-bottom: 0.5rem; /* mb-2 => 2 * 0.25rem = 0.5rem */
     }
 }

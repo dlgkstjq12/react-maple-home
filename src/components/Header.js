@@ -17,7 +17,7 @@ const Header = () => {
         costumHeader[MAIN_MEUM_NUM].style.height = "3.5rem";
       } else {
         div.classList.add("show");
-        costumHeader[MAIN_MEUM_NUM].style.height = "10rem";
+        costumHeader[MAIN_MEUM_NUM].style.height = "14rem";
       }
     }
 
