@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Footer = () => {
     
@@ -12,7 +12,7 @@ const Footer = () => {
                 All rights reserved. <br />
                 by 스카니아@도끼질의참맛 <br />
                 Data Based on NEXON OPEN API <br />
-                <a href="/PrivacyPolicy" className="text-sm text-gray-600 underline">개인정보처리방침</a> <br />
+                <Link to="/PrivacyPolicy" className="text-sm text-gray-600 underline">개인정보처리방침</Link> <br />
                 contact : dlgkstjq623@naver.com
             </p>
         </footer>
