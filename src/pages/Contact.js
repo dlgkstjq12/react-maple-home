@@ -10,20 +10,12 @@ function Contact () {
     const form = useRef();
     const [status, setStatus] = useState("");
     
-/*    const MAIL_SERVICE_ID = process.env.REACT_APP_MAIL_SERVICE_ID;
+    const MAIL_SERVICE_ID = process.env.REACT_APP_MAIL_SERVICE_ID;
     const MAIL_TEMPLATE_ID = process.env.REACT_APP_MAIL_TEMPLATE_ID;
-    const MAIL_PUBLIC_KEY = process.env.REACT_APP_MAIL_PUBLIC_KEY;*/
+    const MAIL_PUBLIC_KEY = process.env.REACT_APP_MAIL_PUBLIC_KEY;
     
-    const MAIL_SERVICE_ID ="service_hu1uh2g"
-    const MAIL_TEMPLATE_ID = "template_p8m1dvi"
-    const MAIL_PUBLIC_KEY = "iyPlzd77eLGV3wXzF"
-    
-    debugger;
-
     const sendEmail = (e) => {
       e.preventDefault();
-      
-      debugger;
 
       emailjs.sendForm(
         MAIL_SERVICE_ID,     // EmailJS의 Service ID
@@ -44,13 +36,14 @@ function Contact () {
     };
 
     return (
+        
         <div className="pri-text-container">
             <div className="pri-text-box">
               <div className="contact-form">
                 <h2>Contact Me</h2>
                 <form ref={form} onSubmit={sendEmail}>
                   <div className="mb-4 mt-4 ml-1.5 mr-3 flex gap-2">
-                    <input placeholder="제목을 입력해주세요." className="form-control bg-light border-0 small w-1/2" type="text" name="title" required />
+                      <input placeholder="제목을 입력해주세요." className="form-control bg-light border-0 small w-1/2" type="text" name="title" required />
                   </div>
                   <div className="mb-4 mt-4 ml-1.5 mr-3 flex gap-2">  
                     <input placeholder="보내시는분을 입력해주세요." className="form-control bg-light border-0 small w-1/2" type="text" name="name" required />
@@ -66,6 +59,7 @@ function Contact () {
               </div>
           </div>
       </div>
+      
     );
   };
 

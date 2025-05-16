@@ -7,6 +7,7 @@ function CharPotialComp () {
     
     return (
       <div>
+
       </div>
     )
 }
