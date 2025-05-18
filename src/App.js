@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import CharPotialComp from "./pages/CharPotialComp";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -16,7 +17,9 @@ const App = () => {
   return (
     <div>
         <Router>
+        <ScrollToTop />
             <Header />
+            <ScrollToTop />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/CharPotialComp" element={<CharPotialComp />} />

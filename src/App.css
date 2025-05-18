@@ -998,3 +998,17 @@ body {
         margin-bottom: 0.5rem; /* mb-2 => 2 * 0.25rem = 0.5rem */
     }
 }
+
+/* 활성화 메뉴 */
+.active-menu {
+  color: #2563eb; /* 예: 파란색 */
+  border-bottom: 0.1rem solid #2563eb; /* 더 명확한 밑줄 스타일 */
+  padding-bottom: 0.2rem;           /* 텍스트와 밑줄 사이 여백 */
+  font-weight: bold;
+}
+
+/* 상시 메뉴 */
+.passive-menu {
+  color: #374151; /* 예: 회색 */
+  font-weight: bold;
+}
