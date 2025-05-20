@@ -864,7 +864,7 @@ body {
        flex-direction: column;
        align-items:flex-start;
        gap: 3rem;
-       max-height: 0;
+       max-height: 15rem;
        opacity: 0;
        overflow: hidden;
        transition: all 0.4s ease;
@@ -872,7 +872,7 @@ body {
 }
 
 .Header_mobile-navigation-menus.show {
-  max-height: 200px; /* 충분히 큰 값 */
+  max-height: 15rem; /* 충분히 큰 값 */
   opacity: 1;
 }
 
@@ -1001,7 +1001,7 @@ body {
 
 /* 활성화 메뉴 */
 .active-menu {
-  color: #2563eb; /* 예: 파란색 */
+  color: #2563eb; /* 예: 파란색  */
   border-bottom: 0.1rem solid #2563eb; /* 더 명확한 밑줄 스타일 */
   padding-bottom: 0.2rem;           /* 텍스트와 밑줄 사이 여백 */
   font-weight: bold;
