@@ -9,16 +9,19 @@ const Header = () => {
   const toggleVisibility = () => {
 
     const div = document.getElementById("toDiv");
-    const costumHeader = document.getElementsByClassName("costum_header");
     const MAIN_MEUM_NUM = 0;
+    const costumHeader = document.getElementsByClassName("costum_header")[MAIN_MEUM_NUM];
     const isShown = div.classList.contains("show");
-
+    
     if (isShown) {
       div.classList.remove("show");
-      costumHeader[MAIN_MEUM_NUM].style.height = "3.5rem";
+        costumHeader.classList.remove("open");
+        /*3.5*/ 
+        
     } else {
       div.classList.add("show");
-      costumHeader[MAIN_MEUM_NUM].style.height = "14rem";
+      costumHeader.classList.add("open");
+      /*14*/
     }
   };
 
