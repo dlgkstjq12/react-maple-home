@@ -15,18 +15,16 @@ const Header = () => {
     
     if (isShown) {
       div.classList.remove("show");
-        costumHeader.classList.remove("open");
-        /*3.5*/ 
-        
+      costumHeader.classList.remove("open");
     } else {
       div.classList.add("show");
       costumHeader.classList.add("open");
-      /*14*/
     }
   };
 
   // 각 메뉴의 path와 현재 위치 비교 후 클래스 적용
   const getMenuClass = (path) => {
+    debugger;
     return pathname === path ? "active-menu" : "passive-menu";
   };
 

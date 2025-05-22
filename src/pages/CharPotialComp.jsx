@@ -640,9 +640,16 @@ function CharPotialComp () {
         </div>
         <div className="text-container">
             <div className="text-box">
-                <h1 className="name-custom-font">사용방법</h1>
+                <h1 className="name-small-font">잠재능력 시행횟수 비교 분석 사용방법</h1>
                 <p> 1. 각 캐릭터별 정보를 가져오기위해서, 입력창에 캐릭터명 입력후 "확인" 버튼 클릭</p>
                 <p> 2. 통계를 확인할 캐릭터의 정보를 가져온 후에, "VS" 로고 클릭</p>
+            </div>
+        </div>
+        <div className="text-container">
+            <div className="text-box">
+                <h1 className="name-small-font">주의사항</h1>
+                <p> 1. 스타포스 확률 정보는 최대 5분 후 확인 가능합니다.</p>
+                <p> 2. 스타포스 강화 결과는 2023년 12월 27일 데이터부터 조회 가능하며,최대 2년동안의 데이터만 제공됩니다.</p>
             </div>
         </div>
         <div className="info-container">
@@ -765,53 +772,6 @@ function CharPotialComp () {
                         )}
                     </div>
                 </div>
-                <div className="input-group char-div fiexd-info">
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    {secondCharacterData && (
-                      <div className="divide-info">
-                        <div className="left-char-info">
-                            <img className="char-logo" src={secondCharacterData.character_image} alt="이미지" />
-                        </div>
-                        <div className="right-char-info">
-                            <h1>{secondCharacterData.character_name}</h1>
-                            <p>월드: {secondCharacterData.world_name}</p>
-                            <p>길드: {secondCharacterData.character_guild_name}</p>
-                            <p>직업: {secondCharacterData.character_class}</p>
-                            <p>레벨: {secondCharacterData.character_level}</p>
-                            <p>경험치량: {secondCharacterData.character_exp_rate} %</p>
-                            <p>생성일: {secondCharacterData.character_date_create}</p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="divide-info">
-                        <div className="left-char-info">
-                            {Array.isArray(secondCharacterDetailData) && secondCharacterDetailData.length > 0 ? (
-                              secondCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                        <div className="right-char-info">
-                            {Array.isArray(secondCharacterDetailData) && secondCharacterDetailData.length > 0 ? (
-                              secondCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                    </div>
-                </div>
               </form>
           </div>
           <div className="info-box">
@@ -847,53 +807,6 @@ function CharPotialComp () {
                         ) : (
                           <p></p>
                         )}
-                    </div>
-                </div>
-                <div className="input-group char-div fiexd-info">
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    {thirdCharacterData && (
-                      <div className="divide-info">
-                        <div className="left-char-info">
-                            <img className="char-logo" src={thirdCharacterData.character_image} alt="이미지" />
-                        </div>
-                        <div className="right-char-info">
-                            <h1>{thirdCharacterData.character_name}</h1>
-                            <p>월드: {thirdCharacterData.world_name}</p>
-                            <p>길드: {thirdCharacterData.character_guild_name}</p>
-                            <p>직업: {thirdCharacterData.character_class}</p>
-                            <p>레벨: {thirdCharacterData.character_level}</p>
-                            <p>경험치량: {thirdCharacterData.character_exp_rate} %</p>
-                            <p>생성일: {thirdCharacterData.character_date_create}</p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="divide-info">
-                        <div className="left-char-info">
-                            {Array.isArray(thirdCharacterDetailData) && thirdCharacterDetailData.length > 0 ? (
-                              thirdCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                        <div className="right-char-info">
-                            {Array.isArray(thirdCharacterDetailData) && thirdCharacterDetailData.length > 0 ? (
-                              thirdCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
                     </div>
                 </div>
               </form>
@@ -933,204 +846,12 @@ function CharPotialComp () {
                         )}
                     </div>
                 </div>
-                <div className="input-group char-div fiexd-info">
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    {fourthCharacterData && (
-                      <div className="divide-info">
-                        <div className="left-char-info">
-                            <img className="char-logo" src={fourthCharacterData.character_image} alt="이미지" />
-                        </div>
-                        <div className="right-char-info">
-                            <h1>{fourthCharacterData.character_name}</h1>
-                            <p>월드: {fourthCharacterData.world_name}</p>
-                            <p>길드: {fourthCharacterData.character_guild_name}</p>
-                            <p>직업: {fourthCharacterData.character_class}</p>
-                            <p>레벨: {fourthCharacterData.character_level}</p>
-                            <p>경험치량: {fourthCharacterData.character_exp_rate} %</p>
-                            <p>생성일: {fourthCharacterData.character_date_create}</p>
-                        </div>
-                      </div>
-                    )}
-                    <div className="divide-info">
-                        <div className="left-char-info">
-                            {Array.isArray(fourthCharacterDetailData) && fourthCharacterDetailData.length > 0 ? (
-                              fourthCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                        <div className="right-char-info">
-                            {Array.isArray(fourthCharacterDetailData) && fourthCharacterDetailData.length > 0 ? (
-                              fourthCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                    </div>
-                </div>
               </form>
           </div>
         </div>
-        
-        
+
         <img className="logo-scollor-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
 
-        {showChart && firstChartData && thousChartOptions && (
-            <div  className="chart-total">
-                <div className="chart-div">
-                    <Bar key={chartKey} data={firstChartData} options={thousChartOptions} />
-                </div>
-                <div className="chart-rank" id="cp">
-                    {firstChartData.labels
-                      .map((label, i) => ({ label, value: firstChartData.datasets[0].data[i] }))
-                      .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => {
-                        if (i === 0) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
-                              <span className="font-extrabold">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        } else if (i === 1) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
-                              <span className="font-bold">({value.toLocaleString()})</span>
-                            </div>
-                          ); 
-                        } else {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
-                              <span>{i + 1}위 {label}</span>
-                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        }
-                      })}
-                </div>
-            </div>
-        )}
-        {showChart && secondChartData && perChartOptions && (
-            <div  className="chart-total">
-                <div className="chart-div">
-                    <Bar key={chartKey} data={secondChartData} options={perChartOptions} />
-                </div>
-                <div className="chart-rank" id="bossDmg">
-                    {secondChartData.labels
-                      .map((label, i) => ({ label, value: secondChartData.datasets[0].data[i] }))
-                      .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => {
-                        if (i === 0) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
-                              <span className="font-extrabold">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        } else if (i === 1) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
-                              <span className="font-bold">({value.toLocaleString()})</span>
-                            </div>
-                          ); 
-                        } else {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
-                              <span>{i + 1}위 {label}</span>
-                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        }
-                      })}
-                </div>
-            </div>
-        )}
-        {showChart && thirdChartData && perChartOptions && (
-            <div  className="chart-total">
-                <div className="chart-div">
-                    <Bar key={chartKey} data={thirdChartData} options={perChartOptions} />
-                </div>
-                <div className="chart-rank" id="pierceDmg">
-                    {thirdChartData.labels
-                      .map((label, i) => ({ label, value: thirdChartData.datasets[0].data[i] }))
-                      .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => {
-                        if (i === 0) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
-                              <span className="font-extrabold">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        } else if (i === 1) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
-                              <span className="font-bold">({value.toLocaleString()})</span>
-                            </div>
-                          ); 
-                        } else {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
-                              <span>{i + 1}위 {label}</span>
-                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        }
-                      })}
-                </div>
-            </div>
-        )}
-        {showChart && fourthChartData && perChartOptions && (
-            <div  className="chart-total">
-                <div className="chart-div">
-                    <Bar key={chartKey} data={fourthChartData} options={perChartOptions} />
-                </div>
-                <div className="chart-rank" id="finalDmg">
-                    {fourthChartData.labels
-                      .map((label, i) => ({ label, value: fourthChartData.datasets[0].data[i] }))
-                      .sort((a, b) => b.value - a.value)
-                      .map(({ label, value }, i) => {
-                        if (i === 0) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-extrabold">{i + 1}위 👑 {label}</span>
-                              <span className="font-extrabold">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        } else if (i === 1) {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between" style={{ textDecoration: 'underline', fontWeight: 'bold' }}>
-                              <span className="font-bold">{i + 1}위 🥈 {label}</span>
-                              <span className="font-bold">({value.toLocaleString()})</span>
-                            </div>
-                          ); 
-                        } else {
-                          return (
-                            <div key={i} className="bg-blue-100 rounded-xl p-4 shadow-md flex justify-between">
-                              <span>{i + 1}위 {label}</span>
-                              <span className="font-bold text-black-600">({value.toLocaleString()})</span>
-                            </div>
-                          );
-                        }
-                      })}
-                </div>
-            </div>
-        )}
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )

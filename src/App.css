@@ -185,6 +185,42 @@ body {
     }
 }
 
+.name-small-font {
+    text-align: center;
+    justify-content: center;  /*수평 중앙*/
+    font-weight: bold;
+    font-size: 2rem;
+    color : black;
+    width: 35rem; /* 너비 설정 필수 */
+    font-family: 'MaplestoryOTFBold';
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .name-small-font {
+        text-align: center;
+        justify-content: center;  /*수평 중앙*/
+        font-weight: bold;
+        font-size: 1rem;
+        color : black;
+        width: 15rem; /* 너비 설정 필수 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .name-small-font {
+        text-align: center;
+        justify-content: center;  /*수평 중앙*/
+        font-weight: bold;
+        font-size: 2rem;
+        color : black;
+        width: 18rem; /* 너비 설정 필수 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
 /* 모바일 전용 스마트폰 */
 @media (max-width: 480px) {
     .logo-div {
@@ -593,6 +629,7 @@ body {
     align-items: center;
     justify-content: center; /* 수평 중앙 정렬 */
     height: 100%;
+    margin-bottom: 1.5rem;
 }
 
 .text-box {
@@ -617,7 +654,7 @@ body {
     .text-box {
         align-items: center;
         justify-content: center; /* 수평 중앙 정렬 */
-        font-size:0.6rem;
+        font-size:0.8rem;
         background-color: rgb(168, 168, 168);
         height: 30%;
         text-align: left;
