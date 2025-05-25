@@ -36,27 +36,12 @@ function CharPotialComp () {
     const [firstCharacterData, setFirstCharacterData] = useState(null);
     const [firstCharacterDetailData, setfirstCharacterDetailData] = useState(null);
     
-    const [secondCharacterName, setSecondCharacterName] = useState("");
-    const [secondCharacterData, setSecondCharacterData] = useState(null);
-    const [secondCharacterDetailData, setSecondCharacterDetailData] = useState(null);
-
-    const [thirdCharacterName, setThirdCharacterName] = useState("");
-    const [thirdCharacterData, setThirdCharacterData] = useState(null);
-    const [thirdCharacterDetailData, setThirdCharacterDetailData] = useState(null);
-
-    const [fourthCharacterName, setFourthCharacterName] = useState("");
-    const [fourthCharacterData, setFourthCharacterData] = useState(null);
-    const [fourthCharacterDetailData, setFourthCharacterDetailData] = useState(null);
-
     const [error, setError] = useState(null);
     
     //차트보여주기위해 사용할 객체들
     const [showChart, setShowChart] = useState(false);
     const [firstChartData, setFirstChartData] = useState(null);
-    const [secondChartData, setSecondChartData] = useState(null);
-    const [thirdChartData, setThirdChartData] = useState(null);
-    const [fourthChartData, setFourthChartData] = useState(null);
-    
+
     const [thousChartOptions, setThousChartOptions] = useState(null);
     const [perChartOptions, setPerChartOptions] = useState(null);
     
@@ -121,25 +106,11 @@ function CharPotialComp () {
 
     //캐릭터별 구분 상수
     const first = 'first';
-    const second = 'second';
-    const third = 'third';
-    const fourth = 'fourth';
     
     const firstInfo = function (){
       fetchCharacterInfo(first);
     }
     
-    const secondInfo = function (){
-      fetchCharacterInfo(second);
-    }
-    
-    const thirdInfo = function (){
-      fetchCharacterInfo(third);
-    }
-    
-    const fourthInfo = function (){
-      fetchCharacterInfo(fourth);
-    }
     
     function saveSearchTerm(term){
         const limit = 3;
@@ -235,15 +206,6 @@ function CharPotialComp () {
           case first:
             setFirstCharacterData(infoData);
             break;
-          case second:
-            setSecondCharacterData(infoData)
-            break;
-          case third:
-            setThirdCharacterData(infoData);
-            break;
-          case fourth:
-            setFourthCharacterData(infoData);
-            break;
           default:
             alert("캐릭터 정보 셋팅 실패");
         }
@@ -254,15 +216,6 @@ function CharPotialComp () {
         switch (delimiter) {
           case first:
             setfirstCharacterDetailData(infoData);
-            break;
-          case second:
-            setSecondCharacterDetailData(infoData)
-            break;
-          case third:
-            setThirdCharacterDetailData(infoData);
-            break;
-          case fourth:
-            setFourthCharacterDetailData(infoData);
             break;
           default:
             alert("캐릭터 상세 정보 셋팅 실패");
@@ -298,90 +251,6 @@ function CharPotialComp () {
             thirdDataArray.push(formatNumberString(firstCharacterDetailData[PIERCE_DMG].stat_value));
             fourthDataArray.push(formatNumberString(firstCharacterDetailData[FINAL_DMG].stat_value));
             totalDataMap.push({name : firstCharacterName, cp : firstDataArray[0], boss_dmg : secondDataArray[0], pierce_dmg : thirdDataArray[0], final_dmg : fourthDataArray[0]});
-        }
-        if(secondCharacterName != null){
-            labelArray.push(secondCharacterName);
-            firstDataArray.push(removeCommasAndParseNumber(secondCharacterDetailData[CP].stat_value));
-            secondDataArray.push(formatNumberString(secondCharacterDetailData[BOSS_DMG].stat_value));
-            thirdDataArray.push(formatNumberString(secondCharacterDetailData[PIERCE_DMG].stat_value));
-            fourthDataArray.push(formatNumberString(secondCharacterDetailData[FINAL_DMG].stat_value));
-            totalDataMap.push({name : secondCharacterName, cp : firstDataArray[1], boss_dmg : secondDataArray[1], pierce_dmg : thirdDataArray[1], final_dmg : fourthDataArray[1]});
-        }
-        if(thirdCharacterName != null){
-            labelArray.push(thirdCharacterName);
-            firstDataArray.push(removeCommasAndParseNumber(thirdCharacterDetailData[CP].stat_value));
-            secondDataArray.push(formatNumberString(thirdCharacterDetailData[BOSS_DMG].stat_value));
-            thirdDataArray.push(formatNumberString(thirdCharacterDetailData[PIERCE_DMG].stat_value));
-            fourthDataArray.push(formatNumberString(thirdCharacterDetailData[FINAL_DMG].stat_value));
-            totalDataMap.push({name : thirdCharacterName, cp : firstDataArray[2], boss_dmg : secondDataArray[2], pierce_dmg : thirdDataArray[2], final_dmg : fourthDataArray[2]});
-        }
-        if(fourthCharacterName != null){
-            labelArray.push(fourthCharacterName);
-            firstDataArray.push(removeCommasAndParseNumber(fourthCharacterDetailData[CP].stat_value));
-            secondDataArray.push(formatNumberString(fourthCharacterDetailData[BOSS_DMG].stat_value));
-            thirdDataArray.push(formatNumberString(fourthCharacterDetailData[PIERCE_DMG].stat_value));
-            fourthDataArray.push(formatNumberString(fourthCharacterDetailData[FINAL_DMG].stat_value));
-            totalDataMap.push({name : fourthCharacterName, cp : firstDataArray[3], boss_dmg : secondDataArray[3], pierce_dmg : thirdDataArray[3], final_dmg : fourthDataArray[3]});
-        }
-
-        //전투력
-        function firstChartDataSet() {
-            const newData1 = {
-                labels: labelArray,
-                datasets: [
-                    {
-                        label: "전투력",
-                        data: firstDataArray, 
-                        backgroundColor: "RGB(137, 207, 240)",
-                    },
-                ],
-            };
-            setFirstChartData(newData1);
-        }
-        
-        //보스 공격력 데미지
-        function secondChartDataSet() {
-            const newData2 = {
-                labels: labelArray,
-                datasets: [
-                    {
-                        label: "보스 공격력 데미지 (%)",
-                        data: secondDataArray, 
-                        backgroundColor: "RGB(255, 161, 161)",
-                    },
-                ],
-            };
-            setSecondChartData(newData2);
-        }
-        
-        //방어력 무시
-        function thirdChartDataSet() {
-            const newData3 = {
-                labels: labelArray,
-                datasets: [
-                    {
-                        label: "방어력 무시 (%)",
-                        data: thirdDataArray, 
-                        backgroundColor: "RGB(185, 225, 134)",
-                    },
-                ],
-            };
-            setThirdChartData(newData3);
-        }
-        
-        //최종데미지
-        function fourthChartDataSet() {
-            const newData4 = {
-                labels: labelArray,
-                datasets: [
-                    {
-                        label: "최종데미지 (%)",
-                        data: fourthDataArray,
-                        backgroundColor: "RGB(200, 180, 255)",
-                    },
-                ],
-            };
-            setFourthChartData(newData4);
         }
         
         //해상도에 따라서 비율 고정, 변화 셋팅
@@ -453,11 +322,6 @@ function CharPotialComp () {
                 y: { ticks: { font: { size: sizeSetting } } },
             },
         };
-
-        firstChartDataSet();
-        secondChartDataSet();
-        thirdChartDataSet();
-        fourthChartDataSet();
         
         setThousChartOptions(newThousOptions);
         setPerChartOptions(newPerOptions);
@@ -478,27 +342,22 @@ function CharPotialComp () {
             useCharName = firstCharacterName;
             saveSearchTerm(useCharName);
             break;
-          case second:
-            if (!secondCharacterName) return;
-            useCharName = secondCharacterName;
-            saveSearchTerm(useCharName);
-            break;
-          case third:
-            if (!thirdCharacterName) return;
-            useCharName = thirdCharacterName;
-            saveSearchTerm(useCharName);
-            break;
-          case fourth:
-            if (!fourthCharacterName) return;
-            useCharName = fourthCharacterName;
-            saveSearchTerm(useCharName);
-            break;
           default:
             alert("검색 실패");
         }
+        
+        debugger;
+        
+      //url뒤에 넣을 파라미터셋팅할 변수
+      let params = {
+        character_name : useCharName
+      };
+      
+      //URLSearchParams를 사용해서 객체를 query string으로 변환
+      let queryString = new URLSearchParams(params).toString();
 
-      //1. ocid 조회후, 조회한 ocid를 가지고 캐릭터 기본 정보 조회함
-      const ocidUrl = `https://open.api.nexon.com/maplestory/v1/id?character_name=${encodeURIComponent(useCharName)}`;
+      //1. ocid 조회후, 조회한 ocid를 가지고, 캐릭터별 잠재능력 재설정 정보 조회
+      const ocidUrl = `https://open.api.nexon.com/maplestory/v1/id?${queryString}`;
       try {
         const response = await fetch(ocidUrl, {
           method: "GET",
@@ -510,21 +369,37 @@ function CharPotialComp () {
         }
 
         const data = await response.json();
-        const charInfoUrl = `https://open.api.nexon.com/maplestory/v1/character/basic?ocid=`+data.ocid;
+
+        //url뒤에 넣을 파라미터셋팅할 변수
+        let params = {
+          count : 10,
+          date : "2023-12-21"
+        };
+
+        //URLSearchParams를 사용해서 객체를 query string으로 변환
+        let queryString = new URLSearchParams(params).toString();
+
         
-          //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
+        const cubeInfoUrl = `https://open.api.nexon.com/maplestory/v1/history/cube?${queryString}`;
+        
+          //ocid 조회 성공후, 조회한 ocid로 캐릭터별 큐브 사용 결과 조회
           try {
-            const infoResponse = await fetch(charInfoUrl, {
+            const infoResponse = await fetch(cubeInfoUrl, {
               method: "GET",
-              headers: { "x-nxopen-api-key": API_KEY },
+              headers: { "x-nxopen-api-key": API_KEY }
             });
             
             if (!infoResponse.ok) {
               throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
             }
     
-            const returnCharData = await infoResponse.json();
-            const detailInfoData = customSetting(returnCharData);
+            const returnCubeData = await infoResponse.json();
+            
+            //큐브데이터 출력
+            console.log("returnCubeData====>",returnCubeData);
+            
+            
+            const detailInfoData = customSetting(returnCubeData);
             
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
             setCharacterInfo(param, detailInfoData);
@@ -539,7 +414,7 @@ function CharPotialComp () {
         setCharacterInfo(param, null);
       }
 
-      //2. ocid 조회후, 조회한 ocid를 가지고 캐릭터 상세정보 정보 조회함
+      //2. ocid 조회후, 조회한 ocid를 가지고 잠재능력 재설정 이용결과 조회
       const detailUrl = `https://open.api.nexon.com/maplestory/v1/id?character_name=${encodeURIComponent(useCharName)}`;
       try {
         const response = await fetch(detailUrl, {
@@ -581,28 +456,6 @@ function CharPotialComp () {
       }
     };
     
-    
-    //자주찾는 검색어 클릭시 실행
-    const searchFirstCharacter = async (event) => {
-        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
-        setFirstCharacterName(clickedElement.getHTML());
-    }
-    
-    const searchSecondCharacter = async (event) => {
-        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
-        setSecondCharacterName(clickedElement.getHTML());
-    }
-    
-    const searchThirdCharacter = async (event) => {
-        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
-        setThirdCharacterName(clickedElement.getHTML());
-    }
-    
-    const searchFourthCharacter = async (event) => {
-        const clickedElement = event.currentTarget; // 클릭된 요소 (이 경우 button)
-        setFourthCharacterName(clickedElement.getHTML());
-    }
-    
     //엔터키 안눌려지게끔 처리
     const inputRef = useRef(null);
 
@@ -638,217 +491,109 @@ function CharPotialComp () {
           <h1 className="name-custom-font">Maple Fighter</h1>
           <img className="logo-div" src="images/MapleFighter.jpg" alt="이미지" />
         </div>
-        <div className="text-container">
-            <div className="text-box">
-                <h1 className="name-small-font">잠재능력 시행횟수 비교 분석 사용방법</h1>
-                <p> 1. 각 캐릭터별 정보를 가져오기위해서, 입력창에 캐릭터명 입력후 "확인" 버튼 클릭</p>
-                <p> 2. 통계를 확인할 캐릭터의 정보를 가져온 후에, "VS" 로고 클릭</p>
+        <div className="total-container">
+            <div className="half-text-container">
+                <div className="half-text-box">
+                    <h1 className="name-small-font">(1-Step) 개발자 API KEY 발급방법</h1>
+                    <p>1. 넥슨 Open API 사이트 접속 및 로그인</p>
+                    <p>2. NEXON Open API 공식 사이트에 접속합니다.</p>
+                    <p>3. 넥슨 계정으로 로그인합니다.</p>
+                    <p>4. 애플리케이션 등록</p>
+                    <p>5. 로그인 후, 상단 메뉴에서 **"마이 페이지"**로 이동합니다.</p>
+                    <p>6. "애플리케이션 등록" 버튼을 클릭하여 새 애플리케이션을 등록합니다.</p>
+                    <p>7. 애플리케이션 이름, 설명, 콜백 URL 등 필요한 정보를 입력합니다.</p>
+                    <p>8. API 키 발급 확인</p>
+                    <p>9. 애플리케이션 등록이 완료되면, 해당 애플리케이션의 상세 페이지에서 발급된 API 키를 확인할 수 있습니다.</p>
+                    <p>10. 이 API 키는 요청 헤더에 포함하여 API를 호출할 때 사용됩니다</p>
+                    <a href="https://openapi.nexon.com/ko/guide/prepare-in-advance/"> 참고 : https://openapi.nexon.com/ko/guide/prepare-in-advance/</a>
+                </div>
             </div>
-        </div>
-        <div className="text-container">
-            <div className="text-box">
-                <h1 className="name-small-font">주의사항</h1>
-                <p> 1. 스타포스 확률 정보는 최대 5분 후 확인 가능합니다.</p>
-                <p> 2. 스타포스 강화 결과는 2023년 12월 27일 데이터부터 조회 가능하며,최대 2년동안의 데이터만 제공됩니다.</p>
-            </div>
-        </div>
-        <div className="info-container">
-            <div className="info-box">
-                {/* First Section */}
-                <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
-                  <div className="input-group fiexd-input">
-                    <input
-                      type="text"
-                      id="charSearch"
-                      ref={inputRef}
-                      className="form-control bg-light border-0 small"
-                      placeholder="1번 캐릭터 검색하기"
-                      aria-label="Search"
-                      aria-describedby="basic-addon2"
-                      value={firstCharacterName}
-                      onChange={(e) => setFirstCharacterName(e.target.value)}
-                    />
-                    <div className="input-group-append">
-                      <button className="btn btn-primary" type="button" onClick={firstInfo}>
-                        <i className="fas fa-search fa-sm">확인</i>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="input-group fiexd-input">
-                      <div className="popularity-text-box">
-                          - 자주찾는 캐릭터명
-                          {Array.isArray(input) && input.length > 0 ? (
-                            input.map((item) => (
-                              <p className="show-search-array-p" href="#" value={item} onClick={searchFirstCharacter}>
-                                {item}
-                              </p>
-                            ))
-                          ) : (
-                            <p></p>
-                          )}
+            <div className="half-info-container">
+                <div className="half-info-box">
+                    {/* First Section */}
+                    <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
+                      <div className="input-group fiexd-input">
+                        <input
+                          type="text"
+                          id="charSearch"
+                          ref={inputRef}
+                          className="form-control bg-light border-0 small"
+                          placeholder="개발자 API-KEY 입력하기"
+                          aria-label="Search"
+                          aria-describedby="basic-addon2"
+                          value={firstCharacterName}
+                          onChange={(e) => setFirstCharacterName(e.target.value)}
+                        />
+                        <div className="input-group-append">
+                          <button className="btn btn-primary" type="button" onClick={firstInfo}>
+                            <i className="fas fa-search fa-sm">확인</i>
+                          </button>
+                        </div>
                       </div>
-                  </div>
-                  <div className="input-group char-div fiexd-info" value={firstCharacterData}>
-                      {error && <p style={{ color: "red" }}>{error}</p>}
-                      {firstCharacterData && (
-                        <div className="divide-info">
-                          <div className="left-img-info">
-                              <img className="char-logo" src={firstCharacterData.character_image} alt="이미지" />
-                          </div>
-                          <div className="right-char-info">
-                              <h1>{firstCharacterData.character_name}</h1>
-                              <p>월드: {firstCharacterData.world_name}</p>
-                              <p>길드: {firstCharacterData.character_guild_name}</p>
-                              <p>직업: {firstCharacterData.character_class}</p>
-                              <p>레벨: {firstCharacterData.character_level}</p>
-                              <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
-                              <p>생성일: {firstCharacterData.character_date_create}</p>
-                          </div>
+                      <div className="input-group char-div fiexd-info" value={firstCharacterData}>
+                          {error && <p style={{ color: "red" }}>{error}</p>}
+                          {firstCharacterData && (
+                            <div className="divide-info">
+                              <div className="left-img-info">
+                                  <img className="char-logo" src={firstCharacterData.character_image} alt="이미지" />
+                              </div>
+                              <div className="right-char-info">
+                                  <h1>{firstCharacterData.character_name}</h1>
+                                  <p>월드: {firstCharacterData.world_name}</p>
+                                  <p>길드: {firstCharacterData.character_guild_name}</p>
+                                  <p>직업: {firstCharacterData.character_class}</p>
+                                  <p>레벨: {firstCharacterData.character_level}</p>
+                                  <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
+                                  <p>생성일: {firstCharacterData.character_date_create}</p>
+                              </div>
+                            </div>
+                          )}
+                          <div className="divide-info" value={firstCharacterDetailData}>
+                            <div className="left-char-info">
+                                {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
+                                  firstCharacterDetailData
+                                    .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                    .map((item, index) => (
+                                      <p key={index} className="item">
+                                        {item.stat_name} : {item.stat_value}
+                                      </p>
+                                    ))
+                                ) : (
+                                  <p></p>
+                                )}
+                            </div>
+                            <div className="right-char-info">
+                                {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
+                                  firstCharacterDetailData
+                                    .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
+                                    .map((item, index) => (
+                                      <p key={index} className="item">
+                                        {item.stat_name} : {item.stat_value}
+                                      </p>
+                                    ))
+                                ) : (
+                                  <p></p>
+                                )}
+                            </div>
                         </div>
-                      )}
-                      <div className="divide-info" value={firstCharacterDetailData}>
-                        <div className="left-char-info">
-                            {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
-                              firstCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                        <div className="right-char-info">
-                            {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
-                              firstCharacterDetailData
-                                .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                .map((item, index) => (
-                                  <p key={index} className="item">
-                                    {item.stat_name} : {item.stat_value}
-                                  </p>
-                                ))
-                            ) : (
-                              <p></p>
-                            )}
-                        </div>
-                    </div>
-                  </div>
-                </form>
+                      </div>
+                    </form>
+                </div>
             </div>
-            <div className="info-box">
-              {/* Second Section */}
-              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
-                <div className="input-group fiexd-input">
-                  <input
-                    type="text"
-                    id="charSearch"
-                    ref={inputRef}
-                    className="form-control bg-light border-0 small"
-                    placeholder="2번 캐릭터 검색하기"
-                    aria-label="Search"
-                    aria-describedby="basic-addon2"
-                    value={secondCharacterName}
-                    onChange={(e) => setSecondCharacterName(e.target.value)}
-                  />
-                  <div className="input-group-append">
-                    <button className="btn btn-primary" type="button" onClick={secondInfo}>
-                      <i className="fas fa-search fa-sm">확인</i>
-                    </button>
-                  </div>
-                </div>
-                <div className="input-group fiexd-input">
-                    <div className="popularity-text-box">
-                        - 자주찾는 캐릭터명
-                        {Array.isArray(input) && input.length > 0 ? (
-                          input.map((item) => (
-                            <p className="show-search-array-p" href="#" value={item} onClick={searchSecondCharacter}>
-                              {item}
-                            </p>
-                          ))
-                        ) : (
-                          <p></p>
-                        )}
-                    </div>
-                </div>
-              </form>
-          </div>
-          <div className="info-box">
-              {/* Third Section */}
-              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
-                <div className="input-group fiexd-input">
-                  <input
-                    type="text"
-                    id="charSearch"
-                    ref={inputRef}
-                    className="form-control bg-light border-0 small"
-                    placeholder="3번 캐릭터 검색하기"
-                    aria-label="Search"
-                    aria-describedby="basic-addon2"
-                    value={thirdCharacterName}
-                    onChange={(e) => setThirdCharacterName(e.target.value)}
-                  />
-                  <div className="input-group-append">
-                    <button className="btn btn-primary" type="button" onClick={thirdInfo}>
-                      <i className="fas fa-search fa-sm">확인</i>
-                    </button>
-                  </div>
-                </div>
-                <div className="input-group fiexd-input">
-                    <div className="popularity-text-box">
-                        - 자주찾는 캐릭터명
-                        {Array.isArray(input) && input.length > 0 ? (
-                          input.map((item) => (
-                            <p className="show-search-array-p" href="#" value={item} onClick={searchThirdCharacter}>
-                              {item}
-                            </p>
-                          ))
-                        ) : (
-                          <p></p>
-                        )}
-                    </div>
-                </div>
-              </form>
-          </div>
-          <div className="info-box">
-              {/* Fourth Section */}
-              <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
-                <div className="input-group fiexd-input">
-                  <input
-                    type="text"
-                    id="charSearch"
-                    ref={inputRef}
-                    className="form-control bg-light border-0 small"
-                    placeholder="4번 캐릭터 검색하기"
-                    aria-label="Search"
-                    aria-describedby="basic-addon2"
-                    value={fourthCharacterName}
-                    onChange={(e) => setFourthCharacterName(e.target.value)}
-                  />
-                  <div className="input-group-append">
-                    <button className="btn btn-primary" type="button" onClick={fourthInfo}>
-                      <i className="fas fa-search fa-sm">확인</i>
-                    </button>
-                  </div>
-                </div>
-                <div className="input-group fiexd-input">
-                    <div className="popularity-text-box">
-                        - 자주찾는 캐릭터명
-                        {Array.isArray(input) && input.length > 0 ? (
-                          input.map((item) => (
-                            <p className="show-search-array-p" href="#" value={item} onClick={searchFourthCharacter}>
-                              {item}
-                            </p>
-                          ))
-                        ) : (
-                          <p></p>
-                        )}
-                    </div>
-                </div>
-              </form>
-          </div>
+        
         </div>
+        
+        
+        <div className="half-text-container">
+            <div className="half-text-box">
+                <h1 className="name-small-font">(2-Step) 사용방법 및 주의사항</h1>
+                <p>1. 발급받은 개발자 API-KEY 입력후 "확인" 버튼 클릭</p>
+                <p>2. 해당 넥슨 ID가 가지고 있는 메이플 캐릭터들의 잠재능력 & 큐브 사용정보를 볼 수 있습니다.</p>
+                <a href="https://openapi.nexon.com/ko/guide/prepare-in-advance/"> 참고 : https://openapi.nexon.com/ko/guide/prepare-in-advance/</a>
+            </div>
+        </div>
+
+
 
         <img className="logo-scollor-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
 

@@ -1065,3 +1065,175 @@ body {
   color: #374151; /* 예: 회색 */
   font-weight: bold;
 }
+
+.half-text-container {
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    height: 100%;
+    width: 50%;
+    margin-bottom: 1.5rem;
+}
+
+.half-text-box {
+    align-items: center;
+    justify-content: center; /* 수평 중앙 정렬 */
+    font-size:1rem;
+    background-color: rgb(168, 168, 168);
+    height: 85%;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    color:rgb(255, 0, 0);
+    width: 100%;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
+    font-family: 'MaplestoryOTFBold';
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .half-text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.8rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 0.5rem;
+        color:rgb(255, 0, 0);
+        width: 90%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .half-text-box {
+        align-items: center;
+        justify-content: center; /* 수평 중앙 정렬 */
+        font-size:0.6rem;
+        background-color: rgb(168, 168, 168);
+        height: 30%;
+        text-align: left;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        color:rgb(255, 0, 0);
+        width: 90%;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+        font-family: 'MaplestoryOTFBold';
+    }
+}
+
+.total-container {
+    display: flex; /* Flexbox로 자식들을 가로 정렬 */
+    /*flex-wrap: wrap;  아이템들이 자동 줄바꿈되도록 */
+}
+
+.half-info-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 1rem;
+    height: 100%;
+    width: 50%;
+    gap: 2rem;  /*간격 설정 (선택 사항) */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .half-info-container {
+        width: 90%;
+        margin:5%;
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+    }}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .half-info-container {
+        width: 90%;
+        margin:5%;
+        display: flex;
+        flex-direction: column; /* 세로 정렬 */
+        align-items: flex-start; /* 필요시 왼쪽 정렬 */
+    }
+}
+
+/* 태블릿 (가로 모드) 및 작은 노트북 */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .half-info-container {
+        padding-left: 1rem;
+    }
+}
+
+/* 데스크톱 & 대형 화면 */
+@media (min-width: 1025px) {
+    .half-info-container {
+        padding-left: 1rem;
+    }
+}
+
+/* 2번은 기본적으로 total-container 안에 한 줄 차지 */
+/*.total-container > .half-text-container:nth-child(4) {
+    width: 100%;
+}*/
+
+.half-info-box {
+    background-color: rgb(168, 168, 168);
+    height: 100%;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
+}
+
+/* 모바일 전용 스마트폰 */
+@media (max-width: 480px) {
+    .half-info-box {
+        background-color: rgb(168, 168, 168);
+        height: 100%;
+        text-align: center;
+        display: block;
+        width: 100%;
+        padding-left:2rem;
+        padding-right:2rem;
+        margin-bottom: 1.5rem;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+    }
+}
+
+/* 태블릿 세로모드 */
+@media (min-width: 481px) and (max-width: 768px) {
+    .half-info-box {
+        background-color: rgb(168, 168, 168);
+        height: 100%;
+        text-align: center;
+        display: block;
+        width: 100%;
+        margin-bottom: 1.5rem;
+        border: 0.5rem solid rgb(221, 221, 221);
+        border-radius: 1.5rem; /* 모서리를 둥글게 */
+    }
+}
+
+@media (max-width: 768px) {
+    .total-container {
+        flex-direction: column;  /*아이템들을 세로로 */
+    }
+
+    .half-text-container,
+    .half-info-container {
+        width: 100%;  /*모바일에선 한 줄씩 */
+    }
+
+     /*순서 재정의 */
+    .half-text-container:nth-child(1) { order: 1; }  /*1번 왼쪽 */
+    .half-text-container:nth-child(4) { order: 2; }  /*2번 */
+    .half-info-container:nth-child(2) { order: 3; }  /*1번 오른쪽 */
+}

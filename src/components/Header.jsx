@@ -44,7 +44,7 @@ const Header = () => {
             </li>
             <li onClick={() => navigate("/CharPotialComp")}>
               <Link className={getMenuClass("/CharPotialComp")}>
-                잠재능력 시행횟수 비교 분석 (개발중)
+                (잠재능력 & 큐브) 시행횟수 비교 분석 (개발중)
               </Link>
             </li>
             <li onClick={() => navigate("/Contact")}>
@@ -75,7 +75,7 @@ const Header = () => {
           <ul>
             <li onClick={() => navigate("/CharPotialComp")}>
               <Link className={`mobile-navigation ${getMenuClass("/CharPotialComp")}`} onClick={toggleVisibility}>
-                잠재능력 시행횟수 비교 분석 (개발중)
+                (잠재능력 & 큐브) 시행횟수 비교 분석 (개발중)
               </Link>
             </li>
           </ul>
