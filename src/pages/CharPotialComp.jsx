@@ -3,6 +3,11 @@ import '../App.css';                 // CSS 파일을 따로 만들어서 가져
 import '../css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import '../css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
 import { Helmet } from 'react-helmet';
+import Calendar from 'react-calendar'; //npm install react-calendar
+import 'react-calendar/dist/Calendar.css'; // 캘린더 기본 스타일 적용
+import { FaCalendarAlt } from 'react-icons/fa'; //npm install react-icons
+
+
 import { Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
@@ -30,12 +35,13 @@ function CharPotialComp () {
     //1. 캐릭터 식별자(ocid)를 조회합니다.
     //2. 조회한 ocid를 사용해서, 캐릭터 추가 정보 조회
     //x-nxopen-api-key :: API KEY
-    //character_name :: 캐릭터 이름 
     //항목들 정리
-    const [firstCharacterName, setFirstCharacterName] = useState("");
-    const [firstCharacterData, setFirstCharacterData] = useState(null);
-    const [firstCharacterDetailData, setfirstCharacterDetailData] = useState(null);
-    
+    const [firstApiKey, setFirstApiKey] = useState("");
+    const [firstCubeCount, setFirstCubeCount] = useState("");
+    const [firstCubeDate, setFirstCubeDate] = useState("");
+    const [firstCubeDateShow, setFirstCubeDateShow] = useState(false);
+
+
     const [error, setError] = useState(null);
     
     //차트보여주기위해 사용할 객체들
@@ -111,31 +117,11 @@ function CharPotialComp () {
       fetchCharacterInfo(first);
     }
     
-    
-    function saveSearchTerm(term){
-        const limit = 3;
-        const data = JSON.parse(localStorage.getItem('searchTerms') || '[]');
-        const freq = {};
-        if(term != null && term !== ''){
-            data.push(term);
-        }
-        
-        localStorage.setItem('searchTerms',JSON.stringify(data));
-                
-        data.forEach(term => {
-          freq[term] = (freq[term] || 0) + 1;
-        });
-        
-        //상위 3개만 추출
-        const showArray = Object.entries(freq)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, limit)
-            .map(([term]) => term);
-            
-        setInput(showArray);
-    }
-    
-    
+    const onChange = (d) => {
+      setFirstCubeDate(d.toISOString().slice(0, 10));
+      setFirstCubeDateShow(false);
+    };
+
     //날짜 변환함수
     //2020-03-27T00:00+09:00 ==> 2020년 03월 27일
     function dataCustom(paramDate){
@@ -145,12 +131,6 @@ function CharPotialComp () {
         return formattedDate;
     }
     
-    //캐릭터 정보 API에서 받아온 데이터 변환하는 함수
-    function customSetting (returnData){
-        let customData = returnData;
-        customData.character_date_create = dataCustom(customData.character_date_create);            //캐릭터 생성날짜 관련 데이터 변환
-        return customData;
-    }
     
     //콤마찍는 공통함수
     function formatNumberString(str) {
@@ -159,188 +139,16 @@ function CharPotialComp () {
         return num.toLocaleString();
     }
     
-    //캐릭터 상세정보 API에서 받아온 데이터 변환하는 함수
-    function customDetailSetting (returnData){
-        let customData = returnData.final_stat;
-        for(var i = 0; i < customData.length; i++){
-            if (Array.isArray(useStatArray[0]) && 
-                useStatArray[0].some(innerItem => innerItem.left_stat_name == customData[i].stat_name)) {
-                switch (useStatArray[0].find(statItem => statItem.left_stat_name === customData[i].stat_name).type) {
-                  case "c":
-                    customData[i].stat_value = formatNumberString(customData[i].stat_value);
-                    break;
-                  case "p":
-                    customData[i].stat_value = customData[i].stat_value+"%";
-                    break;
-                  case "s":
-                    customData[i].stat_value = customData[i].stat_value+"초";
-                    break;
-                  default:
-                    alert("캐릭터 정보 셋팅 실패");
-                }
-            }
-            if (Array.isArray(useStatArray[0]) && 
-                useStatArray[0].some(innerItem => innerItem.right_stat_name == customData[i].stat_name)) {
-                switch (useStatArray[0].find(statItem => statItem.right_stat_name === customData[i].stat_name).type) {
-                    case "c":
-                      customData[i].stat_value = formatNumberString(customData[i].stat_value);
-                      break;
-                    case "p":
-                      customData[i].stat_value = customData[i].stat_value+"%";
-                      break;
-                    case "s":
-                      customData[i].stat_value = customData[i].stat_value+"초";
-                      break;
-                  default:
-                    alert("캐릭터 정보 셋팅 실패");
-                }
-            }
-        }
-        
-        return customData;
-    }
-    
-    //캐릭터 정보 셋팅해주는 함수
-    function setCharacterInfo(delimiter, infoData) {
-        switch (delimiter) {
-          case first:
-            setFirstCharacterData(infoData);
-            break;
-          default:
-            alert("캐릭터 정보 셋팅 실패");
-        }
-    }
-    
-    //캐릭터 상세 정보 셋팅해주는 함수
-    function setCharacterDetailInfo(delimiter, infoData) {
-        switch (delimiter) {
-          case first:
-            setfirstCharacterDetailData(infoData);
-            break;
-          default:
-            alert("캐릭터 상세 정보 셋팅 실패");
-        }
-    }
-    
-    //콤마붙은 문자형 숫자데이터를 숫자로 변경하는 함수
-    //'42,333,222' => 42333222 
-    function removeCommasAndParseNumber(str) {
-      if (typeof str !== 'string') return NaN;
-      const cleaned = str.replace(/,/g, '');
-      const number = Number(cleaned);
-      return isNaN(number) ? NaN : number;
-    }
-    
-    // 이미지를 클릭하면 차트를 표시하는 함수
-    const handleLogoClick = () => {
-        
-        let labelArray = [];
-        let firstDataArray = [];    //전투력
-        let secondDataArray = [];   //보공
-        let thirdDataArray = [];    //방무
-        let fourthDataArray = [];   //최종데미지
-        
-        //모든 데이터 넣을 배열
-        let totalDataMap = [];
-
-        //캐릭터별로 전투력, 보공, 방무, 최종데미지 셋팅
-        if(firstCharacterName != null){
-            labelArray.push(firstCharacterName);
-            firstDataArray.push(removeCommasAndParseNumber(firstCharacterDetailData[CP].stat_value));
-            secondDataArray.push(formatNumberString(firstCharacterDetailData[BOSS_DMG].stat_value));
-            thirdDataArray.push(formatNumberString(firstCharacterDetailData[PIERCE_DMG].stat_value));
-            fourthDataArray.push(formatNumberString(firstCharacterDetailData[FINAL_DMG].stat_value));
-            totalDataMap.push({name : firstCharacterName, cp : firstDataArray[0], boss_dmg : secondDataArray[0], pierce_dmg : thirdDataArray[0], final_dmg : fourthDataArray[0]});
-        }
-        
-        //해상도에 따라서 비율 고정, 변화 셋팅
-        const viewportWidth = window.innerWidth;
-        const smallSize = 480;// 모바일 해상도 기준
-        const ratioSetting = (viewportWidth > smallSize) ? true : false;
-        const sizeSetting = (viewportWidth > smallSize) ? 25 : 12;
-
-        //천단위 표시 옵션
-        const newThousOptions = {
-            maintainAspectRatio: ratioSetting, // ❗비율 고정 끄기
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "top",
-                    labels: { font: { size: sizeSetting } }, // 범례 글씨 크기
-                },
-                title: { display: true, text: "캐릭터별 비교", font: { size: sizeSetting } },
-                tooltip: {
-                  titleFont: {
-                    size: sizeSetting  // 제목 글씨 크기
-                  },
-                  bodyFont: {
-                    size: sizeSetting  // 본문 글씨 크기
-                  },
-                  footerFont: {
-                    size: sizeSetting  // 푸터 글씨 크기 (있을 경우)
-                  }
-                },
-            },
-            scales: {
-                x: { ticks: { font: { size: sizeSetting } } },
-                y: { ticks: { font: { size: sizeSetting } } },
-            },
-        };
-        
-        //퍼센트 표시 옵션
-        const newPerOptions = {
-            maintainAspectRatio: ratioSetting, // ❗비율 고정 끄기
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "top",
-                    labels: { font: { size: sizeSetting } }, // 범례 글씨 크기
-                },
-                title: { display: true, text: "캐릭터별 비교 (%)", font: { size: sizeSetting } },
-                tooltip: {
-                  titleFont: {
-                    size: sizeSetting  // 제목 글씨 크기
-                  },
-                  bodyFont: {
-                    size: sizeSetting  // 본문 글씨 크기
-                  },
-                  footerFont: {
-                    size: sizeSetting  // 푸터 글씨 크기 (있을 경우)
-                  },
-                  callbacks: {
-                    label: function(context) {
-                      const value = typeof context.parsed === 'number'
-                        ? context.parsed
-                        : context.parsed.y || context.parsed.value || 0;
-                      return value + '%';
-                    }
-                  }
-                },
-            },
-            scales: {
-                x: { ticks: { font: { size: sizeSetting } } },
-                y: { ticks: { font: { size: sizeSetting } } },
-            },
-        };
-        
-        setThousChartOptions(newThousOptions);
-        setPerChartOptions(newPerOptions);
-        
-        setShowChart(true);
-        setChartKey(prevKey => prevKey + 1); // 차트 리렌더링을 위해 키 변경
-    };
-
-
     const fetchCharacterInfo = async (param) => {
         if (!param) return;
         
-        let useCharName;
+        let useFirstApiKey;
         
         switch (param) {
           case first:
-            if (!firstCharacterName) return;
-            useCharName = firstCharacterName;
-            saveSearchTerm(useCharName);
+            if (!firstApiKey) return;
+            useFirstApiKey = firstApiKey;
+            //saveSearchTerm(useFirstApiKey);
             break;
           default:
             alert("검색 실패");
@@ -348,37 +156,25 @@ function CharPotialComp () {
         
         debugger;
         
-      //url뒤에 넣을 파라미터셋팅할 변수
-      let params = {
-        character_name : useCharName
-      };
-      
-      //URLSearchParams를 사용해서 객체를 query string으로 변환
-      let queryString = new URLSearchParams(params).toString();
-
-      //1. ocid 조회후, 조회한 ocid를 가지고, 캐릭터별 잠재능력 재설정 정보 조회
-      const ocidUrl = `https://open.api.nexon.com/maplestory/v1/id?${queryString}`;
-      try {
-        const response = await fetch(ocidUrl, {
-          method: "GET",
-          headers: { "x-nxopen-api-key": API_KEY },
-        });
-
-        if (!response.ok) {
-          throw new Error(`API 요청 실패! 상태 코드: ${response.status}`);
-        }
-
-        const data = await response.json();
-
         //url뒤에 넣을 파라미터셋팅할 변수
-        let params = {
-          count : 10,
-          date : "2023-12-21"
-        };
+        let params = {};
+        if(firstCubeCount != null && firstCubeCount != ""){
+            params.count = Number(firstCubeCount);
+        }
+        if(firstCubeDate != null && firstCubeDate != ""){
+            params.date = firstCubeDate;
+        }
+        //if(firstCubeDate != null && firstCubeDate != ""){
+            params.cursor = "1";
+       // }
+
+        console.log("useFirstApiKey====>",useFirstApiKey);
+        console.log("params====>",params);
 
         //URLSearchParams를 사용해서 객체를 query string으로 변환
         let queryString = new URLSearchParams(params).toString();
 
+        debugger;
         
         const cubeInfoUrl = `https://open.api.nexon.com/maplestory/v1/history/cube?${queryString}`;
         
@@ -386,7 +182,7 @@ function CharPotialComp () {
           try {
             const infoResponse = await fetch(cubeInfoUrl, {
               method: "GET",
-              headers: { "x-nxopen-api-key": API_KEY }
+              headers: { "x-nxopen-api-key": useFirstApiKey }
             });
             
             if (!infoResponse.ok) {
@@ -399,68 +195,21 @@ function CharPotialComp () {
             console.log("returnCubeData====>",returnCubeData);
             
             
-            const detailInfoData = customSetting(returnCubeData);
+            const detailInfoData = returnCubeData;
             
             //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            setCharacterInfo(param, detailInfoData);
+            //setCharacterInfo(param, detailInfoData);
             setError(null);
           } catch (err) {
             setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-            setCharacterInfo(param, null);
+            //setCharacterInfo(param, null);
           }
-          
-      } catch (err) {
-        setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-        setCharacterInfo(param, null);
-      }
-
-      //2. ocid 조회후, 조회한 ocid를 가지고 잠재능력 재설정 이용결과 조회
-      const detailUrl = `https://open.api.nexon.com/maplestory/v1/id?character_name=${encodeURIComponent(useCharName)}`;
-      try {
-        const response = await fetch(detailUrl, {
-          method: "GET",
-          headers: { "x-nxopen-api-key": API_KEY },
-        });
-
-        if (!response.ok) {
-          throw new Error(`API 요청 실패! 상태 코드: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        const charDetailInfoUrl = `https://open.api.nexon.com/maplestory/v1/character/stat?ocid=`+data.ocid;
-          
-          //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-          try {
-            const infoResponse = await fetch(charDetailInfoUrl, {
-              method: "GET",
-              headers: { "x-nxopen-api-key": API_KEY },
-            });
-
-            if (!infoResponse.ok) {
-              throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
-            }
-            const returnData = await infoResponse.json();
-            const detailInfoData = customDetailSetting(returnData);
-
-            //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            setCharacterDetailInfo(param, detailInfoData);
-            setError(null);
-          } catch (err) {
-            setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-            setCharacterDetailInfo(param, null);
-          }
-          
-      } catch (err) {
-        setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-        setCharacterDetailInfo(param, null);
-      }
     };
     
     //엔터키 안눌려지게끔 처리
     const inputRef = useRef(null);
 
      useEffect(() => {
-       saveSearchTerm(null);        //처음 로딩될때 그동안 검색했던 검색어 표시
        const inputElement = inputRef.current;
        if (!inputElement) return; // 요소가 없으면 실행 안 함
 
@@ -487,7 +236,7 @@ function CharPotialComp () {
           <meta property="og:title" content="메이플-파이터" />
         </Helmet>
         <div className="content">
-          <img className="logo-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
+          <img className="logo-div" src="images/vsLogo.jpg" alt="이미지" />
           <h1 className="name-custom-font">Maple Fighter</h1>
           <img className="logo-div" src="images/MapleFighter.jpg" alt="이미지" />
         </div>
@@ -511,7 +260,7 @@ function CharPotialComp () {
             <div className="half-info-container">
                 <div className="half-info-box">
                     {/* First Section */}
-                    <form className="d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-60 navbar-search">
+                    <form>
                       <div className="input-group fiexd-input">
                         <input
                           type="text"
@@ -521,62 +270,47 @@ function CharPotialComp () {
                           placeholder="개발자 API-KEY 입력하기"
                           aria-label="Search"
                           aria-describedby="basic-addon2"
-                          value={firstCharacterName}
-                          onChange={(e) => setFirstCharacterName(e.target.value)}
+                          value={firstApiKey}
+                          onChange={(e) => setFirstApiKey(e.target.value)}
                         />
+                      </div>
+                        <div className="input-group fiexd-input">
+                            <div class="dataTables_length" id="dataTable_length">
+                                <label style={{ color: "black", fontWeight: "bold" }}>
+                                    잠재능력 & 큐브 시행횟수 
+                                    <select value={firstCubeCount} onChange={(e) => setFirstCubeCount(e.target.value)} name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="500">500</option>
+                                        <option value="1000">1000</option>
+                                    </select> 
+                                </label>
+                            </div>
+                        </div>
+                        <div className="input-group fiexd-input">
+                            <input
+                              readOnly
+                              value={firstCubeDate}
+                              placeholder="날짜 선택"
+                              style={{ width: '100%', paddingRight: 30, padding: 8 }}
+                            />
+                            <FaCalendarAlt
+                              onClick={() => setFirstCubeDateShow(!firstCubeDateShow)}
+                              style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
+                            />
+                            {firstCubeDateShow && (
+                              <div style={{ position: 'absolute', top: 40, zIndex: 10 }}>
+                                <Calendar onChange={onChange} />
+                              </div>
+                            )}
+                        </div>
                         <div className="input-group-append">
                           <button className="btn btn-primary" type="button" onClick={firstInfo}>
                             <i className="fas fa-search fa-sm">확인</i>
                           </button>
                         </div>
-                      </div>
-                      <div className="input-group char-div fiexd-info" value={firstCharacterData}>
-                          {error && <p style={{ color: "red" }}>{error}</p>}
-                          {firstCharacterData && (
-                            <div className="divide-info">
-                              <div className="left-img-info">
-                                  <img className="char-logo" src={firstCharacterData.character_image} alt="이미지" />
-                              </div>
-                              <div className="right-char-info">
-                                  <h1>{firstCharacterData.character_name}</h1>
-                                  <p>월드: {firstCharacterData.world_name}</p>
-                                  <p>길드: {firstCharacterData.character_guild_name}</p>
-                                  <p>직업: {firstCharacterData.character_class}</p>
-                                  <p>레벨: {firstCharacterData.character_level}</p>
-                                  <p>경험치량: {firstCharacterData.character_exp_rate} %</p>
-                                  <p>생성일: {firstCharacterData.character_date_create}</p>
-                              </div>
-                            </div>
-                          )}
-                          <div className="divide-info" value={firstCharacterDetailData}>
-                            <div className="left-char-info">
-                                {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
-                                  firstCharacterDetailData
-                                    .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.left_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                    .map((item, index) => (
-                                      <p key={index} className="item">
-                                        {item.stat_name} : {item.stat_value}
-                                      </p>
-                                    ))
-                                ) : (
-                                  <p></p>
-                                )}
-                            </div>
-                            <div className="right-char-info">
-                                {Array.isArray(firstCharacterDetailData) && firstCharacterDetailData.length > 0 ? (
-                                  firstCharacterDetailData
-                                    .filter((item) => useStatArray.some(innerArray => innerArray.some(innerItem => innerItem.right_stat_name === item.stat_name))) // 특정 stat_name만 필터링
-                                    .map((item, index) => (
-                                      <p key={index} className="item">
-                                        {item.stat_name} : {item.stat_value}
-                                      </p>
-                                    ))
-                                ) : (
-                                  <p></p>
-                                )}
-                            </div>
-                        </div>
-                      </div>
                     </form>
                 </div>
             </div>
@@ -592,11 +326,6 @@ function CharPotialComp () {
                 <a href="https://openapi.nexon.com/ko/guide/prepare-in-advance/"> 참고 : https://openapi.nexon.com/ko/guide/prepare-in-advance/</a>
             </div>
         </div>
-
-
-
-        <img className="logo-scollor-div" src="images/vsLogo.jpg" onClick={handleLogoClick} alt="이미지" />
-
       {/* Scripts will be handled via React and external libraries */}
     </div>
   )
