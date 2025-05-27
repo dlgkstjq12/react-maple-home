@@ -37,10 +37,12 @@ function CharPotialComp () {
     //x-nxopen-api-key :: API KEY
     //항목들 정리
     const [firstApiKey, setFirstApiKey] = useState("");
-    const [firstCubeCount, setFirstCubeCount] = useState("");
+    const [firstCubeCount, setFirstCubeCount] = useState(10);
     const [firstCubeDate, setFirstCubeDate] = useState("");
     const [firstCubeDateShow, setFirstCubeDateShow] = useState(false);
-
+    
+    const [secondCubeDate, setSecondCubeDate] = useState("");
+    const [secondCubeDateShow, setSecondCubeDateShow] = useState(false);
 
     const [error, setError] = useState(null);
     
@@ -118,7 +120,9 @@ function CharPotialComp () {
     }
     
     const onChange = (d) => {
-      setFirstCubeDate(d.toISOString().slice(0, 10));
+      const localDate = d.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+        .replace(/\. /g, '-').replace('.', '');
+      setFirstCubeDate(localDate); 
       setFirstCubeDateShow(false);
     };
 
@@ -148,7 +152,6 @@ function CharPotialComp () {
           case first:
             if (!firstApiKey) return;
             useFirstApiKey = firstApiKey;
-            //saveSearchTerm(useFirstApiKey);
             break;
           default:
             alert("검색 실패");
@@ -165,7 +168,7 @@ function CharPotialComp () {
             params.date = firstCubeDate;
         }
         //if(firstCubeDate != null && firstCubeDate != ""){
-            params.cursor = "1";
+            //params.cursor = "1";
        // }
 
         console.log("useFirstApiKey====>",useFirstApiKey);
@@ -261,60 +264,98 @@ function CharPotialComp () {
                 <div className="half-info-box">
                     {/* First Section */}
                     <form>
-                      <div className="input-group fiexd-input">
+                    <div className="filter">
+                      {/* input box */}
+                      <div className="filter-item">
+                        <label>개발자 KEY 입력</label>
                         <input
                           type="text"
-                          id="charSearch"
-                          ref={inputRef}
-                          className="form-control bg-light border-0 small"
                           placeholder="개발자 API-KEY 입력하기"
-                          aria-label="Search"
-                          aria-describedby="basic-addon2"
                           value={firstApiKey}
                           onChange={(e) => setFirstApiKey(e.target.value)}
+                          ref={inputRef}
                         />
                       </div>
-                        <div className="input-group fiexd-input">
-                            <div class="dataTables_length" id="dataTable_length">
-                                <label style={{ color: "black", fontWeight: "bold" }}>
-                                    잠재능력 & 큐브 시행횟수 
-                                    <select value={firstCubeCount} onChange={(e) => setFirstCubeCount(e.target.value)} name="dataTable_length" aria-controls="dataTable" class="custom-select custom-select-sm form-control form-control-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                        <option value="500">500</option>
-                                        <option value="1000">1000</option>
-                                    </select> 
-                                </label>
+
+                      {/* select box */}
+                      <div className="filter-item">
+                        <label>잠재능력 & 큐브 시행횟수</label>
+                        <select
+                          value={firstCubeCount}
+                          onChange={(e) => setFirstCubeCount(e.target.value)}
+                        >
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                          <option value="100">100</option>
+                          <option value="500">500</option>
+                          <option value="1000">1000</option>
+                        </select>
+                      </div>
+                      {/* 시작 일자 */}
+                      <div className="filter-item date-group">
+                        <label>시행 시작 일자</label>
+                        <div className="date-input">
+                          <input
+                            readOnly
+                            value={firstCubeDate}
+                            placeholder="시작 일자"
+                            className="calendar-input-text"
+                          />
+                          <FaCalendarAlt
+                            onClick={() => setFirstCubeDateShow(!firstCubeDateShow)}
+                            className="calendar-icon"
+                          />
+                          {firstCubeDateShow && (
+                            <div className="calendar-popup">
+                              <Calendar onChange={onChange} />
                             </div>
+                          )}
                         </div>
-                        <div className="input-group fiexd-input">
-                            <input
-                              readOnly
-                              value={firstCubeDate}
-                              placeholder="날짜 선택"
-                              style={{ width: '100%', paddingRight: 30, padding: 8 }}
-                            />
-                            <FaCalendarAlt
-                              onClick={() => setFirstCubeDateShow(!firstCubeDateShow)}
-                              style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', cursor: 'pointer' }}
-                            />
-                            {firstCubeDateShow && (
-                              <div style={{ position: 'absolute', top: 40, zIndex: 10 }}>
-                                <Calendar onChange={onChange} />
-                              </div>
-                            )}
+                      </div>
+
+                      {/* ~ 구분자 */}
+                      <span>~</span>
+
+                      {/* 종료 일자 */}
+                      <div className="filter-item date-group">
+                        <label>시행 종료 일자</label>
+                        <div className="date-input">
+                          <input
+                            readOnly
+                            value={secondCubeDate}
+                            placeholder="종료 일자"
+                            className="calendar-input-text"
+                          />
+                          <FaCalendarAlt
+                            onClick={() => setSecondCubeDateShow(!secondCubeDateShow)}
+                            className="calendar-icon"
+                          />
+                          {secondCubeDateShow && (
+                            <div className="calendar-popup">
+                              <Calendar onChange={onChange} />
+                            </div>
+                          )}
                         </div>
-                        <div className="input-group-append">
-                          <button className="btn btn-primary" type="button" onClick={firstInfo}>
-                            <i className="fas fa-search fa-sm">확인</i>
-                          </button>
-                        </div>
+                      </div>
+
+                      {/* 확인 버튼 */}
+                      <button className="btn-confirm" onClick={firstInfo}>
+                        확인
+                      </button>
+                    </div>
+                    <div class="box">
+                      <h3>첫 번째 박스</h3>
+                      <p>이곳에 첫 번째 리스트나 데이터를 표시할 수 있습니다.</p>
+                    </div>
+
+                    <div class="box">
+                      <h3>두 번째 박스</h3>
+                      <p>이곳에는 두 번째 내용이 들어갑니다.</p>
+                    </div>
                     </form>
                 </div>
             </div>
-        
         </div>
         
         

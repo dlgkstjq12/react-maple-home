@@ -1237,3 +1237,81 @@ body {
     .half-text-container:nth-child(4) { order: 2; }  /*2번 */
     .half-info-container:nth-child(2) { order: 3; }  /*1번 오른쪽 */
 }
+
+.label-style {
+  color: black !important;
+  font-weight: bold !important;
+}
+
+.calendar-input-text {
+  padding: 0.5rem 1rem 0.5rem 0.5rem; /* top right bottom left */
+}
+
+.calendar-style {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.calendar-click-style {
+  position: absolute;
+  top: 2.5rem;
+  z-index: 50;
+}
+
+.filter {
+  display: grid;
+  grid-template-columns: repeat(6, auto) 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.date-group .date-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.calendar-icon {
+  cursor: pointer;
+  color: #007bff;
+}
+
+.calendar-popup {
+  position: absolute;
+  z-index: 10;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.btn-confirm {
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.box {
+  background-color: steelblue;
+  color: white;
+  padding: 3rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.box h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
