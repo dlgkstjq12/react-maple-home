@@ -1070,8 +1070,26 @@ body {
     align-items: center;
     justify-content: center; /* 수평 중앙 정렬 */
     height: 100%;
-    width: 50%;
+    width: 47%;
+    margin:1rem;
     margin-bottom: 1.5rem;
+}
+
+.half-chart-box {
+    /* align-items: left; */
+/*     justify-content: center; 수평 중앙 정렬 */
+    font-size:1rem;
+    background-color: rgb(168, 168, 168);
+    height: 45%;
+    text-align: left;
+    padding-top: 1rem;
+    padding-left: 1rem;
+    margin-left: 1rem;
+    color:rgb(255, 0, 0);
+    width: 40%;
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem; /* 모서리를 둥글게 */
+    font-family: 'MaplestoryOTFBold';
 }
 
 .half-text-box {
@@ -1230,12 +1248,9 @@ body {
     .half-text-container,
     .half-info-container {
         width: 100%;  /*모바일에선 한 줄씩 */
+        margin:0.25rem;
     }
 
-     /*순서 재정의 */
-    .half-text-container:nth-child(1) { order: 1; }  /*1번 왼쪽 */
-    .half-text-container:nth-child(4) { order: 2; }  /*2번 */
-    .half-info-container:nth-child(2) { order: 3; }  /*1번 오른쪽 */
 }
 
 .label-style {
@@ -1263,14 +1278,22 @@ body {
 
 .filter {
   display: grid;
-  grid-template-columns: repeat(6, auto) 1fr;
-  gap: 10px;
-  align-items: center;
+  grid-template-columns: repeat(9, auto) 1fr;
+  padding: 1rem;
+  gap: 1rem;
+  align-items: left;
 }
 
 .filter-item {
   display: flex;
   flex-direction: column;
+}
+
+/*  모바일(예: 화면 너비 768px 이하) */
+@media (max-width: 768px) {
+  .filter {
+    grid-template-columns: 1fr; /* 모바일에서는 1열로 */
+  }
 }
 
 .date-group .date-input {
@@ -1314,4 +1337,52 @@ body {
 .box h3 {
   margin: 0;
   font-size: 1.2em;
+}
+
+.chart-container {
+    width: 95%;
+    margin: 2rem;
+}
+
+.total-chart-box {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap; /* 반응형: 작은 화면에서는 줄바꿈 */
+    justify-content: space-between; /* 좌우 정렬 */
+}
+
+.half-chart-box {
+    flex: 1 1 45%; /* 최소 너비: 45%, 필요 시 줄바꿈 */
+    min-width: 20rem; /* 작은 화면에서도 최소 너비 확보 */
+    box-sizing: border-box; /* padding, border 포함 크기 계산 */
+    margin: 1rem; /* 위아래 간격 */
+
+    font-size: 1rem;
+    background-color: rgb(168, 168, 168);
+    text-align: left;
+    padding: 1rem;
+    color: rgb(255, 0, 0);
+    border: 0.5rem solid rgb(221, 221, 221);
+    border-radius: 1.5rem;
+    font-family: 'MaplestoryOTFBold';
+}
+
+
+/*  모바일(예: 화면 너비 768px 이하) */
+@media (max-width: 768px) {
+    .total-chart-box {
+        display: flex;
+        flex-wrap: wrap; /* 반응형: 작은 화면에서는 줄바꿈 */
+        justify-content: space-between; /* 좌우 정렬 */
+    }
+    .half-chart-box {
+        width: 100%; /* 모바일에서는 가로를 꽉 채우되 */
+        min-width: 300px; /* 최소 너비를 확보 */
+        height: auto; /* 높이는 내용에 따라 유동적 */
+    }
+    .half-chart-box canvas {
+        width: 100% !important; /* 차트 너비를 컨테이너에 맞추기 */
+        height: auto !important; /* 비율 유지 */
+        max-height: 400px; /* 최대 높이 제한 */
+    }
 }

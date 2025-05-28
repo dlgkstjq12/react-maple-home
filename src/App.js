@@ -4,7 +4,6 @@ import './css/sb-admin-2.css';      // 부트스트랩 CSS 파일을 가져옴
 import './css/sb-admin-2.min.css';  // 부트스트랩 CSS 파일을 가져옴
 import Home from "./pages/Home";
 import CharPotialComp from "./pages/CharPotialComp";
-import CharPotialComp_Sample from "./pages/CharPotialComp_Sample";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ScrollToTop from "./components/ScrollToTop";
@@ -26,7 +25,6 @@ const App = () => {
                 <Route path="/CharPotialComp" element={<CharPotialComp />} />
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
-                <Route path="/CharPotialComp_Sample" element={<CharPotialComp_Sample />} />
             </Routes>
             <Footer />
         </Router>
