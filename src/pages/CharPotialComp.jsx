@@ -6,22 +6,10 @@ import { Helmet } from 'react-helmet';
 import Calendar from 'react-calendar'; //npm install react-calendar
 import 'react-calendar/dist/Calendar.css'; // 캘린더 기본 스타일 적용
 import { FaCalendarAlt } from 'react-icons/fa'; //npm install react-icons
+import axios from 'axios'; //npm install axios
 
 
 import { Bar } from "react-chartjs-2";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
-} from "chart.js";
-
-// 🔹 필수 스케일과 요소 등록
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
 
 function CharPotialComp () {
     
@@ -42,7 +30,7 @@ function CharPotialComp () {
     //메이플 API 관련 호출 함수
     //x-nxopen-api-key :: API KEY
     //항목들 정리
-    const [apiKey, setApiKey] = useState('');
+    const [apiKey, setApiKey] = useState('test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d');
     const [attempts, setAttempts] = useState(10);
     const [startDate, setStartDate] = useState(() => createNowDay());
     const [endDate, setEndDate] = useState(() => createNowDay());
@@ -109,10 +97,6 @@ function CharPotialComp () {
     //캐릭터별 구분 상수
     const first = 'first';
     
-    const firstInfo = function (){
-      fetchCharacterInfo(first);
-    }
-    
     const onChange = (d) => {
       handleCalendarChange(d, 'start');
     };
@@ -133,20 +117,7 @@ function CharPotialComp () {
         setEndCubeDateShow(false); // 끝 날짜 캘린더 닫기
       }
     };
-    
-    const handleConfirmSearch = () => {
-      if (!apiKey) {
-        alert("API KEY를 입력해주세요.");
-        return;
-      }
-      if (new Date(startDate) > new Date(endDate)) {
-        alert("시작일은 종료일보다 빠를 수 없습니다.");
-        return;
-      }
-      alert(`검색 조건:\nAPI KEY: ${apiKey}\n실행횟수: ${attempts}\n기간: ${startDate} ~ ${endDate}`);
-      // 여기에 실제 API 호출 추가 가능
-    };
-    
+        
     const setPeriod = (type) => {
         const today = new Date();
         let start, end = new Date();
@@ -170,7 +141,6 @@ function CharPotialComp () {
     const sizeSetting = isMobile ? 4 : 15;
     const aspectRatio = isMobile ? 1 : 2; // 모바일: 정사각형, 데스크탑: 가로 긴 비율
 
-    
     const options = {
       maintainAspectRatio: true,
       responsive: true,
@@ -196,70 +166,91 @@ function CharPotialComp () {
         y: { min: 0, max: 70, ticks: { font: { size: sizeSetting, stepSize: 5} } },
       },
     };
-
-    const fetchCharacterInfo = async (param) => {
-        if (!param) return;
+    
+    // 날짜 리스트 생성 함수
+    const getDateRange = (start, end) => {
+      const dateList = [];
+      let current = new Date(start);
+      end = new Date(end);
+      while (current <= end) {
+        dateList.push(current.toISOString().split('T')[0]); // YYYY-MM-DD
+        current.setDate(current.getDate() + 1);
+      }
+      return dateList;
+    };
+    
+    const handleConfirmSearch = () => {
         
-        let useFirstApiKey;
-        
-        switch (param) {
-          case first:
-            if (!apiKey) return;
-            useFirstApiKey = apiKey;
-            break;
-          default:
-            alert("검색 실패");
-        }
-
-        //url뒤에 넣을 파라미터셋팅할 변수
+        let useApiKey;
+        //url뒤에 넣을 파라미터셋팅할 변수 셋팅, 데이터 없으면 return
         let params = {};
-        if(apiKey != null && apiKey != ""){
-            params.count = Number(apiKey);
+        if(!apiKey){
+            alert("개발자 API-KEY를 입력해주세요.");
+            return;
+        }else{
+            useApiKey = apiKey;
         }
-        if(startDate != null && startDate != ""){
-            params.date = startDate;
+        
+        if(!attempts){
+            alert("시행횟수를 입력해주세요.");
+            return;
+        }else{
+            params.count = Number(attempts);
         }
-        //if(firstCubeDate != null && firstCubeDate != ""){
-            //params.cursor = "1";
-       // }
-
-        console.log("useFirstApiKey====>",useFirstApiKey);
+        
+        if(!startDate){
+            alert("시행 시작 일자를 입력해주세요.");
+            return;
+        }
+        if(!endDate){
+            alert("시행 종료 일자를 입력해주세요.");
+            return;
+        }
+        
+        if (new Date(startDate) > new Date(endDate)) {
+            alert("시작일은 종료일보다 빠를 수 없습니다.");
+            return;
+        }
+        
+        const dates = getDateRange(startDate, endDate);
+        
+        console.log("dates====>",dates);
+        console.log("useFirstApiKey====>",useApiKey);
         console.log("params====>",params);
 
+        const config = {
+          headers: { "x-nxopen-api-key": useApiKey }
+        };
+        
         //URLSearchParams를 사용해서 객체를 query string으로 변환
-        let queryString = new URLSearchParams(params).toString();
-
-        debugger;
+        let queryString;
+        let returnCubeDataArray = [];
+        for(var i = 0; i < dates.length; i++){
+            params.date = dates[i];
+            queryString = new URLSearchParams(params).toString();
+            returnCubeDataArray.push(callCubeData(queryString, config));
+        }
         
-        const cubeInfoUrl = `https://open.api.nexon.com/maplestory/v1/history/cube?${queryString}`;
-        
-          //ocid 조회 성공후, 조회한 ocid로 캐릭터별 큐브 사용 결과 조회
-          try {
-            const infoResponse = await fetch(cubeInfoUrl, {
-              method: "GET",
-              headers: { "x-nxopen-api-key": useFirstApiKey }
-            });
-            
-            if (!infoResponse.ok) {
-              throw new Error(`API 요청 실패! 상태 코드: ${infoResponse.status}`);
-            }
-    
-            const returnCubeData = await infoResponse.json();
-            
-            //큐브데이터 출력
-            console.log("returnCubeData====>",returnCubeData);
-            
-            
-            const detailInfoData = returnCubeData;
-            
-            //ocid 조회 성공후, 조회한 ocid로 캐릭터 정보 조회
-            //setCharacterInfo(param, detailInfoData);
-            setError(null);
-          } catch (err) {
-            setError("캐릭터 정보를 불러오는 데 실패했습니다.");
-            //setCharacterInfo(param, null);
-          }
+        console.log("returnCubeDataArray==>",returnCubeDataArray);
     };
+    
+    //큐브 데이터 호출하는 api
+    function callCubeData (queryString, config){
+        const cubeInfoUrl = `https://open.api.nexon.com/maplestory/v1/history/cube?${queryString}`;
+        let returnCubeData;
+        try {
+          const response = axios.get(cubeInfoUrl, config);
+          returnCubeData = response.data;  // axios는 JSON 자동 파싱
+          console.log("returnCubeData==>",returnCubeData);
+          
+        } catch (error) {
+          // axios는 상태코드 오류도 catch로 잡힘
+          console.error(`API 요청 실패!`, error.response?.status, error.message);
+          throw new Error(`API 요청 실패! 상태 코드: ${error.response?.status}`);
+        }
+        return returnCubeData;
+    };
+    
     
     const inputRef = useRef(null);
 
@@ -341,7 +332,7 @@ function CharPotialComp () {
                     <select
                       value={attempts}
                       onChange={(e) => setAttempts(e.target.value)}
-                      className="form-control bg-light border-0 small"
+                      className="custom-select custom-select-sm form-control form-control-sm"
                     >
                       <option value="10">10</option>
                       <option value="25">25</option>
@@ -418,15 +409,18 @@ function CharPotialComp () {
                           )}
                         </div>
                       </div>
-                        {/* 확인 버튼 */}
-                        <button className="btn-confirm" onClick={handleConfirmSearch} ref={inputRef}> 확인 </button>
                     </div>
+                    {/* 확인 버튼 */}
+                    <button type="button" className="btn btn-primary" onClick={handleConfirmSearch} ref={inputRef}>
+                        <i class="fas fa-search fa-sm">확인</i>
+                    </button>
                 </div>
+                
                 </form>
                 <div className="total-chart-box">
                     <div className="half-chart-box">
                       <h3>큐브 등급업 확률</h3>
-                      <select value={cubeType} onChange={e => setCubeType(e.target.value)}>
+                      <select className="custom-select custom-select-sm form-control form-control-sm" value={cubeType} onChange={e => setCubeType(e.target.value)}>
                         {Object.keys(cubeDataMap).map(cube => (
                           <option key={cube} value={cube}>{cube}</option>
                         ))}
@@ -437,7 +431,7 @@ function CharPotialComp () {
                     </div>
                     <div className="half-chart-box">
                       <h3>에디셔널 등급업 확률</h3>
-                      <select value={addType} onChange={e => setAddType(e.target.value)}>
+                      <select className="custom-select custom-select-sm form-control form-control-sm" value={addType} onChange={e => setAddType(e.target.value)}>
                         {Object.keys(addDataMap).map(add => (
                           <option key={add} value={add}>{add}</option>
                         ))}
