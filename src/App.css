@@ -1386,3 +1386,33 @@ body {
         max-height: 400px; /* 최대 높이 제한 */
     }
 }
+
+/* 태블릿 세로모드 */
+/* 모바일 전용 스마트폰 */
+@media (max-width: 768px) {
+  .filter-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .period-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.4rem;
+  }
+
+  .date-range-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+}
+
+@media (min-width: 1024px) { /* 데스크탑(넓은 화면) */
+   /*데스크탑에서는 숨김*/
+  .date-range-container {
+    display: contents;
+  }
+}

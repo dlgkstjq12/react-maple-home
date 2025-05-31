@@ -56,9 +56,30 @@ function CharPotialComp () {
 
     const [startCubeDateShow, setStartCubeDateShow] = useState(false);
     const [endCubeDateShow, setEndCubeDateShow] = useState(false);
+    
+    const labels = ["레어→에픽", "에픽→유니크", "유니크→레전드리"];
 
-    //캐릭터별 구분 상수
-    const first = 'first';
+    
+    const getChartData = (data, user) => ({
+      labels,
+      datasets: [
+        {
+          label: '공식 확률 (%)',
+          data,
+          backgroundColor: 'rgba(54,162,235,0.7)',
+        },
+        {
+          label: '이벤트 확률 (%)',
+          data: data.map(x => x * 2),
+          backgroundColor: 'rgba(75,192,192,0.7)',
+        },
+        {
+          label: '내 경험 확률 (%)',
+          data: user,
+          backgroundColor: 'rgba(255,99,132,0.7)',
+        }
+      ]
+    });
     
     const cubeDataMap = {
       "수상한 큐브": [0.9901, 0, 0],
@@ -74,12 +95,19 @@ function CharPotialComp () {
       "에디셔널 잠재능력 재설정": [2.3810, 0.9804, 0.7]
     };
 
-    const labels = ["레어→에픽", "에픽→유니크", "유니크→레전드리"];
+    const [chartCubeData, setChartCubeData] = useState(getChartData(cubeDataMap[cubeType], userCube));
+    const [chartAddData, setChartAddData] = useState(getChartData(addDataMap[addType], userAdd));
     
-    const viewportWidth = window.innerWidth;
-    const smallSize = 480;// 모바일 해상도 기준
-    const ratioSetting = (viewportWidth > smallSize) ? true : false;
-    const sizeSetting = (viewportWidth > smallSize) ? 25 : 12;
+    useEffect(() => {
+      setChartCubeData(getChartData(cubeDataMap[cubeType], userCube));
+    }, [cubeType, userCube]);
+    
+    useEffect(() => {
+      setChartAddData(getChartData(addDataMap[addType], userAdd));
+    }, [addType, userAdd]);
+
+    //캐릭터별 구분 상수
+    const first = 'first';
     
     const firstInfo = function (){
       fetchCharacterInfo(first);
@@ -120,61 +148,26 @@ function CharPotialComp () {
     };
     
     const setPeriod = (type) => {
-      const today = new Date();
-      let start, end = new Date();
-      if (type === '7d') start = new Date(today.setDate(today.getDate() - 7));
-      else if (type === '1m') start = new Date(today.setMonth(today.getMonth() - 1));
-      else if (type === '3m') start = new Date(today.setMonth(today.getMonth() - 3));
-      else return;
-      setStartDate(start.toISOString().slice(0, 10));
-      setEndDate(new Date().toISOString().slice(0, 10));
+        const today = new Date();
+        let start, end = new Date();
+        if (type === '7d') start = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+        else if (type === '1m') start = new Date(today.getFullYear(), today.getMonth() - 1, today.getDate());
+        else if (type === '3m') start = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
+        else return;
+
+        setStartDate(start.toISOString().slice(0, 10));
+        setEndDate(new Date().toISOString().slice(0, 10));
     };
     
-    const getChartData = (data, user) => ({
-      labels,
-      datasets: [
-        {
-          label: '공식 확률 (%)',
-          data,
-          backgroundColor: 'rgba(54,162,235,0.7)',
-        },
-        {
-          label: '이벤트 확률 (%)',
-          data: data.map(x => x * 2),
-          backgroundColor: 'rgba(75,192,192,0.7)',
-        },
-        {
-          label: '내 경험 확률 (%)',
-          data: user,
-          backgroundColor: 'rgba(255,99,132,0.7)',
-        }
-      ]
-    });
     
-/*    const options = {
-        maintainAspectRatio: viewportWidth > smallSize,  // true 또는 false로 유지
-        responsive: true,
-        aspectRatio: viewportWidth <= smallSize ? 1 : 2, // 모바일에서는 정사각형 비율, PC에서는 가로 긴 비율
-        plugins: {
-          legend: { position: "top", labels: { font: { size: sizeSetting } } },
-          title: { display: true, text: "확률별 비교", font: { size: sizeSetting } },
-          tooltip: {
-            titleFont: { size: sizeSetting },
-            bodyFont: { size: sizeSetting },
-            footerFont: { size: sizeSetting }
-          }
-        },
-        scales: {
-          x: { ticks: { font: { size: sizeSetting } } },
-          y: { ticks: { font: { size: sizeSetting } } },
-        }
-    };*/
-    
-    //const viewportWidth = window.innerWidth;
+
+    const viewportWidth = window.innerWidth;
+    const smallSize = 480;// 모바일 해상도 기준
+    const ratioSetting = (viewportWidth > smallSize) ? true : false;
     //const smallSize = 768; // 모바일 뷰포트 기준
     const isMobile = viewportWidth <= smallSize;
 
-    //const sizeSetting = isMobile ? 12 : 25;
+    const sizeSetting = isMobile ? 4 : 15;
     const aspectRatio = isMobile ? 1 : 2; // 모바일: 정사각형, 데스크탑: 가로 긴 비율
 
     
@@ -199,8 +192,8 @@ function CharPotialComp () {
         },
       },
       scales: {
-        x: { ticks: { font: { size: sizeSetting } } },
-        y: { ticks: { font: { size: sizeSetting } } },
+        x: {  categoryPercentage: 1.0, barPercentage: 1.0, ticks: { font: { size: sizeSetting } } },
+        y: { min: 0, max: 70, ticks: { font: { size: sizeSetting, stepSize: 5} } },
       },
     };
 
@@ -335,6 +328,7 @@ function CharPotialComp () {
                   <div className="filter-item">
                     <label>개발자 KEY 입력</label>
                     <input
+                      className="form-control bg-light border-0 small"
                       type="text"
                       placeholder="개발자 API-KEY 입력하기"
                       value={apiKey}
@@ -347,6 +341,7 @@ function CharPotialComp () {
                     <select
                       value={attempts}
                       onChange={(e) => setAttempts(e.target.value)}
+                      className="form-control bg-light border-0 small"
                     >
                       <option value="10">10</option>
                       <option value="25">25</option>
@@ -356,75 +351,76 @@ function CharPotialComp () {
                       <option value="1000">1000</option>
                     </select>
                   </div>
-                  
-                  <div className="filter-item">
-                    <button className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" /*onClick={() => setPeriod('7d')}*/>
-                       <i className="fas fa-search fa-sm">7일</i>
-                    </button>
-                  </div>
-                  <div className="filter-item">
-                      <button className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" onClick={() => setPeriod('1m')}>
-                         <i className="fas fa-search fa-sm">1개월</i>
-                      </button>
-                  </div>
-                  <div className="filter-item">
-                      <button className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" onClick={() => setPeriod('3m')}>
-                         <i className="fas fa-search fa-sm">3개월</i>
-                      </button>
-                  </div>
-                  
-                  {/* 시작 일자 */}
-                  <div className="filter-item date-group">
-                    <label>시행 시작 일자</label>
-                    <div className="date-input">
-                      <input
-                        type="date"
-                        readOnly
-                        value={startDate}
-                        placeholder="시작 일자"
-                        className="calendar-input-text"
-                        onChange={e => setStartDate(e.target.value)}
-                      />
-                      <FaCalendarAlt
-                        onClick={() => setStartCubeDateShow(!startCubeDateShow)}
-                        className="calendar-icon"
-                      />
-                      {startCubeDateShow && (
-                        <div className="calendar-popup">
-                          <Calendar onChange={onChange} />
+                  <div className="date-range-container">
+                      <div className="filter-item">
+                        <button type="button" className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" onClick={() => setPeriod('7d')}>
+                           <i className="fas fa-search fa-sm">7일</i>
+                        </button>
+                      </div>
+                      <div className="filter-item">
+                          <button type="button" className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" onClick={() => setPeriod('1m')}>
+                             <i className="fas fa-search fa-sm">1개월</i>
+                          </button>
+                      </div>
+                      <div className="filter-item">
+                          <button type="button" className="btn btn-light mb-4 mt-4 ml-1.5 mr-3" onClick={() => setPeriod('3m')}>
+                             <i className="fas fa-search fa-sm">3개월</i>
+                          </button>
+                      </div>
+                      
+                      {/* 시작 일자 */}
+                      <div className="filter-item date-group">
+                        <label>시행 시작 일자</label>
+                        <div className="date-input">
+                          <input
+                            type="date"
+                            className="form-control bg-light border-0 small"
+                            readOnly
+                            value={startDate}
+                            placeholder="시작 일자"
+                            onChange={e => setStartDate(e.target.value)}
+                          />
+                          <FaCalendarAlt
+                            onClick={() => setStartCubeDateShow(!startCubeDateShow)}
+                            className="calendar-icon"
+                          />
+                          {startCubeDateShow && (
+                            <div className="calendar-popup">
+                              <Calendar onChange={onChange} />
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* ~ 구분자 */}
-                  <span>~</span>
-
-                  {/* 종료 일자 */}
-                  <div className="filter-item date-group">
-                    <label>시행 종료 일자</label>
-                    <div className="date-input">
-                      <input
-                        type="date"
-                        readOnly
-                        value={endDate}
-                        placeholder="종료 일자"
-                        className="calendar-input-text"
-                        onChange={e => setEndDate(e.target.value)}
-                      />
-                      <FaCalendarAlt
-                        onClick={() => setEndCubeDateShow(!endCubeDateShow)}
-                        className="calendar-icon"
-                      />
-                      {endCubeDateShow && (
-                        <div className="calendar-popup">
-                          <Calendar onChange={onChange} />
+                      </div>
+    
+                      {/* ~ 구분자 */}
+                      <span>~</span>
+    
+                      {/* 종료 일자 */}
+                      <div className="filter-item date-group">
+                        <label>시행 종료 일자</label>
+                        <div className="date-input">
+                          <input
+                            type="date"
+                            readOnly
+                            value={endDate}
+                            placeholder="종료 일자"
+                            className="form-control bg-light border-0 small"
+                            onChange={e => setEndDate(e.target.value)}
+                          />
+                          <FaCalendarAlt
+                            onClick={() => setEndCubeDateShow(!endCubeDateShow)}
+                            className="calendar-icon"
+                          />
+                          {endCubeDateShow && (
+                            <div className="calendar-popup">
+                              <Calendar onChange={onChange} />
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
+                        {/* 확인 버튼 */}
+                        <button className="btn-confirm" onClick={handleConfirmSearch} ref={inputRef}> 확인 </button>
                     </div>
-                  </div>
-                    {/* 확인 버튼 */}
-                    <button className="btn-confirm" onClick={handleConfirmSearch} ref={inputRef}> 확인 </button>
                 </div>
                 </form>
                 <div className="total-chart-box">
@@ -436,7 +432,7 @@ function CharPotialComp () {
                         ))}
                       </select>
                       <div className="chart-container">
-                        <Bar data={getChartData(cubeDataMap[cubeType], userCube)} options={options} />
+                        <Bar data={chartCubeData} options={options} />
                       </div>
                     </div>
                     <div className="half-chart-box">
@@ -447,7 +443,7 @@ function CharPotialComp () {
                         ))}
                       </select>
                       <div className="chart-container">
-                        <Bar data={getChartData(addDataMap[addType], userAdd)} options={options} />
+                        <Bar data={chartAddData} options={options} />
                       </div>
                     </div>
                 </div>
