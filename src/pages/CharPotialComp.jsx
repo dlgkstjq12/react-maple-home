@@ -7,8 +7,7 @@ import Calendar from 'react-calendar'; //npm install react-calendar
 import 'react-calendar/dist/Calendar.css'; // 캘린더 기본 스타일 적용
 import { FaCalendarAlt } from 'react-icons/fa'; //npm install react-icons
 import axios from 'axios'; //npm install axios
-
-
+import rateLimit from 'axios-rate-limit'; //npm install axios-rate-limit //요청 빈도를 자동으로 제어
 import { Bar } from "react-chartjs-2";
 
 function CharPotialComp () {
@@ -39,7 +38,9 @@ function CharPotialComp () {
 
     const [userCube, setUserCube] = useState([20, 12, 4]);
     const [userAdd, setUserAdd] = useState([18, 10, 2]);
-
+    
+    const [cubeData, setCubeData] = useState(null);
+    const [loading, setLoading] = useState(false);  // 로딩 상태 추가
     const [error, setError] = useState(null);
 
     const [startCubeDateShow, setStartCubeDateShow] = useState(false);
@@ -234,23 +235,29 @@ function CharPotialComp () {
         console.log("returnCubeDataArray==>",returnCubeDataArray);
     };
     
-    //큐브 데이터 호출하는 api
-    function callCubeData (queryString, config){
+    // 큐브 데이터 호출하는 API
+    const limitedAxios = rateLimit(axios.create(), { maxRequests: 100, limit: 4, perMilliseconds: 1000 });
+
+    async function callCubeData(queryString, config) {
         const cubeInfoUrl = `https://open.api.nexon.com/maplestory/v1/history/cube?${queryString}`;
-        let returnCubeData;
         try {
-          const response = axios.get(cubeInfoUrl, config);
-          returnCubeData = response.data;  // axios는 JSON 자동 파싱
-          console.log("returnCubeData==>",returnCubeData);
-          
+            setLoading(true);  // 요청 시작 시 로딩 상태 true
+            const response = await limitedAxios.get(cubeInfoUrl, config);
+            console.log("returnCubeData==>", response.data);
+            setCubeData(response.data);
+            return response.data;  // axios는 JSON 자동 파싱
         } catch (error) {
-          // axios는 상태코드 오류도 catch로 잡힘
-          console.error(`API 요청 실패!`, error.response?.status, error.message);
-          throw new Error(`API 요청 실패! 상태 코드: ${error.response?.status}`);
+            console.error(`API 요청 실패!`, error.response?.status, error.message);
+            setError(`API 요청 실패! 상태 코드: ${error.response?.status}`);
+            throw new Error(`API 요청 실패! 상태 코드: ${error.response?.status}`);
+        } finally {
+            setLoading(false);  // 요청 종료 시 로딩 상태 false
         }
-        return returnCubeData;
-    };
+    }
     
+/*    useEffect(() => {
+      callCubeData();  // 컴포넌트 마운트 시 호출 (필요 시 버튼 클릭으로 대체 가능)
+    }, [queryString]);*/
     
     const inputRef = useRef(null);
 
@@ -414,6 +421,8 @@ function CharPotialComp () {
                     <button type="button" className="btn btn-primary" onClick={handleConfirmSearch} ref={inputRef}>
                         <i class="fas fa-search fa-sm">확인</i>
                     </button>
+                    {loading && <div>로딩중... 🌀</div>}  {/* 로딩바 또는 스피너 표시 */}
+                    {error && <div>{error}</div>}
                 </div>
                 
                 </form>

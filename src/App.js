@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import CharPotialComp from "./pages/CharPotialComp";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Sample from "./pages/Sample";
 import ScrollToTop from "./components/ScrollToTop";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="/CharPotialComp" element={<CharPotialComp />} />
                 <Route path="/Contact" element={<Contact />} />
                 <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+                <Route path="/Sample" element={<Sample />} />
             </Routes>
             <Footer />
         </Router>
