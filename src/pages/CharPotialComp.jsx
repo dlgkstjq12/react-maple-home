@@ -29,15 +29,15 @@ function CharPotialComp () {
     //메이플 API 관련 호출 함수
     //x-nxopen-api-key :: API KEY
     //항목들 정리
-    const [apiKey, setApiKey] = useState('test_480e2ee8dc30e0385a5d6c49ca46ff97e82c1266b2cbfe3ad54ec58eb6113c34efe8d04e6d233bd35cf2fabdeb93fb0d');
-    const [attempts, setAttempts] = useState(10);
+    const [apiKey, setApiKey] = useState(API_KEY);
+    const [attempts, setAttempts] = useState(1000);
     const [startDate, setStartDate] = useState(() => createNowDay());
     const [endDate, setEndDate] = useState(() => createNowDay());
     const [cubeType, setCubeType] = useState("수상한 큐브");
     const [addType, setAddType] = useState("수상한 에디셔널 큐브");
 
-    const [userCube, setUserCube] = useState([20, 12, 4]);
-    const [userAdd, setUserAdd] = useState([18, 10, 2]);
+    const [userCube, setUserCube] = useState([0, 0, 0]);
+    const [userAdd, setUserAdd] = useState([0, 0, 0]);
     
     const [cubeData, setCubeData] = useState(null);
     const [loading, setLoading] = useState(false);  // 로딩 상태 추가
@@ -47,8 +47,119 @@ function CharPotialComp () {
     const [endCubeDateShow, setEndCubeDateShow] = useState(false);
     
     const labels = ["레어→에픽", "에픽→유니크", "유니크→레전드리"];
-
     
+    //"레어→에픽", "에픽→유니크", "유니크→레전드리" index 정리
+    const rteUp = 0;
+    const etuUp = 1;
+    const utlUp = 2;
+    
+    //레어 → 에픽 : RARE_TO_EPIC
+    //에픽 → 유니크 : EPIC_TO_UNIQUE
+    //유니크 → 레전드리 : UNIQUE_TO_LEGENDARY
+    //큐브별 시행횟수와 등급업된 확률
+    let cubeSuspicious = {
+        name : "수상한 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 수상한 큐브
+
+    let cubeMaster = {
+        name : "장인의 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 장인의 큐브
+    
+    let cubeGrandmaster = {
+        name : "명장의 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 명장의 큐브
+
+    let cubeRed = {
+        name : "레드 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 레드 큐브
+
+    let cubeBlack = {
+        name : "블랙 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 블랙 큐브
+
+    let resetPotential = {
+        name : "잠재능력 재설정", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 잠재능력 재설정
+
+    let cubeSuspiciousAdditional = {
+        name : "수상한 에디셔널 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 수상한 에디셔널 큐브
+
+    let cubeAdditional = {
+        name : "에디셔널 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 에디셔널 큐브
+    
+    let cubeAdditionalWhite = {
+        name : "화이트 에디셔널 큐브", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 화이트 에디셔널 큐브
+    
+    let resetAdditionalPotential = {
+        name : "에디셔널 잠재능력 재설정", 
+        rteCount : 0, 
+        rteRankUp : 0,
+        etuCount : 0,
+        etuRankUp : 0,
+        utlCount : 0,
+        utlRankUp : 0
+    }; // – 에디셔널 잠재능력 재설정
+    
+    const cubeTotArray = [cubeSuspicious, cubeMaster, cubeGrandmaster, cubeRed, cubeBlack, resetPotential];
+    const addCubeTotArray = [cubeSuspiciousAdditional, cubeAdditional, cubeAdditionalWhite, resetAdditionalPotential];
+
     const getChartData = (data, user) => ({
       labels,
       datasets: [
@@ -94,7 +205,7 @@ function CharPotialComp () {
     useEffect(() => {
       setChartAddData(getChartData(addDataMap[addType], userAdd));
     }, [addType, userAdd]);
-
+    
     //캐릭터별 구분 상수
     const first = 'first';
     
@@ -180,7 +291,7 @@ function CharPotialComp () {
       return dateList;
     };
     
-    const handleConfirmSearch = () => {
+    const handleConfirmSearch = async () => {
         
         let useApiKey;
         //url뒤에 넣을 파라미터셋팅할 변수 셋팅, 데이터 없으면 return
@@ -213,6 +324,8 @@ function CharPotialComp () {
             return;
         }
         
+        debugger;
+        
         const dates = getDateRange(startDate, endDate);
         
         console.log("dates====>",dates);
@@ -225,15 +338,266 @@ function CharPotialComp () {
         
         //URLSearchParams를 사용해서 객체를 query string으로 변환
         let queryString;
+        let cubeData;
         let returnCubeDataArray = [];
         for(var i = 0; i < dates.length; i++){
             params.date = dates[i];
             queryString = new URLSearchParams(params).toString();
-            returnCubeDataArray.push(callCubeData(queryString, config));
+            cubeData = await callCubeData(queryString, config);
+            
+            if(cubeData.cube_history.length !== 0){
+                for(var k = 0; k < cubeData.cube_history.length; k++){
+                    switch (cubeData.cube_history[k].cube_type) {
+                      case "수상한 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeSuspicious.rteCount ++;
+                                cubeSuspicious.rteRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeSuspicious.rteCount ++;
+                            }
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeSuspicious.rteCount ++;
+                            }
+                        }
+                        break;
+                      case "장인의 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeMaster.rteCount ++;
+                                cubeMaster.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeMaster.etuCount ++;
+                                cubeMaster.etuRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeMaster.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeMaster.etuCount ++;
+                            }
+                        }
+                        break;
+                      case "명장의 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeGrandmaster.rteCount ++;
+                                cubeGrandmaster.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeGrandmaster.etuCount ++;
+                                cubeGrandmaster.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                cubeGrandmaster.utlCount ++;
+                                cubeGrandmaster.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeGrandmaster.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeGrandmaster.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeGrandmaster.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "레드 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeRed.rteCount ++;
+                                cubeRed.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeRed.etuCount ++;
+                                cubeRed.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                cubeRed.utlCount ++;
+                                cubeRed.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeRed.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeRed.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeRed.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "블랙 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeBlack.rteCount ++;
+                                cubeBlack.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeBlack.etuCount ++;
+                                cubeBlack.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                cubeBlack.utlCount ++;
+                                cubeBlack.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeBlack.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeBlack.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeBlack.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "잠재능력 재설정":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                resetPotential.rteCount ++;
+                                resetPotential.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                resetPotential.etuCount ++;
+                                resetPotential.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                resetPotential.utlCount ++;
+                                resetPotential.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                resetPotential.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                resetPotential.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                resetPotential.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "수상한 에디셔널 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeSuspiciousAdditional.rteCount ++;
+                                cubeSuspiciousAdditional.rteRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeSuspiciousAdditional.rteCount ++;
+                            }
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeSuspiciousAdditional.rteCount ++;
+                            }
+                        }
+                        break;
+                      case "에디셔널 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeAdditional.rteCount ++;
+                                cubeAdditional.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeAdditional.etuCount ++;
+                                cubeAdditional.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                cubeAdditional.utlCount ++;
+                                cubeAdditional.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeAdditional.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeAdditional.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeAdditional.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "화이트 에디셔널 큐브":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                cubeAdditionalWhite.rteCount ++;
+                                cubeAdditionalWhite.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeAdditionalWhite.etuCount ++;
+                                cubeAdditionalWhite.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                cubeAdditionalWhite.utlCount ++;
+                                cubeAdditionalWhite.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                cubeAdditionalWhite.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                cubeAdditionalWhite.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                cubeAdditionalWhite.utlCount ++;
+                            }
+                        }
+                        break;
+                      case "에디셔널 잠재능력 재설정":
+                        if(cubeData.cube_history[k].item_upgrade_result === "성공"){
+                            if(cubeData.potential_option_grade === "에픽"){
+                                resetAdditionalPotential.rteCount ++;
+                                resetAdditionalPotential.rteRankUp ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                resetAdditionalPotential.etuCount ++;
+                                resetAdditionalPotential.etuRankUp ++;
+                            }else if(cubeData.potential_option_grade === "레전드리"){
+                                resetAdditionalPotential.utlCount ++;
+                                resetAdditionalPotential.utlRankUp ++;
+                            }
+                        }else{
+                            if(cubeData.potential_option_grade === "레어"){
+                                resetAdditionalPotential.rteCount ++;
+                            }else if(cubeData.potential_option_grade === "에픽"){
+                                resetAdditionalPotential.etuCount ++;
+                            }else if(cubeData.potential_option_grade === "유니크"){
+                                resetAdditionalPotential.utlCount ++;
+                            }
+                        }
+                        break;
+                      default:
+                    }
+                }
+            }
         }
-        
         console.log("returnCubeDataArray==>",returnCubeDataArray);
     };
+    
+    //큐브 등급업 확률 구분 select box 변경시
+    function cubeDataChange (){
+        var cubeTypeSet = {cubeType};
+        var array = [0,0,0];
+        let cubeMap;
+        const rteUp = 0;
+        const etuUp = 1;
+        const utlUp = 2;
+
+        switch (cubeTypeSet) {
+          case "수상한 큐브":
+            cubeMap = cubeSuspicious;
+            break;
+          case "장인의 큐브":
+            cubeMap = cubeMaster;
+            break;
+          case "명장의 큐브":
+            cubeMap = cubeGrandmaster;
+            break;
+          case "레드 큐브":
+            cubeMap = cubeRed;
+            break;
+          case "블랙 큐브":  
+            cubeMap = cubeBlack;
+            break;
+          case "잠재능력 재설정":
+            cubeMap = resetPotential;
+            break;
+          default:
+            cubeMap = [0,0,0];
+            break;
+        }
+        
+        array[rteUp] = cubeMap.rteCount / cubeMap.rteRankUp;
+        array[etuUp] = cubeMap.etuCount / cubeMap.etuRankUp;
+        array[utlUp] = cubeMap.utlCount / cubeMap.utlRankUp;
+        
+        //설정한 큐브데이터 셋팅
+        setChartCubeData(array);
+        
+    }
     
     // 큐브 데이터 호출하는 API
     const limitedAxios = rateLimit(axios.create(), { maxRequests: 100, limit: 4, perMilliseconds: 1000 });
@@ -314,6 +678,10 @@ function CharPotialComp () {
                     <p>1. 발급받은 개발자 API-KEY 입력후 "확인" 버튼 클릭</p>
                     <p>2. 해당 넥슨 ID가 가지고 있는 메이플 캐릭터들의 잠재능력 & 큐브 사용정보를 볼 수 있습니다.</p>
                     <a href="https://openapi.nexon.com/ko/guide/prepare-in-advance/"> 참고 : https://openapi.nexon.com/ko/guide/prepare-in-advance/</a>
+                    <br />
+                    <br />
+                    <h1 className="name-small-font">참고사항</h1>
+                    <p>* 실제 본인이 경험한 잠재능력 & 큐브 등급업 확률을 확인 할 수 있습니다.</p>
                 </div>
             </div>
         </div>
